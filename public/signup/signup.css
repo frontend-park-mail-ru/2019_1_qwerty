@@ -1,0 +1,79 @@
+@font-face {
+    font-family: Pixel;
+    src: url("../silkscreen/slkscr.ttf") format('truetype');
+}
+
+html{
+    height:100%;
+    background: url(../background.png) repeat 0 0;
+    background-size:cover;
+    animation: slide 20s linear infinite;
+    font-family: Pixel, serif;
+    color: white;
+}
+
+@keyframes slide {
+    from { background-position: 0 0; }
+    to { background-position: -400px 0; }
+}
+
+.signup{
+    width:30%;
+    border:2px solid white;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.signup_center{
+    margin:5% auto 0;
+}
+
+.signup__header{
+    padding-top: 5%;
+    font-size:1.9rem;
+}
+
+.signup-form__input{
+    height: 24px;
+    width:70%;
+    border-radius: 8px;
+    border:1px solid grey;
+    padding: 2%;
+    font-family: Pixel, serif;
+    outline:none;
+    font-size:95%;
+}
+
+.signup-form__input_margin_m{
+    margin:10% auto 0;
+}
+.signup-form__input:invalid{
+    border:2px solid red;
+}
+
+.signup-form__input:focus{
+    border:2px solid yellow;
+}
+
+.signup-form__content{
+    position: relative;
+}
+
+.signup-form__content::after{
+    content: url("../show.svg");
+    position: absolute;
+    top:35%;
+    right:16%;
+}
+
+.signup-form__button{
+    width:40%;
+    margin:10% auto 7%;
+    height:10%;
+    font-size:1.8rem;
+    padding: 4%;
+    font-family: Pixel, serif;
+    background-color: #7BD63B;
+    border:3px solid black;
+}
+

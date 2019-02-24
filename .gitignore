@@ -77,7 +77,9 @@ typings/
 .fusebox/
 
 # DynamoDB Local files
+<<<<<<< HEAD
 .dynamodb/package-lock.json
 
 #For macBook
 .DS_Store
+

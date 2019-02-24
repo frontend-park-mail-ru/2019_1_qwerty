@@ -9,7 +9,7 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(body.json());
-app.use(express.static('./public/'));
+app.use(express.static('./src/public/'));
 
 app.listen(port, (err) => {
     if (err) {

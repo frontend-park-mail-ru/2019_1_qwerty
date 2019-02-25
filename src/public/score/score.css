@@ -73,7 +73,8 @@ a:hover {
 	padding: 8pt;
 	border-radius: 4pt;
 	background-color: #7BD63B;
-	font-size: 16pt;
+    font-size: 16pt;
+    font-family: inherit;
 	border: 0px;
 }
 

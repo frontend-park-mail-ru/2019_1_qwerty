@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GalaxyGo: Таблица</title>
+	<link rel="stylesheet" href="./score.css"> </head>
+    <script src="./generate_scoreboard.js"></script>
+<body onLoad="buildHtmlTable('scoreboard')">
+	<div class="container">
+        <noscript><p>Для работы с данным приложением необходимо включить JavaScript в настройках браузера</p></noscript>         
+		<h1>Таблица результатов</h1>
+		<div>
+			<table id="scoreboard"></table>
+			<div class="nav-bottom"> <a href="#">Предыдущие 10</a> <a href="#">Следующие 10</a> </div>
+		</div>
+		<button class="button_backward">Назад</button>
+    </div>
+</body>
+
+</html>

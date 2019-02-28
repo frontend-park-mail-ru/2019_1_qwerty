@@ -59,10 +59,17 @@ html{
     position: relative;
 }
 
-.signin-form__content::after{
+/*.signin-form__content::after{*/
+    /*content: url("../show.svg");*/
+    /*position: absolute;*/
+    /*top:35%;*/
+    /*right:16%;*/
+/*}*/
+
+.signin-form__icon{
     content: url("../show.svg");
     position: absolute;
-    top:35%;
+    top:33%;
     right:16%;
 }
 

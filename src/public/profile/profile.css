@@ -1,0 +1,152 @@
+
+@font-face {
+    font-family: Pixel;
+    src: url("../silkscreen/slkscr.ttf") format('truetype');
+}
+
+html{
+    height:100%;
+    background: url(../background.png) repeat 0 0;
+    background-size:cover;
+    animation: slide 20s linear infinite;
+    font-family: Pixel, serif;
+    color: white;
+}
+
+@keyframes slide {
+    from { background-position: 0 0; }
+    to { background-position: -400px 0; }
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+    width: 30%;
+    border: 2px solid white;
+    border-radius: 8px;
+    text-align: center;
+    margin: auto;
+    flex-direction: column;
+    padding: 2%;
+    max-width: 500px;
+}
+
+.flex_vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+
+img {
+    width:100%;
+}
+
+.profile_info_section {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.fill_parent {
+    flex-basis: 100%;
+}
+
+.profile-form_input{
+    height: 24px;
+    width: 100%;
+    border-radius: 8px;
+    border:1px solid grey;
+    font-family: Pixel, serif;
+    outline:none;
+    padding: 2%;
+    font-size:1.5vw; 
+    margin-top: 15px
+}
+
+.profile-form_input:invalid{
+    border:2px solid red;
+}
+
+.profile-form_input:focus{
+    border:2px solid yellow;
+}
+
+.profile-form_content{
+    position: relative;
+    display: flex;
+}
+
+.profile-form_content::after{
+    content: url("../show.svg");
+    position: absolute;
+    bottom:15%;
+    right:4%;
+}
+
+.profile-form_buttons {
+    display: flex;
+    flex-basis: auto;
+}
+
+.centered_buttons {
+    justify-content: center;
+}
+
+.spaced_buttons {
+    justify-content: space-between;
+}
+
+.profile-form_button{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height:5%;
+    font-size:2vw;
+    padding: 4%;
+    font-family: Pixel, serif;
+    background-color: rgba(0, 0, 0, 0);
+    color: #D3D3D3;
+    border: 2px solid white;
+    opacity: 0.5;
+    transition: 0.3s;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.profile-form_button:hover {
+    opacity: 1;
+}
+
+.profile_block {
+    display: flex;
+}
+
+.profile_info_container {
+    display: flex;
+    flex-grow: 1;
+    justify-content: left;
+    text-align: left;
+    flex-direction: column;
+    flex-basis: 50%;
+}
+
+.profile_avatar_container {
+    display: flex; 
+    position: relative;
+    justify-content: left;
+    flex-direction: column;
+    text-align: left;
+    margin-right: 3%;
+    flex-grow: 1;
+    flex-basis: 50%;
+}
+
+
+.profile_text{
+    display: flex;
+    font-size: 1.5vw;
+    word-wrap: break-word;
+    justify-content: left;
+    text-align: left;
+    width: auto;
+}

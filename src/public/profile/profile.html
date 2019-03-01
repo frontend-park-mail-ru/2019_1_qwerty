@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./profile.css">
+</head>
+
+<body>
+    <input id="upload" onchange="preview_image(event)" type="file" multiple style="position:absolute; top:-999px; visibility:hidden"/>
+
+    <div class="profile">
+        <div class="profile_block">
+            <div class="profile_avatar_container">
+                <img src="./../img/default_ava.jpeg" alt="ava" id="avatar">
+                <div class="profile-form_buttons centered_buttons">                   
+                    <button class="profile-form_button fill_parent"  id="upload-img">Change</button>
+                </div>
+            </div>
+            <div class="profile_info_container">
+                <h1 class="profile_text"> Nickname </h1>
+                <h1 class="profile_text"> Email </h1>
+                <section class="profile_info_section">
+                    <h1 class="profile_text"> Max score: </h1>
+                    <h1 class="profile_text"> &nbsp;*score* </h1>
+                </section>
+            </div>
+        </div>
+    
+        <form action="/changepassw" method="post" class="profile_block flex_vertical">
+            <div class="profile-form_content">
+                <input type="password" class="profile-form_input" placeholder="Old password">
+            </div>
+            <div class="profile-form_content">
+                <input type="password" class="profile-form_input" placeholder="New password">
+            </div>
+            <div class="profile-form_content">
+                <input type="password" class="profile-form_input" placeholder="Repeat new password">
+            </div>
+
+            <div class="profile-form_buttons spaced_buttons">
+                <button class="profile-form_button">Close</button>
+                <button class="profile-form_button">Save</button>
+            </div>
+        </form>
+
+    </div>
+
+    <script>
+            var input = document.querySelector("#upload");
+            var btn = document.querySelector("#upload-img");
+            btn.onclick = function () {
+                input.click();
+                var reader = new FileReader();
+                
+            };
+
+            function preview_image(event) 
+            {
+                var reader = new FileReader();
+                reader.onload = function(){
+                    var output = document.getElementById('avatar');
+                    output.src = reader.result;
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            }
+
+            
+    </script>
+</body>
+</html>

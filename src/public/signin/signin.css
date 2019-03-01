@@ -17,23 +17,23 @@ html{
     to { background-position: -400px 0; }
 }
 
-.signin{
+.section-form{
     width:30%;
     border:2px solid white;
     border-radius: 8px;
     text-align: center;
 }
 
-.signin_center{
+.section-form_center{
     margin:5% auto 0;
 }
 
-.signin__header{
+.section-form__header{
     padding-top: 5%;
     font-size:1.9rem;
 }
 
-.signin-form__input{
+.form__input{
     height: 24px;
     width:70%;
     border-radius: 8px;
@@ -44,36 +44,42 @@ html{
     font-size:95%;
 }
 
-.signin-form__input_margin_m{
+.form__input_margin_m{
     margin:10% auto 0;
 }
-.signin-form__input:invalid{
+.form__input:invalid{
     border:2px solid red;
 }
 
-.signin-form__input:focus{
+.form__input:focus{
     border:2px solid yellow;
 }
 
-.signin-form__content{
+.form__content{
     position: relative;
 }
 
-/*.signin-form__content::after{*/
+/*.form-form__content::after{*/
     /*content: url("../show.svg");*/
     /*position: absolute;*/
     /*top:35%;*/
     /*right:16%;*/
 /*}*/
 
-.signin-form__icon{
+.form__error {
+    color:red;
+    font-size:0.8rem;
+    text-align: center;
+}
+
+.form__icon{
     content: url("../show.svg");
     position: absolute;
     top:33%;
     right:16%;
 }
 
-.signin-form__button{
+.form__button{
     width:50%;
     margin:10% auto 7%;
     height:10%;
@@ -88,7 +94,7 @@ html{
     cursor: pointer;
 }
 
-.signin-form__button:hover {
+.form__button:hover {
     opacity: 1;
 }
 

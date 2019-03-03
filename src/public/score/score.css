@@ -1,66 +1,24 @@
-@font-face {
-	font-family: Pixel;
-	src: url("../silkscreen/slkscr.ttf") format('truetype');
-}
-
 html {
-	height: 100%;
-	background: url(../background.png) repeat 0 0;
-	background-size: cover;
-	animation: slide 20s linear infinite;
-	font-family: Pixel, serif;
 	font-size: 16pt;
-	color: white;
 }
 
 body {
 	height: 100%;
 }
 
-@keyframes slide {
-	from {
-		background-position: 0 0;
-	}
-
-	to {
-		background-position: -400px 0;
-	}
-}
-
-.nav-bottom {
+.score-nav__bottom {
 	display: flex;
 	flex-direction: row;
-	justify-content: justify-content;
 	align-items: center;
 }
 
-.nav-bottom > a {
+.score-nav__bottom > a {
 	display: block;
 	margin: 8pt auto;
 	padding: 8pt;
 }
 
-a {
-	text-decoration: none;
-	background: transparent;
-	border: 2pt solid white;
-	border-radius: 4pt;
-	color: #D3D3D3;
-	text-align: center;
-	opacity: 0.5;
-	transition: 0.3s;
-	cursor: pointer;
-}
-
-a:visited {
-	color: #D3D3D3;
-}
-
-a:hover {
-	opacity: 1;
-}
-
-.container {
+.score-items {
 	border: 2pt solid white;
 	border-radius: 8pt;
 	text-align: center;
@@ -68,14 +26,14 @@ a:hover {
 	height: 100%;
 }
 
-.button_backward {
+.score-button__backward {
 	margin: 8pt auto;
 	padding: 8pt;
 	border-radius: 4pt;
 	background-color: #7BD63B;
     font-size: 16pt;
     font-family: inherit;
-	border: 0px;
+	border: 0;
 }
 
 table {

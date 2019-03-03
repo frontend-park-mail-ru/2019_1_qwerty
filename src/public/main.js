@@ -15,9 +15,12 @@ function ajax(method, path, callback, body) {
 
         callback(xhr);
     };
-
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-    xhr.send(JSON.stringify(body));
+    if (body) {
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+        xhr.send(JSON.stringify(body));
+    } else {
+        xhr.send();
+    }
 }
 
 function addFormError(error, form) {
@@ -295,6 +298,7 @@ application.addEventListener("click", function (event) {
    if(currentTarget instanceof HTMLAnchorElement) {
        event.preventDefault();
        const section = currentTarget.dataset.section;
+       console.log(section);
        pages[section]();
    }
 });

@@ -1,0 +1,79 @@
+.sign-x{
+    width:30%;
+    border:2px solid white;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.sign-x_center{
+    margin:5% auto 0;
+}
+
+
+.sign-x__header{
+    padding-top: 5%;
+    font-size:1.9rem;
+}
+
+.sign-x-form__input{
+    height: 24px;
+    width:70%;
+    border-radius: 8px;
+    border:1px solid grey;
+    padding: 2%;
+    font-family: Pixel, serif;
+    outline:none;
+    font-size:95%;
+}
+
+.sign-x-form__input:invalid{
+    border:2px solid red;
+}
+
+.sign-x-form__icon {
+    content: url("./show.svg");
+    position: absolute;
+    top:35%;
+    top:33%;
+    right:16%;
+}
+
+.form__error {
+    color:red;
+    font-size:0.8rem;
+    text-align: center;
+}
+
+.sign-x-form__input_margin_m{
+    margin:10% auto 0;
+}
+.sign-x-form__input:invalid{
+    border:2px solid red;
+}
+
+.sign-x-form__input:focus{
+    border:2px solid yellow;
+}
+
+.sign-x-form__content{
+    position: relative;
+}
+
+.sign-x-form__button{
+    width:50%;
+    margin:10% auto 7%;
+    height:10%;
+    font-size:1.8rem;
+    padding: 4%;
+    font-family: Pixel, serif;
+    background-color: rgba(0, 0, 0, 0);
+    color: #D3D3D3;
+    border: 2px solid white;
+    opacity: 0.5;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.sign-x-form__button:hover {
+    opacity: 1;
+}

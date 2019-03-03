@@ -3,7 +3,12 @@
     src: url("./silkscreen/slkscr.ttf") format('truetype');
 }
 
-html{
+@keyframes slide {
+    from { background-position: 0 0; }
+    to { background-position: -400px 0; }
+}
+
+html {
     height:100%;
     background: url(./background.png) repeat 0 0;
     background-size:cover;
@@ -12,12 +17,26 @@ html{
     color: white;
 }
 
-@keyframes slide {
-    from { background-position: 0 0; }
-    to { background-position: -400px 0; }
+div#application {
+    height: 100%;
 }
 
+a {
+    text-decoration: none;
+    background: transparent;
+    border: 2pt solid white;
+    border-radius: 4pt;
+    color: #D3D3D3;
+    text-align: center;
+    opacity: 0.5;
+    transition: 0.3s;
+    cursor: pointer;
+}
 
-div#application {
-    height:100%;
+a:visited {
+    color: #D3D3D3;
+}
+
+a:hover {
+    opacity: 1;
 }

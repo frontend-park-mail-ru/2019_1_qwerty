@@ -56,10 +56,10 @@ function createMenu() {
 function createSignin() {
     application.innerHTML = "";
     const formSection = document.createElement("section");
-    formSection.classList.add(...["section-form", "section-form_center", "section-form_text_center"]);
+    formSection.classList.add(...["sign-x", "sign-x_center", ]);
 
     const signInHeader = document.createElement("h1");
-    signInHeader.className = "section-form__header";
+    signInHeader.className = "sign-x__header";
     signInHeader.textContent = "Sign In";
 
     const signInForm = document.createElement("form");
@@ -68,29 +68,29 @@ function createSignin() {
     signInForm.action = "/signin";
 
     const signInNickname = document.createElement("input");
-    signInNickname.classList.add(...["form__input",  "form__input_margin_m"]) ;
+    signInNickname.classList.add(...["sign-x-form__input",  "sign-x-form__input_margin_m"]) ;
     signInNickname.type = "text";
     signInNickname.placeholder = "Nickname";
     signInNickname.name = "nickname";
 
     const signInDivContainer = document.createElement("div");
-    signInDivContainer.classList.add(...["form__content",  "form__input_margin_m"]);
+    signInDivContainer.classList.add(...["sign-x-form__content",  "sign-x-form__input_margin_m"]);
 
     const signInPassword = document.createElement("input");
-    signInPassword.classList.add(...["form__input",  "form__input_size_m"]);
+    signInPassword.classList.add(...["sign-x-form__input",  "sign-x-form__input_size_m"]);
     signInPassword.type = "password";
     signInPassword.dataset.section = "password";
     signInPassword.placeholder = "Password";
     signInPassword.name = "password";
 
     const showIcon = document.createElement("i");
-    showIcon.className = "form__icon";
+    showIcon.className = "sign-x-form__icon";
 
     signInDivContainer.appendChild(signInPassword);
     signInDivContainer.appendChild(showIcon);
 
     const signInButton = document.createElement("button");
-    signInButton.className = "form__button";
+    signInButton.className = "sign-x-form__button";
     signInButton.textContent = "Sign In";
 
     signInForm.appendChild(signInNickname);
@@ -144,47 +144,47 @@ function createSignin() {
 function createSignup() {
     application.innerHTML = "";
     const formSection = document.createElement("section");
-    formSection.classList.add(...["section-form", "section-form_center", "section-form_text_center"]);
+    formSection.classList.add(...["sign-x", "sign-x_center"]);
 
     const signUpHeader = document.createElement("h1");
-    signUpHeader.className = "section-form__header";
+    signUpHeader.className = "sign-x__header__header";
     signUpHeader.textContent = "Sign Up";
 
     const signUpForm = document.createElement("form");
-    signUpForm.className = "form";
+    signUpForm.className = "sign-x-form";
     signUpForm.method="post";
     signUpForm.action = "/signin";
 
     const signUpNickname = document.createElement("input");
-    signUpNickname.classList.add(...["form__input",  "form__input_margin_m"]) ;
+    signUpNickname.classList.add(...["sign-x-form__input",  "sign-x-form__input_margin_m"]) ;
     signUpNickname.type = "text";
     signUpNickname.placeholder = "Nickname";
     signUpNickname.name = "nickname";
 
     const signUpEmail = document.createElement("input");
-    signUpEmail.classList.add(...["form__input",  "form__input_margin_m"]) ;
+    signUpEmail.classList.add(...["sign-x-form__input",  "sign-x-form__input_margin_m"]) ;
     signUpEmail.type = "email";
     signUpEmail.placeholder = "Your email";
     signUpEmail.name = "email";
 
     const signUpDivContainer = document.createElement("div");
-    signUpDivContainer.classList.add(...["form__content",  "form__input_margin_m"]);
+    signUpDivContainer.classList.add(...["sign-x-form__content",  "sign-x-form__input_margin_m"]);
 
     const signUpPassword = document.createElement("input");
-    signUpPassword.classList.add(...["form__input",  "form__input_size_m"]);
+    signUpPassword.classList.add(...["sign-x-form__input",  "sign-x-form__input_size_m"]);
     signUpPassword.type = "password";
     signUpPassword.dataset.section = "password";
     signUpPassword.placeholder = "Password";
     signUpPassword.name = "password";
 
     const showIcon = document.createElement("i");
-    showIcon.className = "form__icon";
+    showIcon.className = "sign-x-form__icon";
 
     signUpDivContainer.appendChild(signUpPassword);
     signUpDivContainer.appendChild(showIcon);
 
     const signUpButton = document.createElement("button");
-    signUpButton.className = "form__button";
+    signUpButton.className = "sign-x-form__button";
     signUpButton.textContent = "Sign Up";
 
     signUpForm.appendChild(signUpNickname);

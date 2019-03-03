@@ -3,19 +3,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GalaxyGo: Таблица</title>
-	<link rel="stylesheet" href="./score.css"> </head>
+	<link rel="stylesheet" href="./score.css">
+	<link rel="stylesheet" href="../main.css">
     <script src="./generate_scoreboard.js"></script>
+</head>
 <body onLoad="buildHtmlTable('scoreboard')">
-	<div class="container">
+	<div class="score-items">
         <noscript><p>Для работы с данным приложением необходимо включить JavaScript в настройках браузера</p></noscript>         
 		<h1>Scoresheet</h1>
 		<div>
 			<table id="scoreboard"></table>
-			<div class="nav-bottom"> <a href="#">Prev 10</a> <a href="#">Next 10</a> </div>
+			<div class="score-nav__bottom"> <a href="#">Prev 10</a> <a href="#">Next 10</a> </div>
 		</div>
-		<button class="button_backward">Back</button>
+		<button class="score-button__backward">Back</button>
     </div>
 </body>
 

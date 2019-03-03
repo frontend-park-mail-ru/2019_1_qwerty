@@ -1,15 +1,13 @@
-html{
-    font-size: 30px;
+#menu-h1 {
+    font-size: 60px;
     text-align: center;
 }
 
-h1 {
-    font-size: 60px;
-}
-
 .menu-items {
+    font-size: 30px;
     margin: 7% auto;
     width: 30%;
+    text-align: center;
 }
 
 .menu-items > a {
@@ -26,6 +24,7 @@ h1 {
 .menu-profile > a {
     padding: 0 20px;
     font-size: 35px;
+    margin-left: 15px;
 }
 
 

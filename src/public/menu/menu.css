@@ -1,0 +1,31 @@
+html{
+    font-size: 30px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 60px;
+}
+
+.menu-items {
+    margin: 7% auto;
+    width: 30%;
+}
+
+.menu-items > a {
+    display: block;
+    padding: 10px 0;
+    margin: 30px auto;
+    overflow: hidden;
+}
+
+.menu-profile {
+    text-align: right;
+}
+
+.menu-profile > a {
+    padding: 0 20px;
+    font-size: 35px;
+}
+
+

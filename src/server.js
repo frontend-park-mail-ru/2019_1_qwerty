@@ -5,6 +5,7 @@ const http = require('http');
 const express = require('express');
 const body = require('body-parser');
 const morgan = require('morgan');
+const uuid = require('uuid');
 const app = express();
 
 app.use(morgan('dev'));
@@ -19,9 +20,10 @@ const users = {
     }
 };
 
+const ids = {};
+
 app.post('/signin', function (req, res) {
-    const nickname = req.body.nickname;
-    const password = req.body.password;
+    const [nickname, password] = [req.body.nickname, req.body.password];
 
     console.log(users);
 
@@ -30,21 +32,21 @@ app.post('/signin', function (req, res) {
         return;
     }
 
-
-
     if (!users[nickname] || users[nickname].password !== password) {
         console.log("asd");
         res.status(400).json({error: 'Не верный Nickname и/или пароль'});
         return;
     }
 
+    const  id = uuid();
+    ids[id] = nickname;
+
+    res.cookie("sessionid", id, {expires: new Date(Date.now() + 1000 * 60 * 10)});
     res.status(200).json(users);
 });
 
 app.post('/signup', function (req, res) {
-    const nickname = req.body.nickname;
-    const password = req.body.password;
-    const email = req.body.email;
+    const [nickname, password, email] = [req.body.nickname, req.body.password, req.body.email];
 
     if (!nickname || !password || !email) {
         res.status(400).json({error: 'Please, input your Nickname or Password or Email'});
@@ -58,8 +60,12 @@ app.post('/signup', function (req, res) {
     }
 
     users[nickname] = {email, password, score:0};
+    const id = uuid();
+    ids[id] = nickname;
 
-    res.status(200).json(users);
+
+    res.cookie('sessionid', id, {expires: new Date(Date.now() + 1000 * 60 * 10)});
+    res.status(201).json({id});
 });
 
 app.listen(port, (err) => {

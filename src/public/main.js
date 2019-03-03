@@ -6,6 +6,8 @@ function ajax(method, path, callback, body) {
     const xhr = new XMLHttpRequest();
     xhr.open(method, path, true);
 
+    xhr.withCredentials = true;
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState !== 4) {
             return;
@@ -114,8 +116,8 @@ function createSignin() {
     signInForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const nickname = signInForm.elements["nickname"].value;
-        const password = signInForm.elements["password"].value;
+        const nickname = signInForm.elements["nickname"].value.trim();
+        const password = signInForm.elements["password"].value.trim();
 
         if (!password || !nickname) {
             addFormError("nickname or password is not filled", signInForm);
@@ -209,9 +211,9 @@ function createSignup() {
     signUpForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const nickname = signUpForm.elements["nickname"].value;
-        const password = signUpForm.elements["password"].value;
-        const email = signUpForm.elements["email"].value;
+        const nickname = signUpForm.elements["nickname"].value.trim();
+        const password = signUpForm.elements["password"].value.trim();
+        const email = signUpForm.elements["email"].value.trim();
 
         if (!password || !nickname) {
             addFormError("nickname or password is not filled", signUpForm);

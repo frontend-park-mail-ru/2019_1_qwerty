@@ -34,11 +34,46 @@ function removeFormError(form, errorDiv) {
 }
 
 function createMenu() {
+    application.innerHTML = "";
+
+    let menuProfileItems = {};
+
+    if (document.cookie) {
+        menuProfileItems = {
+            profile: "My Profile",
+        }
+    } else {
+        menuProfileItems = {
+            signin: "Login",
+            signup: "Signup",
+        };
+    }
+
+    const menuProfileDivContainer = document.createElement("div");
+    menuProfileDivContainer.className = "menu-profile";
+
+    Object.keys(menuProfileItems).forEach(function (key) {
+        const menuItem = document.createElement("a");
+        menuItem.textContent = menuProfileItems[key];
+        menuItem.href = "/" + key;
+        menuItem.dataset.section = key;
+
+        menuProfileDivContainer.appendChild(menuItem);
+    });
+
+    const projectName = document.createElement("h1");
+    projectName.textContent = "Galaxy Go";
+    projectName.id = "menu-h1";
+
     const menuItems = {
-        signup: "Sign Up",
-        signin: "Sign In"
-        //... Дописать самим
+        single: "Singleplayer",
+        multi: "Multiplayer",
+        score: "Scoreboard",
+        authors: "Authors",
     };
+
+    const menuItemsDivContainer = document.createElement("div");
+    menuItemsDivContainer.className = "menu-items";
 
     Object.keys(menuItems).forEach(function (key) {
         const menuItem = document.createElement("a");
@@ -47,8 +82,12 @@ function createMenu() {
         menuItem.className = "application__item";
         menuItem.dataset.section = key;
 
-        application.appendChild(menuItem);
+        menuItemsDivContainer.appendChild(menuItem);
     });
+
+    application.appendChild(menuProfileDivContainer);
+    application.appendChild(projectName);
+    application.appendChild(menuItemsDivContainer);
 
 }
 
@@ -133,6 +172,8 @@ function createSignin() {
            }
 
             alert("Hello from /signin: " + xhr.responseText);
+
+            createMenu();
 
         },{
             nickname, password
@@ -230,6 +271,8 @@ function createSignup() {
 
             alert("Hello from /signup: " + xhr.responseText);
 
+            createMenu();
+
         },{
             nickname, email, password
         });
@@ -242,7 +285,8 @@ createMenu();
 const pages = {
     menu: createMenu,
     signin: createSignin,
-    signup: createSignup
+    signup: createSignup,
+
     //...
 };
 

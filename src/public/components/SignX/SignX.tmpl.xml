@@ -1,0 +1,46 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="isSignup">
+    <section class="sign-x sign-x_center sign-x_text_center">
+        <h1 class="sign-x__header">Sign In</h1>
+        <form action="" method="post" class="sign-x-form">
+            <fest:element name="div">
+                <fest:attributes>
+                    <fest:attribute name="class">form__error</fest:attribute>
+                </fest:attributes>
+            </fest:element>
+            <fest:element name="input">
+                <fest:attributes>
+                    <fest:attribute name="type">text</fest:attribute>
+                    <fest:attribute name="class" >sign-x-form__input sign-x-form__input_margin_m </fest:attribute>
+                    <fest:attribute name="placeholder">Nickname</fest:attribute>
+                    <fest:attribute name="name">nickname</fest:attribute>
+                </fest:attributes>
+            </fest:element>
+            <fest:if test="isSignup">
+                <fest:element name="input">
+                    <fest:attributes>
+                        <fest:attribute name="type">email</fest:attribute>
+                        <fest:attribute name="class" >sign-x-form__input sign-x-form__input_margin_m </fest:attribute>
+                        <fest:attribute name="placeholder">Email</fest:attribute>
+                        <fest:attribute name="name">email</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+            </fest:if>
+            <div class="sign-x-form__content sign-x-form__input_margin_m">
+                <fest:element name="input">
+                    <fest:attributes>
+                        <fest:attribute name="type">password</fest:attribute>
+                        <fest:attribute name="class">sign-x-form__input sign-x-form__input_size_m</fest:attribute>
+                        <fest:attribute name="placeholder">Password</fest:attribute>
+                        <fest:attribute name="name">password</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+                <fest:element name="i">
+                    <fest:attributes>
+                        <fest:attribute name="class">sign-x-form__icon</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+            </div>
+            <button class="sign-x-form__button">Sign In</button>
+        </form>
+    </section>
+</fest:template>

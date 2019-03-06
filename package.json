@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "tmpl": "./node_modules/.bin/fest-build --dir=src/public/",
+    "prestart": "npm run tmpl"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "fest": "^0.12.1",
     "morgan": "^1.9.1",
     "uuid": "^3.3.2"
   },

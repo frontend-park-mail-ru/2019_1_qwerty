@@ -1,6 +1,7 @@
 'use strict';
 
 import AjaxModule from "./modules/ajax.js"
+import SignXComponent from "./components/SignX/SignX.js"
 
 const application = document.getElementById('application');
 
@@ -15,7 +16,6 @@ function removeFormError() {
     const errorDiv = document.querySelector(".form__error");
     errorDiv.textContent = "";
     errorDiv.display = "none"
-    // form.removeChild(errorDiv);
 }
 
 function createMenu() {
@@ -60,9 +60,11 @@ function createMenu() {
     const menuItemsDivContainer = document.createElement("div");
     menuItemsDivContainer.className = "menu-items";
 
-    Object.keys(menuItems).forEach(function (key) {
+    Object.entries(menuItems).forEach(function (keyAndData) {
+        const [key, data] = keyAndData;
+
         const menuItem = document.createElement("a");
-        menuItem.textContent = menuItems[key];
+        menuItem.textContent = data;
         menuItem.href = "/" + key;
         menuItem.className = "application__item";
         menuItem.dataset.section = key;
@@ -76,60 +78,21 @@ function createMenu() {
 
 }
 
-//signin
+//SignX
 function createSignin() {
     application.innerHTML = "";
-    const formSection = document.createElement("section");
-    formSection.classList.add(...["sign-x", "sign-x_center", ]);
 
-    const signInHeader = document.createElement("h1");
-    signInHeader.className = "sign-x__header";
-    signInHeader.textContent = "Sign In";
+    const signIn = new SignXComponent({parent:application});
+    signIn.render();
 
-    const signInForm = document.createElement("form");
-    signInForm.className = "form";
-    signInForm.method="post";
-    signInForm.action = "/signin";
+    const showIcon = document.querySelector(".sign-x-form__icon");
+    const signInForm = document.querySelector(".sign-x-form");
+    const errorDiv = document.querySelector(".form__error");
 
-    const formError = document.createElement("div");
-    formError.display = "none";
-    formError.className = "form__error";
-
-    const signInNickname = document.createElement("input");
-    signInNickname.classList.add(...["sign-x-form__input",  "sign-x-form__input_margin_m"]) ;
-    signInNickname.type = "text";
-    signInNickname.placeholder = "Nickname";
-    signInNickname.name = "nickname";
-
-    const signInDivContainer = document.createElement("div");
-    signInDivContainer.classList.add(...["sign-x-form__content",  "sign-x-form__input_margin_m"]);
-
-    const signInPassword = document.createElement("input");
-    signInPassword.classList.add(...["sign-x-form__input",  "sign-x-form__input_size_m"]);
-    signInPassword.type = "password";
-    signInPassword.dataset.section = "password";
-    signInPassword.placeholder = "Password";
-    signInPassword.name = "password";
-
-    const showIcon = document.createElement("i");
-    showIcon.className = "sign-x-form__icon";
-
-    signInDivContainer.appendChild(signInPassword);
-    signInDivContainer.appendChild(showIcon);
-
-    const signInButton = document.createElement("button");
-    signInButton.className = "sign-x-form__button";
-    signInButton.textContent = "Sign In";
-
-    signInForm.appendChild(formError);
-    signInForm.appendChild(signInNickname);
-    signInForm.appendChild(signInDivContainer);
-    signInForm.appendChild(signInButton);
-
-    formSection.appendChild(signInHeader);
-    formSection.appendChild(signInForm);
+    errorDiv.display="none";
 
     showIcon.addEventListener("click", function (event) {
+        const signInPassword = signInForm.elements["password"];
         signInPassword.type = signInPassword.type === "password" ? "text" : "password";
     });
 
@@ -152,6 +115,7 @@ function createSignin() {
             addFormError("nickname or password is not filled");
             return;
         }
+
         AjaxModule.doPost({
             callback: function (xhr) {
 
@@ -161,7 +125,7 @@ function createSignin() {
                         return;
                    }
 
-                    alert("Hello from /signin: " + xhr.responseText);
+                    alert("Hello from /SignX: " + xhr.responseText);
 
                     createMenu();
         },
@@ -171,70 +135,24 @@ function createSignin() {
                 }
         });
     });
-    application.appendChild(formSection);
+
 }
 
 function createSignup() {
     application.innerHTML = "";
-    const formSection = document.createElement("section");
-    formSection.classList.add(...["sign-x", "sign-x_center"]);
 
-    const formError = document.createElement("div");
-    formError.display = "none";
-    formError.className = "form__error";
+    const signUp = new SignXComponent({parent: application, isSignup:true});
+    signUp.render();
 
-    const signUpHeader = document.createElement("h1");
-    signUpHeader.className = "sign-x__header__header";
-    signUpHeader.textContent = "Sign Up";
+    const showIcon = document.querySelector(".sign-x-form__icon");
+    const signUpForm = document.querySelector(".sign-x-form");
+    const errorDiv = document.querySelector(".form__error");
 
-    const signUpForm = document.createElement("form");
-    signUpForm.className = "sign-x-form";
-    signUpForm.method="post";
-    signUpForm.action = "/signin";
-
-    const signUpNickname = document.createElement("input");
-    signUpNickname.classList.add(...["sign-x-form__input",  "sign-x-form__input_margin_m"]) ;
-    signUpNickname.type = "text";
-    signUpNickname.placeholder = "Nickname";
-    signUpNickname.name = "nickname";
-
-    const signUpEmail = document.createElement("input");
-    signUpEmail.classList.add(...["sign-x-form__input",  "sign-x-form__input_margin_m"]) ;
-    signUpEmail.type = "email";
-    signUpEmail.placeholder = "Your email";
-    signUpEmail.name = "email";
-
-    const signUpDivContainer = document.createElement("div");
-    signUpDivContainer.classList.add(...["sign-x-form__content",  "sign-x-form__input_margin_m"]);
-
-    const signUpPassword = document.createElement("input");
-    signUpPassword.classList.add(...["sign-x-form__input",  "sign-x-form__input_size_m"]);
-    signUpPassword.type = "password";
-    signUpPassword.dataset.section = "password";
-    signUpPassword.placeholder = "Password";
-    signUpPassword.name = "password";
-
-    const showIcon = document.createElement("i");
-    showIcon.className = "sign-x-form__icon";
-
-    signUpDivContainer.appendChild(signUpPassword);
-    signUpDivContainer.appendChild(showIcon);
-
-    const signUpButton = document.createElement("button");
-    signUpButton.className = "sign-x-form__button";
-    signUpButton.textContent = "Sign Up";
-
-    signUpForm.appendChild(formError);
-    signUpForm.appendChild(signUpNickname);
-    signUpForm.appendChild(signUpEmail);
-    signUpForm.appendChild(signUpDivContainer);
-    signUpForm.appendChild(signUpButton);
-
-    formSection.appendChild(signUpHeader);
-    formSection.appendChild(signUpForm);
+    errorDiv.display="none";
 
     showIcon.addEventListener("click", function (event) {
-        signUpPassword.type = signUpPassword.type === "password" ? "text" : "password";
+        const signUpPassword = signUpForm.elements["password"];
+        signUpPassword.type = (signUpPassword.type === "password") ? "text" : "password";
     });
 
     signUpForm.addEventListener("click", function (event) {
@@ -277,7 +195,7 @@ function createSignup() {
             }
         });
     });
-    application.appendChild(formSection);
+
 }
 
 createMenu();
@@ -300,5 +218,5 @@ application.addEventListener("click", function (event) {
        pages[section]();
    }
 });
-//signin
+//SignX
 

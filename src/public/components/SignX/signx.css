@@ -1,3 +1,4 @@
+
 .sign-x{
     width:30%;
     border:2px solid white;
@@ -41,6 +42,7 @@
     color:red;
     font-size:0.8rem;
     text-align: center;
+    /*display: ;*/
 }
 
 .sign-x-form__input_margin_m{

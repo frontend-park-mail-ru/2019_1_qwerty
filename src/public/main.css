@@ -1,3 +1,5 @@
+@import url("components/SignX/signx.css");
+
 @font-face {
     font-family: Pixel;
     src: url("./silkscreen/slkscr.ttf") format('truetype');

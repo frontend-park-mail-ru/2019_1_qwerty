@@ -2,7 +2,7 @@
 const noop = () => null;
 
 class AjaxModule {
-    ajax({
+    _ajax({
         callback = noop,
         method = "GET",
         path = "/",
@@ -32,7 +32,7 @@ class AjaxModule {
            path = "/",
            body = {}
     } = {}) {
-        this.ajax({
+        this._ajax({
             callback,
             method : "POST",
             path,
@@ -44,7 +44,7 @@ class AjaxModule {
                 path = "/",
                 body = {}
             } = {}) {
-        this.ajax({
+        this._ajax({
             callback,
             method : "GET",
             path,
@@ -52,3 +52,6 @@ class AjaxModule {
         });
     }
 }
+
+const AjaxMod = new AjaxModule();
+export default AjaxMod;

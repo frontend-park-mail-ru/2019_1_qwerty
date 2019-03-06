@@ -1,47 +1,29 @@
 'use strict';
 
+import AjaxModule from "./modules/ajax.js"
+
 const application = document.getElementById('application');
 
-function ajax(method, path, callback, body) {
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, path, true);
-
-    xhr.withCredentials = true;
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState !== 4) {
-            return;
-        }
-
-        callback(xhr);
-    };
-    if (body) {
-        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-        xhr.send(JSON.stringify(body));
-    } else {
-        xhr.send();
-    }
-}
-
-function addFormError(error, form) {
-    const errorDiv = document.createElement("div");
+function addFormError(error) {
+    const errorDiv = document.querySelector(".form__error");
     errorDiv.textContent = error;
-    errorDiv.className = "form__error";
     errorDiv.dataset.section = "error";
-
-    form.insertBefore(errorDiv, form.elements[0]);
+    errorDiv.display = "block";
 }
 
-function removeFormError(form, errorDiv) {
-    form.removeChild(errorDiv);
+function removeFormError() {
+    const errorDiv = document.querySelector(".form__error");
+    errorDiv.textContent = "";
+    errorDiv.display = "none"
+    // form.removeChild(errorDiv);
 }
 
 function createMenu() {
     application.innerHTML = "";
 
     let menuProfileItems = {};
-
-    if (document.cookie) {
+    console.log();
+    if (/sessionid/.test(document.cookie)) {
         menuProfileItems = {
             profile: "My Profile",
         }
@@ -109,6 +91,10 @@ function createSignin() {
     signInForm.method="post";
     signInForm.action = "/signin";
 
+    const formError = document.createElement("div");
+    formError.display = "none";
+    formError.className = "form__error";
+
     const signInNickname = document.createElement("input");
     signInNickname.classList.add(...["sign-x-form__input",  "sign-x-form__input_margin_m"]) ;
     signInNickname.type = "text";
@@ -135,6 +121,7 @@ function createSignin() {
     signInButton.className = "sign-x-form__button";
     signInButton.textContent = "Sign In";
 
+    signInForm.appendChild(formError);
     signInForm.appendChild(signInNickname);
     signInForm.appendChild(signInDivContainer);
     signInForm.appendChild(signInButton);
@@ -150,8 +137,8 @@ function createSignin() {
        const target = event.target;
        const error = document.querySelector(".form__error");
 
-        if (target instanceof HTMLInputElement && error) {
-           removeFormError(signInForm, error);
+        if (target instanceof HTMLInputElement && error.display === "block") {
+           removeFormError(error);
        }
     });
 
@@ -162,24 +149,26 @@ function createSignin() {
         const password = signInForm.elements["password"].value.trim();
 
         if (!password || !nickname) {
-            addFormError("nickname or password is not filled", signInForm);
+            addFormError("nickname or password is not filled");
             return;
         }
+        AjaxModule.doPost({
+            callback: function (xhr) {
 
-        ajax("POST", "/signin", function (xhr) {
+                   if (xhr.status === 400 ) {
+                        const response = JSON.parse(xhr.responseText);
+                        addFormError(response.error);
+                        return;
+                   }
 
-           if (xhr.status === 400 ) {
-                const response = JSON.parse(xhr.responseText);
-                addFormError(response.error, signInForm);
-                return;
-           }
+                    alert("Hello from /signin: " + xhr.responseText);
 
-            alert("Hello from /signin: " + xhr.responseText);
-
-            createMenu();
-
-        },{
-            nickname, password
+                    createMenu();
+        },
+            path: "/signin",
+            body: {
+                    nickname, password
+                }
         });
     });
     application.appendChild(formSection);
@@ -189,6 +178,10 @@ function createSignup() {
     application.innerHTML = "";
     const formSection = document.createElement("section");
     formSection.classList.add(...["sign-x", "sign-x_center"]);
+
+    const formError = document.createElement("div");
+    formError.display = "none";
+    formError.className = "form__error";
 
     const signUpHeader = document.createElement("h1");
     signUpHeader.className = "sign-x__header__header";
@@ -231,6 +224,7 @@ function createSignup() {
     signUpButton.className = "sign-x-form__button";
     signUpButton.textContent = "Sign Up";
 
+    signUpForm.appendChild(formError);
     signUpForm.appendChild(signUpNickname);
     signUpForm.appendChild(signUpEmail);
     signUpForm.appendChild(signUpDivContainer);
@@ -247,8 +241,8 @@ function createSignup() {
         const target = event.target;
         const error = document.querySelector(".form__error");
 
-        if (target instanceof HTMLInputElement && error) {
-            removeFormError(signUpForm, error);
+        if (target instanceof HTMLInputElement && error.display === "block") {
+            removeFormError();
         }
     });
 
@@ -259,25 +253,28 @@ function createSignup() {
         const password = signUpForm.elements["password"].value.trim();
         const email = signUpForm.elements["email"].value.trim();
 
-        if (!password || !nickname) {
-            addFormError("nickname or password is not filled", signUpForm);
+        if (!password || !nickname || !email) {
+            addFormError("nickname or password or email is not filled");
             return;
         }
 
-        ajax("POST", "/signup", function (xhr) {
+        AjaxModule.doPost({
+            callback: function (xhr) {
 
-            if (xhr.status === 400 ) {
-                const response = JSON.parse(xhr.responseText);
-                addFormError(response.error, signUpForm);
-                return;
+                if (xhr.status === 400 ) {
+                    const response = JSON.parse(xhr.responseText);
+                    addFormError(response.error);
+                    return;
+                }
+
+                alert("Hello from /signup: " + xhr.responseText);
+
+                createMenu();
+            },
+            path: "/signup",
+            body: {
+                nickname, email, password
             }
-
-            alert("Hello from /signup: " + xhr.responseText);
-
-            createMenu();
-
-        },{
-            nickname, email, password
         });
     });
     application.appendChild(formSection);

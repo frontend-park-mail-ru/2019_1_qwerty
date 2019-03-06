@@ -289,6 +289,7 @@ const pages = {
     menu: createMenu,
     signin: createSignin,
     signup: createSignup,
+    score: Scoreboard,
 
     //...
 };

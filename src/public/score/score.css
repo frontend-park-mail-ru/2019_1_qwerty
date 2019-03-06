@@ -1,18 +1,10 @@
-html {
-	font-size: 16pt;
-}
-
-body {
-	height: 100%;
-}
-
 .score-nav__bottom {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 }
 
-.score-nav__bottom > a {
+.score-nav__bottom a {
 	display: block;
 	margin: 8pt auto;
 	padding: 8pt;
@@ -31,17 +23,17 @@ body {
 	padding: 8pt;
 	border-radius: 4pt;
 	background-color: #7BD63B;
-    font-size: 16pt;
-    font-family: inherit;
+	font-size: 16pt;
+	font-family: inherit;
 	border: 0;
 }
 
-table {
+#scoreboard {
 	margin: auto;
 	vertical-align: middle;
 	width: calc(100% - 16pt);
 }
 
-table th {
+#scoreboard th {
 	border-bottom: 2pt solid white;
 }

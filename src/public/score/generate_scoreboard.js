@@ -17,8 +17,9 @@ let _tr_ = document.createElement('tr'),
 
 function buildHtmlTable(selector, arr) {
     arr = testJSON;
-    let table = document.getElementById(selector),
-        columns = addAllColumnHeaders(arr, selector);
+    let table = document.getElementById(selector)
+    table.innerHTML = ""
+    let columns = addAllColumnHeaders(arr, selector);
     for (let i = 0, maxi = arr.length; i < maxi; ++i) {
         let tr = _tr_.cloneNode(false);
         for (let j = 0, maxj = columns.length; j < maxj; ++j) {

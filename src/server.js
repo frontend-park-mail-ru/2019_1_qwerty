@@ -4,10 +4,12 @@ const express = require('express');
 const body = require('body-parser');
 const morgan = require('morgan');
 const uuid = require('uuid');
+const cookieParser = require('cookie-parser');
 const app = express();
 
 app.use(morgan('dev'));
 app.use(body.json());
+app.use(cookieParser());
 app.use(express.static('./src/public/'));
 
 const users = {
@@ -61,10 +63,26 @@ app.post('/signup', (req, res) => {
     const id = uuid();
     ids[id] = nickname;
 
-    res.cookie('sessionid', id, { expires: new Date(Date.now() + 1000 * 60 * 10) });
+    res.cookie('sessionid', id, { expires: new Date(Date.now() + 1000 * 60 * 10), httpOnly: true });
     res.status(201).json({ id });
 });
 
+app.post('/me', (req, res) => {
+    const sessionid = req.cookies['sessionid'];
+    console.log(sessionid);
+    console.log(ids);
+    const nickname = ids[sessionid];
+    let isAuthorized = false;
+
+    if (nickname) {
+        console.log(users[nickname]);
+        isAuthorized = true;
+        res.status(200).json({ isAuthorized });
+        return;
+    }
+
+    res.status(200).json({ isAuthorized });
+});
 app.listen(port, (err) => {
     if (err) {
         return console.log('something bad happened', err);

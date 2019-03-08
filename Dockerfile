@@ -6,7 +6,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY src /app
+COPY . .
 
 EXPOSE 8000
-CMD ["node", "server.js"]
+CMD ["node", "src/server.js"]

@@ -1,11 +1,11 @@
 
 const noop = () => null;
 
-class AjaxModule {
-    _ajax({
+export default class AjaxModule {
+    static ajax ({
         callback = noop,
-        method = "GET",
-        path = "/",
+        method = 'GET',
+        path = '/',
         body = {}
     } = {}) {
         const xhr = new XMLHttpRequest();
@@ -13,7 +13,7 @@ class AjaxModule {
 
         xhr.withCredentials = true;
 
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = () => {
             if (xhr.readyState !== 4) {
                 return;
             }
@@ -28,30 +28,29 @@ class AjaxModule {
         }
     }
 
-    doPost ({callback = noop,
-           path = "/",
-           body = {}
+    static doPost ({ callback = noop,
+        path = '/',
+        body = {}
     } = {}) {
-        this._ajax({
+        AjaxModule.ajax({
             callback,
-            method : "POST",
+            method: 'POST',
             path,
             body
         });
     }
 
-    doGet ({callback = noop,
-                path = "/",
-                body = {}
-            } = {}) {
-        this._ajax({
+    static doGet ({ callback = noop,
+        path = '/',
+        body = {}
+    } = {}) {
+        AjaxModule.ajax({
             callback,
-            method : "GET",
+            method: 'GET',
             path,
             body
         });
     }
 }
 
-const AjaxMod = new AjaxModule();
-export default AjaxMod;
+

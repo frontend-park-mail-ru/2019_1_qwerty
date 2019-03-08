@@ -35,5 +35,7 @@ function Scoreboard () {
     scoreContainer.appendChild(container2);
     scoreContainer.appendChild(back_button);
     application.appendChild(scoreContainer);
-    buildHtmlTable('scoreboard');
+
+    getNext(0);
 }
+

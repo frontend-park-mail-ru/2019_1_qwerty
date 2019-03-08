@@ -7,7 +7,8 @@
     "start": "node src/server.js",
     "tmpl": "./node_modules/.bin/fest-build --dir=src/public/",
     "lint": "eslint ./src",
-    "prestart": "npm run tmpl"
+    "prestart": "npm run tmpl",
+    "lint-fix": "eslint --fix"
   },
   "keywords": [],
   "author": "",

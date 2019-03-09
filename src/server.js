@@ -63,7 +63,7 @@ app.post('/signup', (req, res) => {
     const id = uuid();
     ids[id] = nickname;
 
-    res.cookie('sessionid', id, { expires: new Date(Date.now() + 1000 * 60 * 10), httpOnly: true });
+    res.cookie('sessionid', id, { expires: new Date(Date.now() + 1000 * 60 * 10) });
     res.status(201).json({ id });
 });
 

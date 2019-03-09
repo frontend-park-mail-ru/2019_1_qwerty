@@ -16,34 +16,44 @@ export default class InputComponent {
     }
 
     render () {
-        console.log(window.fest);
         this.parent.innerHTML = window.fest['components/Input/Input.tmpl'](this);
 
         this._elem = document.querySelector(`input[name='${this.name}']`);
+        if (this.isPassword) {
+            this._showIcon = document.querySelector('.sign-x-form__icon');
+        }
 
         this.addEventOnFocus();
         this.showPassword();
     }
 
-    addEventOnFocus () {
-        this._elem.addEventListener('focus', (event) => {
-            event.preventDefault();
+    onDestroy () {
+        this._elem.removeEventListener('focus', this._onFocus);
+        if (this.isPassword) {
+            this._showIcon.removeEventListener('click', this._showIconEvent);
+        }
+    }
 
-            this._onFocus();
-        });
+    addEventOnFocus () {
+        this._elem.addEventListener('focus', this._onFocus);
     }
 
     showPassword () {
         if (!this.isPassword) {
             return null;
         }
-        const showIcon = document.querySelector('.sign-x-form__icon');
-        showIcon.addEventListener('click', (event) => {
+        this._showIconEvent = (event) => {
             this._elem.type = this._elem.type === 'password' ? 'text' : 'password';
-        });
+        };
+
+        this._showIcon.addEventListener('click', this._showIconEvent);
     }
     set onFocus (callback) {
-        this._onFocus = callback;
+        this._onFocus = (event) => {
+            event.preventDefault();
+
+            callback();
+        };
     }
 
     get onFocus () {

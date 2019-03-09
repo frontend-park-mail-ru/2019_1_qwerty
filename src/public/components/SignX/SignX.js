@@ -14,6 +14,7 @@ export default class SignXComponent {
         this._isSignup = isSignup;
         this._afterSuccessSubmit = afterSuccessSubmit;
         this._path = isSignup ? '/signup' : '/signin';
+        this._elements = [];
     }
 
     _addFormError (error) {
@@ -36,28 +37,31 @@ export default class SignXComponent {
 
         alert('Hello from /SignX: ' + xhr.responseText);
 
+        this.onDestroy();
+
         this._afterSuccessSubmit();
     }
 
     _onFocus () {
         if (this._errorDiv.display === 'block') {
-            console.log(this._errorDiv);
             this._removeFormError();
         }
     }
 
-    _onDestroy () {
-        return null;
+    onDestroy () {
+        this._elements.forEach((component) => {
+            if (component instanceof ButtonComponent) {
+                this._form.removeEventListener('submit', this.submitEvent);
+                return;
+            }
+            component.onDestroy();
+        });
     }
 
     render () {
         const name = this._isSignup ? 'Sign Up' : 'Sign In';
 
-        const elements = {
-            isSignup: this._isSignup
-        };
-
-        this._parent.innerHTML = window.fest['components/SignX/SignX.tmpl'](elements);
+        this._parent.innerHTML = window.fest['components/SignX/SignX.tmpl'](this._isSignup);
 
         const nicknameParent = document.querySelector('div[data-section-name="nickname"]');
         const signXNickname = new InputComponent({
@@ -67,20 +71,7 @@ export default class SignXComponent {
             parent: nicknameParent
         });
         signXNickname.onFocus = this._onFocus.bind(this);
-
-
-        let signXEmail = () => null;
-
-        if (this._isSignup) {
-            const emailParent = document.querySelector('div[data-section-name="email"]');
-            signXEmail = new InputComponent({
-                name: 'email',
-                type: 'email',
-                placeholder: 'Email',
-                parent: emailParent
-            });
-            signXEmail.onFocus = this._onFocus.bind(this);
-        }
+        this._elements.push(signXNickname);
 
         const passwordParent = document.querySelector('div[data-section-name="password"]');
         const signXPassword = new InputComponent({
@@ -91,7 +82,16 @@ export default class SignXComponent {
             parent: passwordParent
         });
         signXPassword.onFocus = this._onFocus.bind(this);
+        this._elements.push(signXPassword);
 
+        const buttonParent = document.querySelector('div[data-section-name="button"]');
+        const signXButton = new ButtonComponent({
+            name,
+            parent: buttonParent
+        });
+        this._elements.push(signXButton);
+
+        signXButton.onClick = this._onSubmit.bind(this);
         this._form = document.querySelector('.sign-x-form');
         this._errorDiv = document.querySelector('.form__error');
 
@@ -99,11 +99,22 @@ export default class SignXComponent {
 
         signXNickname.render();
         if (this._isSignup) {
+            const emailParent = document.querySelector('div[data-section-name="email"]');
+            const signXEmail = new InputComponent({
+                name: 'email',
+                type: 'email',
+                placeholder: 'Email',
+                parent: emailParent
+            });
+            signXEmail.onFocus = this._onFocus.bind(this);
             signXEmail.render();
+            this._elements.push(signXEmail);
         }
-        signXPassword.render();
 
-        this._form.addEventListener('submit', (event) => {
+        signXPassword.render();
+        signXButton.render();
+
+        this.submitEvent = (event) => {
             event.preventDefault();
 
             const nickname = this._form.elements.nickname.value.trim();
@@ -125,14 +136,15 @@ export default class SignXComponent {
                 return;
             }
 
-    //         AjaxModule.doPost({
-    //             callback: (xhr) => {
-    //                 signXButton.onClick(xhr);
-    //                 this._onDestroy();
-    //             },
-    //             path: this._path,
-    //             body
-    //         });
-    //     });
-    // }
+            AjaxModule.doPost({
+                callback: (xhr) => {
+                    signXButton.onClick(xhr);
+                },
+                path: this._path,
+                body
+            });
+        };
+
+        this._form.addEventListener('submit', this.submitEvent);
+    }
 }

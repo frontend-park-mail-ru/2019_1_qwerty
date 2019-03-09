@@ -9,11 +9,18 @@ export default class ButtonComponent {
         this.class = 'button';
     }
 
+    render () {
+        this.parent.innerHTML = window.fest['components/Button/Button.tmpl'](this);
+
+        this._elem = document.querySelector(`input[name='${this.name}']`);
+    }
+
     set onClick (callback) {
         this._onClick = callback;
     }
 
     get onClick () {
-        return this._callback;
+        return this._onClick;
     }
+
 }

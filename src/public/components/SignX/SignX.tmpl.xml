@@ -1,6 +1,6 @@
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="elements">
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="isSignup">
     <fest:script>
-        var pageName = elements.isSignup ? 'Sign up' : 'Sign In';
+        var pageName = isSignup ? 'Sign up' : 'Sign In';
     </fest:script>
     <section class="sign-x sign-x_center sign-x_text_center">
         <h1 class="sign-x__header">
@@ -18,7 +18,7 @@
                     <fest:attribute name="data-section-name">nickname</fest:attribute>
                 </fest:attributes>
             </fest:element>
-            <fest:if test="elements.isSignup">
+            <fest:if test="isSignup">
                 <fest:element name="div">
                     <fest:attributes>
                         <fest:attribute name="class">sign-x-form__input_width_m sign-x-form__input_margin_m sign-x-form__input_height_h</fest:attribute>

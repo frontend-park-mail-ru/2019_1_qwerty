@@ -3,23 +3,33 @@ export default class InputComponent {
     constructor ({
         name = '',
         type = 'text',
-        classes = [],
         placeholder = '',
-        isPassword = false
+        isPassword = false,
+        parent = document.body
     } = {}) {
         this.name = name;
         this.type = type;
-        this.classes = classes;
+        this.class = 'input';
         this.placeholder = placeholder;
         this.isPassword = isPassword;
+        this.parent = parent;
     }
 
-    onFocus () {
-        const elem = document.querySelector(`input[name='${this.name}']`);
-        elem.addEventListener('focus', (event) => {
+    render () {
+        console.log(window.fest);
+        this.parent.innerHTML = window.fest['components/Input/Input.tmpl'](this);
+
+        this._elem = document.querySelector(`input[name='${this.name}']`);
+
+        this.addEventOnFocus();
+        this.showPassword();
+    }
+
+    addEventOnFocus () {
+        this._elem.addEventListener('focus', (event) => {
             event.preventDefault();
 
-            this._callback();
+            this._onFocus();
         });
     }
 
@@ -27,17 +37,16 @@ export default class InputComponent {
         if (!this.isPassword) {
             return null;
         }
-        const elem = document.querySelector(`input[name='${this.name}']`);
         const showIcon = document.querySelector('.sign-x-form__icon');
         showIcon.addEventListener('click', (event) => {
-            elem.type = elem.type === 'password' ? 'text' : 'password';
+            this._elem.type = this._elem.type === 'password' ? 'text' : 'password';
         });
     }
-    set callback (callback) {
-        this._callback = callback;
+    set onFocus (callback) {
+        this._onFocus = callback;
     }
 
-    get callback () {
-        return this._callback;
+    get onFocus () {
+        return this._onFocus;
     }
 }

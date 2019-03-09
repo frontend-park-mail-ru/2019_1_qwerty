@@ -1,14 +1,10 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="input">
-    <fest:script>
-        var classes = input.classes.join(' ');
-    </fest:script>
     <fest:choose>
         <fest:when test="input.isPassword">
-            <div class="sign-x-form__content sign-x-form__input_margin_m">
                 <fest:element name="input">
                     <fest:attributes>
                         <fest:attribute name="type"><fest:value>input.type</fest:value></fest:attribute>
-                        <fest:attribute name="class"><fest:value>classes</fest:value></fest:attribute>
+                        <fest:attribute name="class"><fest:value>input.class</fest:value></fest:attribute>
                         <fest:attribute name="placeholder"><fest:value>input.placeholder</fest:value></fest:attribute>
                         <fest:attribute name="name"><fest:value>input.name</fest:value></fest:attribute>
                     </fest:attributes>
@@ -18,12 +14,11 @@
                         <fest:attribute name="class">sign-x-form__icon</fest:attribute>
                     </fest:attributes>
                 </fest:element>
-            </div>
         </fest:when>
         <fest:otherwise>
             <fest:element name="input">
                 <fest:attributes>
-                    <fest:attribute name="class"><fest:value>classes</fest:value></fest:attribute>
+                    <fest:attribute name="class"><fest:value>input.class</fest:value></fest:attribute>
                     <fest:attribute name="type"><fest:value>input.type</fest:value></fest:attribute>
                     <fest:attribute name="placeholder"><fest:value>input.placeholder</fest:value></fest:attribute>
                     <fest:attribute name="name"><fest:value>input.name</fest:value></fest:attribute>

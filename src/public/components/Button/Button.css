@@ -1,4 +1,6 @@
-button{
+.button{
+    width:100%;
+    box-sizing: border-box;
     font-size:1.8rem;
     padding: 4%;
     font-family: Pixel, serif;
@@ -10,6 +12,6 @@ button{
     cursor: pointer;
 }
 
-button:hover {
+.button:hover {
     opacity: 1;
 }

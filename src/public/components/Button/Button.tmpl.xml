@@ -1,10 +1,7 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="button">
-    <fest:script>
-        var classes = button.classes.join(' ');
-    </fest:script>
     <button>
         <fest:attributes>
-            <fest:attribute name="class"><fest:value>classes</fest:value></fest:attribute>
+            <fest:attribute name="class"><fest:value>button.class</fest:value></fest:attribute>
         </fest:attributes>
         <fest:value>button.name</fest:value>
     </button>

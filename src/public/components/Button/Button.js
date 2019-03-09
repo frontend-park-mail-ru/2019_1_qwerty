@@ -2,17 +2,18 @@
 export default class ButtonComponent {
     constructor ({
         name = '',
-        classes = []
+        parent = document.body
     } = {}) {
-        this.classes = classes;
+        this.parent = parent;
         this.name = name;
+        this.class = 'button';
     }
 
-    set callback (callback) {
-        this._callback = callback;
+    set onClick (callback) {
+        this._onClick = callback;
     }
 
-    get callback () {
+    get onClick () {
         return this._callback;
     }
 }

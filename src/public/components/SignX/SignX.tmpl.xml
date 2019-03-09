@@ -12,16 +12,32 @@
                     <fest:attribute name="class">form__error</fest:attribute>
                 </fest:attributes>
             </fest:element>
-            <fest:include context="elements.signXNickname" src="../Input/Input.tmpl.xml"/>
+            <fest:element name="div">
+                <fest:attributes>
+                    <fest:attribute name="class">sign-x-form__input_width_m sign-x-form__input_margin_m sign-x-form__input_height_h</fest:attribute>
+                    <fest:attribute name="data-section-name">nickname</fest:attribute>
+                </fest:attributes>
+            </fest:element>
             <fest:if test="elements.isSignup">
-                <div class="sign-x-form__input_margin_m">
-                    <fest:include context="elements.signXEmail" src="../Input/Input.tmpl.xml"/>
-                </div>
+                <fest:element name="div">
+                    <fest:attributes>
+                        <fest:attribute name="class">sign-x-form__input_width_m sign-x-form__input_margin_m sign-x-form__input_height_h</fest:attribute>
+                        <fest:attribute name="data-section-name">email</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
             </fest:if>
-            <fest:include context="elements.signXPassword" src="../Input/Input.tmpl.xml"/>
-            <div class="sign-x-form__button_margin_m">
-                <fest:include context="elements.signXButton" src="../Button/Button.tmpl.xml"/>
-            </div>
+            <fest:element name="div">
+                <fest:attributes>
+                    <fest:attribute name="class">sign-x-form__input_width_m sign-x-form__input_margin_m sign-x-form__input_height_h sign-x-form__content</fest:attribute>
+                    <fest:attribute name="data-section-name">password</fest:attribute>
+                </fest:attributes>
+            </fest:element>
+            <fest:element name="div">
+                <fest:attributes>
+                    <fest:attribute name="class">sign-x-form__button_margin_m sign-x-form__button_width_m sign-x-form__button_height_h</fest:attribute>
+                    <fest:attribute name="data-section-name">button</fest:attribute>
+                </fest:attributes>
+            </fest:element>
         </form>
     </section>
 </fest:template>

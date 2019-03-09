@@ -13,7 +13,7 @@ function createMenu () {
     let isAuthorized = false;
 
     AjaxModule.doSyncPost({
-        path: 'api/user/check',
+        path: 'http://localhost:8080/api/user/check',
         callback: (xhr) => {
             if (xhr.status === 200) {
                 isAuthorized = true;
@@ -82,7 +82,7 @@ function createMenu () {
             event.preventDefault();
 
             AjaxModule.doPost({
-                path: '/api/user/logout',
+                path: 'http://localhost:8080/api/user/logout',
                 callback: (xhr) => {
                     console.log('hi');
                     createMenu();

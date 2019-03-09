@@ -13,7 +13,7 @@ export default class SignXComponent {
         this._parent = parent;
         this._isSignup = isSignup;
         this._afterSuccessSubmit = afterSuccessSubmit;
-        this._path = isSignup ? '/api/user/signup' : '/api/user/login';
+        this._path = isSignup ? 'http://localhost:8080/api/user/signup' : 'http://localhost:8080/api/user/login';
         this._elements = [];
     }
 

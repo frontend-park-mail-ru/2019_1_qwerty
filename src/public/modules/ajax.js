@@ -29,16 +29,15 @@ export default class AjaxModule {
         }
     }
 
-    static doSyncPost ({
+    static doSyncGet ({
         callback = noop,
         path = '/',
         body = {}
     } = {}) {
         AjaxModule.ajax({
             callback,
-            method: 'POST',
+            method: 'GET',
             path,
-            isAsync: false,
             body
         });
     }

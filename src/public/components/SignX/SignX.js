@@ -13,7 +13,7 @@ export default class SignXComponent {
         this._parent = parent;
         this._isSignup = isSignup;
         this._afterSuccessSubmit = afterSuccessSubmit;
-        this._path = isSignup ? 'http://localhost:8080/api/user/signup' : 'http://localhost:8080/api/user/login';
+        this._path = isSignup ? '/api/user/signup' : '/api/user/login';
         this._elements = [];
     }
 
@@ -50,16 +50,46 @@ export default class SignXComponent {
 
     onDestroy () {
         this._elements.forEach((component) => {
-            if (component instanceof ButtonComponent) {
-                this._form.removeEventListener('submit', this.submitEvent);
-                return;
-            }
-            component.onDestroy();
+            component.destroy();
         });
+
+        this._form.removeEventListener('submit', this.submitEvent);
     }
 
+    submitEvent = (event) => {
+        event.preventDefault();
+        console.log(this);
+
+        const nickname = this._form.elements.nickname.value.trim();
+        const password = this._form.elements.password.value.trim();
+
+        const body = { nickname, password };
+        let errorExpression = !nickname || !password;
+        let errorMsg = 'nickname or password is not filled';
+
+        if (this._isSignup) {
+            const email = this._form.elements.email.value.trim();
+            body['email'] = email;
+            errorExpression = errorExpression || !email;
+            errorMsg = 'nickname or password or email is not filled';
+        }
+
+        if (errorExpression) {
+            this._addFormError(errorMsg);
+            return;
+        }
+
+        AjaxModule.doPost({
+            callback: (xhr) => {
+                this._onSubmit(xhr);
+            },
+            path: this._path,
+            body
+        });
+    };
+
     render () {
-        const name = this._isSignup ? 'Sign Up' : 'Sign In';
+        const title = this._isSignup ? 'Sign Up' : 'Sign In';
 
         this._parent.innerHTML = window.fest['components/SignX/SignX.tmpl'](this._isSignup);
 
@@ -85,13 +115,13 @@ export default class SignXComponent {
         this._elements.push(signXPassword);
 
         const buttonParent = document.querySelector('div[data-section-name="button"]');
+        const name = 'button';
         const signXButton = new ButtonComponent({
             name,
+            title,
             parent: buttonParent
         });
-        this._elements.push(signXButton);
 
-        signXButton.onClick = this._onSubmit.bind(this);
         this._form = document.querySelector('.sign-x-form');
         this._errorDiv = document.querySelector('.form__error');
 
@@ -113,37 +143,6 @@ export default class SignXComponent {
 
         signXPassword.render();
         signXButton.render();
-
-        this.submitEvent = (event) => {
-            event.preventDefault();
-
-            const nickname = this._form.elements.nickname.value.trim();
-            const password = this._form.elements.password.value.trim();
-
-            const body = { nickname, password };
-            let errorExpression = !nickname || !password;
-            let errorMsg = 'nickname or password is not filled';
-
-            if (this._isSignup) {
-                const email = this._form.elements['email'].value.trim();
-                body['email'] = email;
-                errorExpression = errorExpression || !email;
-                errorMsg = 'nickname or password or email is not filled';
-            }
-
-            if (errorExpression) {
-                this._addFormError(errorMsg);
-                return;
-            }
-
-            AjaxModule.doPost({
-                callback: (xhr) => {
-                    signXButton.onClick(xhr);
-                },
-                path: this._path,
-                body
-            });
-        };
 
         this._form.addEventListener('submit', this.submitEvent);
     }

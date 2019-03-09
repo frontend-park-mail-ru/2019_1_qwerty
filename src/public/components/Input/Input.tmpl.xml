@@ -4,7 +4,7 @@
                 <fest:element name="input">
                     <fest:attributes>
                         <fest:attribute name="type"><fest:value>input.type</fest:value></fest:attribute>
-                        <fest:attribute name="class"><fest:value>input.class</fest:value></fest:attribute>
+                        <fest:attribute name="class">input</fest:attribute>
                         <fest:attribute name="placeholder"><fest:value>input.placeholder</fest:value></fest:attribute>
                         <fest:attribute name="name"><fest:value>input.name</fest:value></fest:attribute>
                     </fest:attributes>
@@ -18,7 +18,7 @@
         <fest:otherwise>
             <fest:element name="input">
                 <fest:attributes>
-                    <fest:attribute name="class"><fest:value>input.class</fest:value></fest:attribute>
+                    <fest:attribute name="class">input</fest:attribute>
                     <fest:attribute name="type"><fest:value>input.type</fest:value></fest:attribute>
                     <fest:attribute name="placeholder"><fest:value>input.placeholder</fest:value></fest:attribute>
                     <fest:attribute name="name"><fest:value>input.name</fest:value></fest:attribute>

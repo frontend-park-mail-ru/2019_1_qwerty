@@ -66,7 +66,7 @@ app.post('/api/user/signup', (req, res) => {
     res.status(201).json({ id });
 });
 
-app.post('/api/user/check', (req, res) => {
+app.get('/api/user/check', (req, res) => {
     const sessionid = req.cookies['sessionid'];
     console.log(sessionid);
     console.log(ids);
@@ -78,7 +78,7 @@ app.post('/api/user/check', (req, res) => {
         return;
     }
 
-    res.status(401).send();
+    res.status(404).send();
 });
 
 app.post('/api/user/logout', (req, res) => {

@@ -20,13 +20,16 @@ function buildHtmlTable(selector, arr) {
   return table;
 }
 
+let currentPage = 0;
+
 function getNext(start_index = 0) {
-  let url = 'http://127.0.0.1:8080/api/score/' + start_index.toString();
+  let url = 'http://127.0.0.1:8080/api/score?offset=' + (currentPage + start_index).toString();
   fetch(url)
     .then(function (response) {
       return response.json();
     })
     .then(function (jsonResponse) {
+      currentPage += start_index;
       buildHtmlTable("scoreboard", jsonResponse)
     });
 }

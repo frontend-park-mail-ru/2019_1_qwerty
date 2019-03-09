@@ -14,13 +14,15 @@ function Scoreboard () {
     const buttomContainer = document.createElement('div');
     buttomContainer.className = 'score-nav__bottom';
 
-    const prevScore = document.createElement('a');
-    prevScore.textContent = 'Prev 10';
-    prevScore.href = '#';
+    const prevScore = document.createElement("a");
+    prevScore.textContent = "Prev 10";
+    prevScore.href = "javascript:void(0);";
+    prevScore.setAttribute("onclick","getNext(-10);");
 
-    const nextScore = document.createElement('a');
-    nextScore.textContent = 'Next 10';
-    nextScore.href = '#';
+    const nextScore = document.createElement("a");
+    nextScore.textContent = "Next 10";
+    nextScore.href = "javascript:void(0);";
+    nextScore.setAttribute("onclick","getNext(10);");
 
     buttomContainer.appendChild(prevScore);
     buttomContainer.appendChild(nextScore);

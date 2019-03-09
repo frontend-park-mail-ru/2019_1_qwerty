@@ -6,10 +6,11 @@ export default class AjaxModule {
         callback = noop,
         method = 'GET',
         path = '/',
+        isAsync = true,
         body = {}
     } = {}) {
         const xhr = new XMLHttpRequest();
-        xhr.open(method, path, true);
+        xhr.open(method, path, isAsync);
 
         xhr.withCredentials = true;
 
@@ -26,6 +27,20 @@ export default class AjaxModule {
         } else {
             xhr.send();
         }
+    }
+
+    static doSyncPost ({
+        callback = noop,
+        path = '/',
+        body = {}
+    } = {}) {
+        AjaxModule.ajax({
+            callback,
+            method: 'POST',
+            path,
+            isAsync: false,
+            body
+        });
     }
 
     static doPost ({ callback = noop,
@@ -52,5 +67,3 @@ export default class AjaxModule {
         });
     }
 }
-
-

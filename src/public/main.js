@@ -10,10 +10,22 @@ function createMenu () {
 
     let menuProfileItems = {};
 
-    if (/sessionid/.test(document.cookie)) {
+    let isAuthorized = false;
+
+    AjaxModule.doSyncPost({
+        path: 'api/user/me',
+        callback: (xhr) => {
+            if (xhr.status === 200) {
+                isAuthorized = true;
+            }
+        }
+
+    });
+
+    if (isAuthorized) {
         menuProfileItems = {
             profile: 'My Profile',
-            logOut: 'Log Out'
+            logout: 'Log Out'
         };
     } else {
         menuProfileItems = {
@@ -63,6 +75,21 @@ function createMenu () {
     application.appendChild(menuProfileDivContainer);
     application.appendChild(projectName);
     application.appendChild(menuItemsDivContainer);
+
+    if (isAuthorized) {
+        const logOut = document.querySelector('[data-section="logout"]');
+        logOut.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            AjaxModule.doPost({
+                path: '/api/user/logout',
+                callback: (xhr) => {
+                    console.log('hi');
+                    createMenu();
+                }
+            });
+        });
+    }
 }
 
 // SignX

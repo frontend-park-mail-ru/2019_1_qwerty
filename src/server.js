@@ -22,7 +22,7 @@ const users = {
 
 const ids = {};
 
-app.post('/signin', (req, res) => {
+app.post('/api/user/signin', (req, res) => {
     const { nickname, password } = req.body;
 
     console.log(users);
@@ -33,7 +33,6 @@ app.post('/signin', (req, res) => {
     }
 
     if (!users[nickname] || users[nickname].password !== password) {
-        console.log('asd');
         res.status(400).json({ error: 'Не верный Nickname и/или пароль' });
         return;
     }
@@ -41,11 +40,11 @@ app.post('/signin', (req, res) => {
     const id = uuid();
     ids[id] = nickname;
 
-    res.cookie('sessionid', id, { expires: new Date(Date.now() + 1000 * 60 * 10) });
+    res.cookie('sessionid', id, { expires: new Date(Date.now() + 1000 * 60 * 10), httpOnly: true });
     res.status(200).json(users);
 });
 
-app.post('/signup', (req, res) => {
+app.post('/api/user/signup', (req, res) => {
     const { nickname, password, email } = req.body;
 
     if (!nickname || !password || !email) {
@@ -63,25 +62,34 @@ app.post('/signup', (req, res) => {
     const id = uuid();
     ids[id] = nickname;
 
-    res.cookie('sessionid', id, { expires: new Date(Date.now() + 1000 * 60 * 10) });
+    res.cookie('sessionid', id, { expires: new Date(Date.now() + 1000 * 60 * 10), httpOnly: true });
     res.status(201).json({ id });
 });
 
-app.post('/me', (req, res) => {
+app.post('/api/user/me', (req, res) => {
     const sessionid = req.cookies['sessionid'];
     console.log(sessionid);
     console.log(ids);
     const nickname = ids[sessionid];
-    let isAuthorized = false;
 
     if (nickname) {
         console.log(users[nickname]);
-        isAuthorized = true;
-        res.status(200).json({ isAuthorized });
+        res.status(200).send();
         return;
     }
 
-    res.status(200).json({ isAuthorized });
+    res.status(401).send();
+});
+
+app.post('/api/user/logout', (req, res) => {
+    const sessionid = req.cookies['sessionid'];
+    if (sessionid) {
+        res.cookie('sessionid', '', { expires: new Date(0), httpOnly: true });
+        res.status(200).send();
+        return;
+    }
+    res.status(401).send();
+
 });
 app.listen(port, (err) => {
     if (err) {

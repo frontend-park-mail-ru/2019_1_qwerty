@@ -22,7 +22,7 @@ const users = {
 
 const ids = {};
 
-app.post('/api/user/signin', (req, res) => {
+app.post('/api/user/login', (req, res) => {
     const { nickname, password } = req.body;
 
     console.log(users);
@@ -66,7 +66,7 @@ app.post('/api/user/signup', (req, res) => {
     res.status(201).json({ id });
 });
 
-app.post('/api/user/me', (req, res) => {
+app.post('/api/user/check', (req, res) => {
     const sessionid = req.cookies['sessionid'];
     console.log(sessionid);
     console.log(ids);

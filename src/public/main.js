@@ -13,7 +13,7 @@ function createMenu () {
     let isAuthorized = false;
 
     AjaxModule.doSyncPost({
-        path: 'api/user/me',
+        path: 'api/user/check',
         callback: (xhr) => {
             if (xhr.status === 200) {
                 isAuthorized = true;

@@ -1,6 +1,7 @@
 import AjaxModule from '../../modules/ajax.js';
 import ButtonComponent from '../Button/Button.js';
 import InputComponent from '../Input/Input.js';
+import makeSafe from '../../utils/safe.js';
 
 const noop = () => null;
 
@@ -60,15 +61,15 @@ export default class SignXComponent {
         event.preventDefault();
         console.log(this);
 
-        const nickname = this._form.elements.nickname.value.trim();
-        const password = this._form.elements.password.value.trim();
+        const nickname = makeSafe(this._form.elements.nickname.value.trim());
+        const password = makeSafe(this._form.elements.password.value.trim());
 
         const body = { nickname, password };
         let errorExpression = !nickname || !password;
         let errorMsg = 'nickname or password is not filled';
 
         if (this._isSignup) {
-            const email = this._form.elements.email.value.trim();
+            const email = makeSafe(this._form.elements.email.value.trim());
             body['email'] = email;
             errorExpression = errorExpression || !email;
             errorMsg = 'nickname or password or email is not filled';
@@ -76,6 +77,16 @@ export default class SignXComponent {
 
         if (errorExpression) {
             this._addFormError(errorMsg);
+            return;
+        }
+
+        if (password.length < 5) {
+            this._addFormError('Password must be longer than 5 characters');
+            return;
+        }
+
+        if (nickname.length < 8) {
+            this._addFormError('Nickname must be longer than 8 characters');
             return;
         }
 

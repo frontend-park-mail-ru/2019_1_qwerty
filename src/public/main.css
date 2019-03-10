@@ -1,17 +1,32 @@
+@import url("components/SignX/signx.css");
+@import url("components/Button/Button.css");
+@import url("components/Input/Input.css");
+@import url("components/Menu/Menu.css");
+@import url("components/Header/Header.css");
+@import url("components/Score/Score.css");
+
 @font-face {
     font-family: Pixel;
-    src: url("./silkscreen/slkscr.ttf") format('truetype');
+    src: url("./fonts/silkscreen/slkscr.ttf") format('truetype');
 }
 
 @keyframes slide {
-    from { background-position: 0 0; }
-    to { background-position: -400px 0; }
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: -400px 0;
+    }
+}
+
+html, body, #application {
+    height: 100%;
 }
 
 html {
-    height:100%;
     background: url(./background.png) repeat 0 0;
-    background-size:cover;
+    background-size: cover;
     animation: slide 20s linear infinite;
     font-family: Pixel, serif;
     color: white;

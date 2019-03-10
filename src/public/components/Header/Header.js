@@ -1,10 +1,13 @@
 import AjaxModule from '../../modules/ajax.js';
 import ButtonComponent from '../Button/Button.js';
 
+const noop = () => null;
+
 export default class HeaderComponent {
     constructor ({
         parent = document.body,
-        pages = {}
+        pages = {},
+        callback = noop
     } = {}) {
         this._parent = parent;
         this.pages = pages;
@@ -13,40 +16,40 @@ export default class HeaderComponent {
         this._elem = null;
         this.namesAndTitles = null;
         this.onClickItem = this.onClickItem.bind(this);
+        this.menuDestroy = callback;
     }
 
     onClickItem (event) {
         const currentTarget = event.target;
 
-        if ((currentTarget instanceof HTMLButtonElement)) {
-            const name = currentTarget.name;
-            const button = this._elements[name];
-
-            if (!button) {
-                return;
-            }
-
-            event.preventDefault();
-
-            button.onClick();
-
-            this.destroy();
-
+        if (!(currentTarget instanceof HTMLButtonElement)) {
+            return;
         }
+
+        const name = currentTarget.name;
+        const button = this._elements[name];
+
+        if (!button) {
+            return;
+        }
+
+        event.preventDefault();
+
+        button.onClick();
+
+        this.menuDestroy();
     };
 
-    destroy() {
-        Object.entries(this._elements).forEach((keyAndButton) => {
-            const [, button] = keyAndButton;
+    destroy () {
+        Object.values(this._elements).forEach((button) => {
             this._parent.removeEventListener('click', button.onClick);
         });
     }
 
     render () {
         AjaxModule.doGet({
-            path: 'http://localhost:8080/api/user/check',
+            path: '/user/check',
             callback: (xhr) => {
-
                 this.namesAndTitles = {
                     signin: 'Sign In',
                     signup: 'Sign Up'
@@ -64,9 +67,7 @@ export default class HeaderComponent {
 
                 this._elem = document.querySelector('.header');
 
-                Object.entries(this.namesAndTitles).forEach((keyAndData) => {
-                    const [key, data] = keyAndData;
-
+                Object.entries(this.namesAndTitles).forEach(([key, data]) => {
                     const parent = document.querySelector(`[data-section="${key}"]`);
                     const button = new ButtonComponent({
                         name: key,
@@ -80,9 +81,6 @@ export default class HeaderComponent {
                     this._elements[key] = button;
                     this._elem.addEventListener('click', this.onClickItem);
                 });
-
-
-
             }
         });
     }

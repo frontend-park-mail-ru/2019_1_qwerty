@@ -23,24 +23,25 @@ export default class MenuComponent {
     onClickItem (event) {
         const currentTarget = event.target;
 
-        if ((currentTarget instanceof HTMLButtonElement)) {
-            const name = currentTarget.name;
-            const button = this.mainMenuButtons[name];
-            if (!button) {
-                return;
-            }
-            event.preventDefault();
-
-            button.onClick();
-            this.onDestroy();
+        if (!(currentTarget instanceof HTMLButtonElement)) {
+            return;
         }
+        const name = currentTarget.name;
+        const button = this.mainMenuButtons[name];
+        if (!button) {
+            return;
+        }
+        event.preventDefault();
+
+        button.onClick();
+        this.onDestroy();
     };
 
     onDestroy () {
-        Object.entries(this.mainMenuButtons).forEach((keyAndButton) => {
-            const [, button] = keyAndButton;
+        Object.values(this.mainMenuButtons).forEach((button) => {
             this._parent.removeEventListener('click', button.onClick);
         });
+
         this.header.destroy();
     }
 
@@ -57,9 +58,7 @@ export default class MenuComponent {
         });
         this.header.render();
 
-        Object.entries(this.menuItems).forEach((elem) => {
-            const [key, title] = elem;
-
+        Object.entries(this.menuItems).forEach(([key, title]) => {
             const parent = document.querySelector(`[data-section="${key}"]`);
             const button = new ButtonComponent({
                 title,

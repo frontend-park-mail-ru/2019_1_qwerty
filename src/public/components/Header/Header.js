@@ -12,9 +12,10 @@ export default class HeaderComponent {
         this._elements = {};
         this._elem = null;
         this.namesAndTitles = null;
+        this.onClickItem = this.onClickItem.bind(this);
     }
 
-    onClickItem = (event) => {
+    onClickItem (event) {
         const currentTarget = event.target;
 
         if ((currentTarget instanceof HTMLButtonElement)) {

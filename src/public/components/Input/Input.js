@@ -15,6 +15,7 @@ export default class InputComponent {
         this.isPassword = isPassword;
         this.parent = parent;
         this._elem = null;
+        this._showIconListener = this._showIconListener.bind(this);
     }
 
     render () {
@@ -40,7 +41,7 @@ export default class InputComponent {
         this._elem.addEventListener('focus', this._onFocus);
     }
 
-    _showIconListener = (event) => {
+    _showIconListener (event) {
         this._elem.type = this._elem.type === 'password' ? 'text' : 'password';
     };
 

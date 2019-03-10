@@ -16,6 +16,8 @@ export default class SignXComponent {
         this._afterSuccessSubmit = afterSuccessSubmit;
         this._path = isSignup ? 'http://localhost:8080/api/user/signup' : 'http://localhost:8080/api/user/login';
         this._elements = [];
+        this._onSubmit = this._onSubmit.bind(this);
+        this.submitEvent = this.submitEvent.bind(this);
     }
 
     _addFormError (error) {
@@ -29,15 +31,14 @@ export default class SignXComponent {
         this._errorDiv.display = 'none';
     }
 
-    _onSubmit = (xhr) => {
+    _onSubmit (xhr) {
         if (xhr.status === 404) {
             const errorMessage = 'Не верный Nickname и/или пароль';
             this._addFormError(errorMessage);
             return;
         }
-            this.onDestroy();
-            this._afterSuccessSubmit();
-
+        this.onDestroy();
+        this._afterSuccessSubmit();
     };
 
     _onFocus () {
@@ -54,7 +55,7 @@ export default class SignXComponent {
         this._form.removeEventListener('submit', this.submitEvent);
     }
 
-    submitEvent = (event) => {
+    submitEvent (event) {
         event.preventDefault();
 
         const nickname = this._form.elements.nickname.value.trim();

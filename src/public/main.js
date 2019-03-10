@@ -85,7 +85,6 @@ function createMenu () {
             AjaxModule.doPost({
                 path: 'http://localhost:8080/api/user/logout',
                 callback: (xhr) => {
-                    console.log('hi');
                     createMenu();
                 }
             });
@@ -131,7 +130,6 @@ application.addEventListener('click', function (event) {
     if (currentTarget instanceof HTMLAnchorElement) {
         event.preventDefault();
         const section = currentTarget.dataset.section;
-        console.log(section);
         pages[section]();
     }
 });

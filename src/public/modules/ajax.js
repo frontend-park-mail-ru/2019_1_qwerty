@@ -3,6 +3,15 @@ const noop = () => null;
 const API_URL = 'http://localhost:8080/api';
 
 export default class AjaxModule {
+    /**
+     * Метод осуществляет работу с сетью
+     *
+     * @param {Function} callback callback-функция
+     * @param {string} method метод для HTTP запроса
+     * @param {string} path путь запроса
+     * @param {Boolean} isAsync асинхронность
+     * @param {Object} body данные
+     */
     static ajax ({
         callback = noop,
         method = 'GET',
@@ -30,6 +39,13 @@ export default class AjaxModule {
         }
     }
 
+    /**
+     * Метод отсылки пост запроса
+     *
+     * @param {Function} callback callback-функция
+     * @param {string} path путь запроса
+     * @param {Object} body данные.
+     */
     static doPost ({
         callback = noop,
         path = '/',
@@ -44,6 +60,13 @@ export default class AjaxModule {
         });
     }
 
+    /**
+     * Метод отсылки гет запроса
+     *
+     * @param {Function} callback callback-функция
+     * @param {string} path путь запроса
+     * @param {Object} body данные.
+     */
     static doGet ({ callback = noop,
         path = '/',
         body = {}

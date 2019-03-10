@@ -6,6 +6,14 @@ import InputComponent from '../Input/Input.js';
 const noop = () => null;
 
 export default class SignXComponent {
+    /**
+     * Консструктор
+     *
+     * @this {SignXComponent}
+     * @param parent
+     * @param isSignup
+     * @param afterSuccessSubmit
+     */
     constructor ({
         parent = document.body,
         isSignup = false,

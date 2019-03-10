@@ -2,6 +2,16 @@
 const noop = () => null;
 
 export default class ButtonComponent {
+    /**
+     * Создает экземпляр класса ButtonComponent
+     *
+     * @constructor
+     * @this {ButtonComponent}
+     * @param {string} name имя кнопки в html
+     * @param {string} type тип кнопки в html
+     * @param {HTMLElement} parent родительский элемент
+     * @param {Function} onClick callback-функция.
+     */
     constructor ({
         name = '',
         title = '',
@@ -17,6 +27,11 @@ export default class ButtonComponent {
         this.onClick = onClick;
     }
 
+    /**
+     * Рисует компонент в родительском элементе
+     *
+     * @this {ButtonComponent}.
+     */
     render () {
         this.parent.innerHTML = window.fest['components/Button/Button.tmpl'](this);
 

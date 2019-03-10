@@ -2,6 +2,13 @@ import ButtonComponent from '../Button/Button.js';
 import HeaderComponent from '../Header/Header.js';
 
 export default class MenuComponent {
+    /**
+     * Конструктор
+     *
+     * @this {MenuComponent}
+     * @param {HTMLElement} parent родительский элемент
+     * @param {Object} pages объект со страницами
+     */
     constructor ({
         parent = document.body,
         pages = {}
@@ -20,6 +27,12 @@ export default class MenuComponent {
         this.onClickItem = this.onClickItem.bind(this);
     }
 
+    /**
+     * Обработчик события 'click'
+     *
+     * @this {MenuComponent}
+     * @param {EventTarget} event
+     */
     onClickItem (event) {
         const currentTarget = event.target;
 
@@ -37,6 +50,11 @@ export default class MenuComponent {
         this.onDestroy();
     };
 
+    /**
+     * Метод снятия обработчиков
+     *
+     *@this {MenuComponent}.
+     */
     onDestroy () {
         Object.values(this.mainMenuButtons).forEach((button) => {
             this._parent.removeEventListener('click', button.onClick);
@@ -45,6 +63,11 @@ export default class MenuComponent {
         this.header.destroy();
     }
 
+    /**
+     * Метод отображения компонента
+     *
+     * @this {MenuComponent}
+     */
     render () {
         const elements = Object.keys(this.menuItems);
         this._parent.innerHTML = window.fest['components/Menu/Menu.tmpl'](elements);

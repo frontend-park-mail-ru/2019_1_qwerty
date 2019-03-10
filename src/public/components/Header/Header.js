@@ -4,6 +4,14 @@ import ButtonComponent from '../Button/Button.js';
 const noop = () => null;
 
 export default class HeaderComponent {
+    /**
+     * Конструктор
+     *
+     * @this {HeaderComponent}
+     * @param {HTMLElement} parent родительский элемент
+     * @param {Object} pages объект функций страниц
+     * @param {Function} callback callback-функция
+     */
     constructor ({
         parent = document.body,
         pages = {},
@@ -19,6 +27,12 @@ export default class HeaderComponent {
         this.menuDestroy = callback;
     }
 
+    /**
+     * Обработчик события 'click'
+     *
+     * @this {MenuComponent}
+     * @param {EventTarget} event
+     */
     onClickItem (event) {
         const currentTarget = event.target;
 
@@ -46,6 +60,11 @@ export default class HeaderComponent {
         });
     }
 
+    /**
+     * Метод снятия обработчиков
+     *
+     *@this {MenuComponent}.
+     */
     render () {
         AjaxModule.doGet({
             path: '/user/check',

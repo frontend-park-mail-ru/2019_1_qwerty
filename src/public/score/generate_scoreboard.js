@@ -3,6 +3,12 @@ let _tr_ = document.createElement('tr'),
   _th_ = document.createElement('th'),
   _td_ = document.createElement('td');
 
+/**
+ * Формирует HTML таблицу на основе JSON
+ * 
+ * @param  {} selector - stirng - id элемента - таблицы
+ * @param  {} arr - [{string: value}...{string: value}] - Массив ассоциативных массивов (вида JSON).
+ */
 function buildHtmlTable(selector, arr) {
   let table = document.getElementById(selector)
   table.innerHTML = "";
@@ -20,17 +26,30 @@ function buildHtmlTable(selector, arr) {
   return table;
 }
 
-function getNext(start_index = 0) {
-  let url = 'http://127.0.0.1:8080/api/score/' + start_index.toString();
+let currentPage = 0;
+/**
+ * Обращается к BACKEND и строит html таблицу результатов на основе ответа
+ * 
+ * @param  {} startIndex=0 - integer - Смещение относительно текущего начала.
+ */
+function getNext(startIndex = 0) {
+  let url = 'http://127.0.0.1:8080/api/score?offset=' + (currentPage + startIndex).toString();
   fetch(url)
     .then(function (response) {
       return response.json();
     })
     .then(function (jsonResponse) {
+      currentPage += startIndex;
       buildHtmlTable("scoreboard", jsonResponse)
     });
 }
 
+/**
+ * Добавляет заголовки таблице из массива ассоциативных массивов
+ * 
+ * @param  {} arr -[{string: value}...{string: value}] - Массив ассоциативных массивов (вида JSON). По его ключам строятся заголовки.
+ * @param  {} selector - string - id элемента - таблицы, в который будут добавлены заголовки
+ */
 function addAllColumnHeaders(arr, selector) {
   let table = document.getElementById(selector),
     columnSet = [],

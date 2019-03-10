@@ -1,6 +1,7 @@
 @import url("components/SignX/signx.css");
 @import url("components/Button/Button.css");
 @import url("components/Input/Input.css");
+@import url("components/Score/Score.css");
 
 @font-face {
     font-family: Pixel;

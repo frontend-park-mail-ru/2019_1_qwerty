@@ -67,7 +67,7 @@ export default class SignXComponent {
 
         if (this._isSignup) {
             const email = this._form.elements.email.value.trim();
-            body['email'] = email;
+            body.email = email;
             errorExpression = errorExpression || !email;
             errorMsg = 'nickname or password or email is not filled';
         }

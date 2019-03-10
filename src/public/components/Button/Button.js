@@ -13,7 +13,6 @@ export default class ButtonComponent {
         this.title = title;
         this.parent = parent;
         this.name = name;
-        this.class = 'button';
         this._elem = null;
         this.onClick = onClick;
     }

@@ -29,7 +29,7 @@ function createMenu () {
 
 function logOut () {
     AjaxModule.doGet({
-        path: 'http://localhost:8080/api/user/logout',
+        path: '/user/logout',
         callback: (xhr) => {
             if (xhr.status === 200) {
                 createMenu();

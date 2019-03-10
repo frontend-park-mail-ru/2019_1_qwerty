@@ -54,7 +54,8 @@ export default class MenuComponent {
         const headerParent = document.querySelector('.menu-header__item_width_m');
         this.header = new HeaderComponent({
             parent: headerParent,
-            pages: this.pages
+            pages: this.pages,
+            callback: this.onDestroy.bind(this)
         });
         this.header.render();
 

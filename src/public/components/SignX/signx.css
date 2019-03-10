@@ -22,8 +22,8 @@
 .sign-x-form__icon {
     content: url("./show.svg");
     position: absolute;
-    top:35%;
-    right:16%;
+    top:30%;
+    right:5%;
 }
 
 .form__error {
@@ -40,11 +40,11 @@
     position: relative;
 }
 .sign-x-form__button_width_m {
-    width:50%;
+    width:60%;
 }
 
 .sign-x-form__button_height_h {
-    height:10%;
+    height:30%;
 }
 
 .sign-x-form__button_margin_m {

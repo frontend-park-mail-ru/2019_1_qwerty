@@ -1,3 +1,4 @@
+
 .menu-header {
     display: flex;
     justify-content: flex-end;
@@ -10,21 +11,10 @@
 
 .menu-main__header {
     font-size: 60px;
-   text-align: center;
+    text-align: center;
     margin-bottom: 20%;
 }
 
-.header {
-    display:flex;
-    flex-basis: auto;
-
-    justify-content: space-around;
-    flex-flow:row;
-}
-
-.header__item {
-    flex-basis: 42%;
-}
 
 .menu-main {
     height: 80%;

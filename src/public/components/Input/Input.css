@@ -1,13 +1,16 @@
-input:invalid{
+.input:invalid{
     border:2px solid red;
 }
 
-input:focus{
+.input:focus{
     border:2px solid yellow;
 }
 
-input{
-    height: 24px;
+.input{
+    height: 37px;
+    box-sizing: border-box;
+    width:100%;
+    display: block;
     border-radius: 8px;
     border:1px solid grey;
     padding: 2%;

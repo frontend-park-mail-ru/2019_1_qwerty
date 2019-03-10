@@ -1,18 +1,25 @@
 
+const noop = () => null;
+
 export default class ButtonComponent {
     constructor ({
         name = '',
-        classes = []
+        title = '',
+        type = '',
+        parent = document.body,
+        onClick = noop
     } = {}) {
-        this.classes = classes;
+        this.type = type;
+        this.title = title;
+        this.parent = parent;
         this.name = name;
+        this._elem = null;
+        this.onClick = onClick;
     }
 
-    set callback (callback) {
-        this._callback = callback;
-    }
+    render () {
+        this.parent.innerHTML = window.fest['components/Button/Button.tmpl'](this);
 
-    get callback () {
-        return this._callback;
+        this._elem = document.querySelector(`input[name='${this.name}']`);
     }
 }

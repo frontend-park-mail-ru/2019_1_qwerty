@@ -1,6 +1,7 @@
 'use strict';
 
 import SignXComponent from './components/SignX/SignX.js';
+import ScoreComponent from './components/Score/Score.js';
 import AjaxModule from './modules/ajax.js';
 import MenuComponent from './components/Menu/Menu.js';
 
@@ -53,5 +54,11 @@ function createSignup () {
     signUp.render();
 }
 
-createMenu();
+function Scoreboard () {
+    application.innerHTML = '';
 
+    const board = new ScoreComponent({ parent: application });
+    board.render();
+}
+
+createMenu();

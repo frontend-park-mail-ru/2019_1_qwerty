@@ -3,10 +3,11 @@
 @import url("components/Input/Input.css");
 @import url("components/Menu/Menu.css");
 @import url("components/Header/Header.css");
+@import url("components/Score/Score.css");
 
 @font-face {
     font-family: Pixel;
-    src: url("./silkscreen/slkscr.ttf") format('truetype');
+    src: url("./fonts/silkscreen/slkscr.ttf") format('truetype');
 }
 
 @keyframes slide {

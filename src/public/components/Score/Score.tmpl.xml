@@ -8,12 +8,5 @@
                 <a href="javascript:void(0);" onclick="getNext(10);">Next 10</a>
             </div>
         </div>
-        <button class="score-button__backward">Back</button>
     </div>
-    <!-- <button>
-        <fest:attributes>
-            <fest:attribute name="class"><fest:value>button.class</fest:value></fest:attribute>
-        </fest:attributes>
-        <fest:value>button.name</fest:value>
-    </button> -->
 </fest:template>

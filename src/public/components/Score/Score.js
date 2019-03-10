@@ -10,8 +10,25 @@ export default class ScoreComponent {
         this.getNext(0);
     }
 
+    /**
+     * Обращается к BACKEND и строит html таблицу результатов на основе ответа
+     * 
+     * @param  {} startIndex=0 - integer - Смещение относительно текущего начала.
+     */
     getNext(start_index = 0) {
+        /**
+         * Формирует HTML таблицу на основе JSON
+         * 
+         * @param  {} selector - stirng - id элемента - таблицы
+         * @param  {} arr - [{string: value}...{string: value}] - Массив ассоциативных массивов (вида JSON).
+         */
         function buildHtmlTable(selector, arr) {
+            /**
+             * Добавляет заголовки таблице из массива ассоциативных массивов
+             * 
+             * @param  {} arr -[{string: value}...{string: value}] - Массив ассоциативных массивов (вида JSON). По его ключам строятся заголовки.
+             * @param  {} selector - string - id элемента - таблицы, в который будут добавлены заголовки
+             */
             function addAllColumnHeaders(arr, selector) {
                 let table = document.getElementById(selector),
                     _tr_ = document.createElement('tr'),

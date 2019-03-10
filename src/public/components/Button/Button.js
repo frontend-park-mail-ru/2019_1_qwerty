@@ -1,12 +1,20 @@
 
+const noop = () => null;
+
 export default class ButtonComponent {
     constructor ({
         name = '',
-        parent = document.body
+        title = '',
+        type = '',
+        parent = document.body,
+        onClick = noop
     } = {}) {
+        this.type = type;
+        this.title = title;
         this.parent = parent;
         this.name = name;
-        this.class = 'button';
+        this._elem = null;
+        this.onClick = onClick;
     }
 
     render () {
@@ -14,13 +22,4 @@ export default class ButtonComponent {
 
         this._elem = document.querySelector(`input[name='${this.name}']`);
     }
-
-    set onClick (callback) {
-        this._onClick = callback;
-    }
-
-    get onClick () {
-        return this._onClick;
-    }
-
 }

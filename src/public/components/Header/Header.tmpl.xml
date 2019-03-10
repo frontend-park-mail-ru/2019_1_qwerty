@@ -1,0 +1,12 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="elements">
+    <header class="header">
+        <fest:for iterate="elements" index="i" value="v">
+            <fest:element name="div">
+                <fest:attributes>
+                    <fest:attribute name="class">header__item</fest:attribute>
+                    <fest:attribute name="data-section"><fest:value>v</fest:value></fest:attribute>
+                </fest:attributes>
+            </fest:element>
+        </fest:for>
+    </header>
+</fest:template>

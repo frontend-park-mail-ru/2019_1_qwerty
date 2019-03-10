@@ -1,5 +1,6 @@
 
 const noop = () => null;
+const API_URL = 'http://localhost:8080/api';
 
 export default class AjaxModule {
     static ajax ({
@@ -29,28 +30,16 @@ export default class AjaxModule {
         }
     }
 
-    static doSyncPost ({
+    static doPost ({
         callback = noop,
         path = '/',
         body = {}
     } = {}) {
+        const apiPath = API_URL + path;
         AjaxModule.ajax({
             callback,
             method: 'POST',
-            path,
-            isAsync: false,
-            body
-        });
-    }
-
-    static doPost ({ callback = noop,
-        path = '/',
-        body = {}
-    } = {}) {
-        AjaxModule.ajax({
-            callback,
-            method: 'POST',
-            path,
+            path: apiPath,
             body
         });
     }
@@ -59,10 +48,11 @@ export default class AjaxModule {
         path = '/',
         body = {}
     } = {}) {
+        const apiPath = API_URL + path;
         AjaxModule.ajax({
             callback,
             method: 'GET',
-            path,
+            path: apiPath,
             body
         });
     }

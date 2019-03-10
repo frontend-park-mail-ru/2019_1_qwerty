@@ -3,93 +3,40 @@
 import SignXComponent from './components/SignX/SignX.js';
 import ScoreComponent from './components/Score/Score.js';
 import AjaxModule from './modules/ajax.js';
+import MenuComponent from './components/Menu/Menu.js';
 
 const application = document.getElementById('application');
 
 function createMenu () {
     application.innerHTML = '';
 
-    let menuProfileItems = {};
+    const pages = {
+        menu: createMenu,
+        signin: createSignin,
+        signup: createSignup,
+        score: Scoreboard,
+        logout: logOut
 
-    let isAuthorized = false;
-
-    AjaxModule.doSyncPost({
-        path: 'http://localhost:8080/api/user/check',
-        callback: (xhr) => {
-            if (xhr.status === 200) {
-                isAuthorized = true;
-            }
-        }
-
-    });
-
-    if (isAuthorized) {
-        menuProfileItems = {
-            profile: 'My Profile',
-            logout: 'Log Out'
-        };
-    } else {
-        menuProfileItems = {
-            signin: 'Login',
-            signup: 'Signup'
-        };
-    }
-
-    const menuProfileDivContainer = document.createElement('div');
-    menuProfileDivContainer.className = 'menu-profile';
-
-    Object.keys(menuProfileItems).forEach(function (key) {
-        const menuItem = document.createElement('a');
-        menuItem.textContent = menuProfileItems[key];
-        menuItem.href = '/' + key;
-        menuItem.dataset.section = key;
-
-        menuProfileDivContainer.appendChild(menuItem);
-    });
-
-    const projectName = document.createElement('h1');
-    projectName.textContent = 'Galaxy Go';
-    projectName.id = 'menu-h1';
-
-    const menuItems = {
-        single: 'Singleplayer',
-        multi: 'Multiplayer',
-        score: 'Scoreboard',
-        authors: 'Authors'
+        // ...
     };
 
-    const menuItemsDivContainer = document.createElement('div');
-    menuItemsDivContainer.className = 'menu-items';
-
-    Object.entries(menuItems).forEach(function (keyAndData) {
-        const [key, data] = keyAndData;
-
-        const menuItem = document.createElement('a');
-        menuItem.textContent = data;
-        menuItem.href = '/' + key;
-        menuItem.className = 'application__item';
-        menuItem.dataset.section = key;
-
-        menuItemsDivContainer.appendChild(menuItem);
+    const menu = new MenuComponent({
+        parent: application,
+        pages
     });
 
-    application.appendChild(menuProfileDivContainer);
-    application.appendChild(projectName);
-    application.appendChild(menuItemsDivContainer);
+    menu.render();
+}
 
-    if (isAuthorized) {
-        const logOut = document.querySelector('[data-section="logout"]');
-        logOut.addEventListener('click', (event) => {
-            event.preventDefault();
-
-            AjaxModule.doPost({
-                path: 'http://localhost:8080/api/user/logout',
-                callback: (xhr) => {
-                    createMenu();
-                }
-            });
-        });
-    }
+function logOut () {
+    AjaxModule.doGet({
+        path: '/user/logout',
+        callback: (xhr) => {
+            if (xhr.status === 200) {
+                createMenu();
+            }
+        }
+    });
 }
 
 // SignX
@@ -115,22 +62,3 @@ function Scoreboard () {
 }
 
 createMenu();
-
-const pages = {
-    menu: createMenu,
-    signin: createSignin,
-    signup: createSignup,
-    score: Scoreboard
-
-    // ...
-};
-
-application.addEventListener('click', function (event) {
-    const currentTarget = event.target;
-    if (currentTarget instanceof HTMLAnchorElement) {
-        event.preventDefault();
-        const section = currentTarget.dataset.section;
-        pages[section]();
-    }
-});
-// SignX

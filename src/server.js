@@ -13,9 +13,9 @@ app.use(cookieParser());
 app.use(express.static('./src/public/'));
 
 const users = {
-    'bobroff': {
+    'bobrovich.jr': {
         email: 'k@gmail.com',
-        password: 'hi',
+        password: 'higuys',
         score: '34'
     }
 };
@@ -66,7 +66,7 @@ app.post('/api/user/signup', (req, res) => {
     res.status(201).json({ id });
 });
 
-app.post('/api/user/check', (req, res) => {
+app.get('/api/user/check', (req, res) => {
     const sessionid = req.cookies['sessionid'];
     console.log(sessionid);
     console.log(ids);
@@ -81,7 +81,7 @@ app.post('/api/user/check', (req, res) => {
     res.status(401).send();
 });
 
-app.post('/api/user/logout', (req, res) => {
+app.get('/api/user/logout', (req, res) => {
     const sessionid = req.cookies['sessionid'];
     if (sessionid) {
         res.cookie('sessionid', '', { expires: new Date(0), httpOnly: true });

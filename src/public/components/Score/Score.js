@@ -49,14 +49,10 @@ export default class ScoreComponent {
             return table;
         }
 
-        let url = 'http://127.0.0.1:8080/api/score?offset=' + start_index.toString();
+        const url = 'http://localhost:8080/api/score?offset=' + start_index.toString();
         fetch(url)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (jsonResponse) {
-                buildHtmlTable("scoreboard", jsonResponse);
-            });
+            .then((response) => response.json())
+            .then((jsonResponse) => buildHtmlTable("scoreboard", jsonResponse));
     }
 
 }

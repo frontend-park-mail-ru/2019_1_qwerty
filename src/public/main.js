@@ -59,6 +59,7 @@ function Scoreboard () {
 
     const board = new ScoreComponent({ parent: application });
     board.render();
+    ScoreComponent.getNext();
 }
 
 createMenu();

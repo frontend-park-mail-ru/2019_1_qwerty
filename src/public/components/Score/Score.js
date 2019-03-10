@@ -7,7 +7,6 @@ export default class ScoreComponent {
 
     render() {
         this._parent.innerHTML = fest['components/Score/Score.tmpl'](this.scoreboard);
-        this.getNext(0);
     }
 
     /**
@@ -15,7 +14,7 @@ export default class ScoreComponent {
      * 
      * @param  {} startIndex=0 - integer - Смещение относительно текущего начала.
      */
-    getNext(start_index = 0) {
+    static getNext(start_index = 0) {
         /**
          * Формирует HTML таблицу на основе JSON
          * 

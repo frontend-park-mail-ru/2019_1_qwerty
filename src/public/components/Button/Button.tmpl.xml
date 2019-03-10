@@ -2,7 +2,7 @@
     <button>
         <fest:attributes>
             <fest:attribute name="class">button</fest:attribute>
-            <fest:attribute name="type">submit</fest:attribute>
+            <fest:attribute name="type"><fest:value>button.type</fest:value></fest:attribute>
             <fest:attribute name="name"><fest:value>button.name</fest:value></fest:attribute>
         </fest:attributes>
         <fest:value>button.title</fest:value>

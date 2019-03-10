@@ -4,19 +4,44 @@
     <meta charset="UTF-8">
     <link href="menu.css" type="text/css" rel="stylesheet"/>
     <link href="../main.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../components/Button/Button.css">
     <title>Unregistered</title>
 </head>
 <body>
-    <div class="menu-profile">
-        <a href="#">Login</a>
-        <a href="#">Signup</a>
+    <div class="menu-header">
+        <div class="menu-header__item_width_m">
+            <!--header-пошел-->
+        <header class="header">
+            <div class="header__item" data-section="login">
+                <!--Button-пошел-->
+                <button class="button" data-section="signup">My Profile</button>
+                <!--Button-пошел-->
+            </div>
+            <div class="header__item">
+                <!--Button-пошел-->
+                <button class="button" >Log Out</button>
+                <!--Button-пошел-->
+            </div>
+        </header>
+            <!--header-пошел-->
     </div>
-    <h1 id="menu-h1">Galaxy Go</h1>
-    <div class="menu-items">
-        <a href="#">Singleplayer</a>
-        <a href="#">Multiplayer</a>
-        <a href="#">Scoreboard</a>
-        <a href="#">Authors</a>
     </div>
+    <section class="menu-main">
+        <div class="menu-main__item">
+             <h1 class="menu-main__header">Galaxy Go</h1>
+        </div>
+        <div class="menu-main__item">
+            <button class="button">Singleplayer</button>
+        </div>
+        <div class="menu-main__item">
+            <button class="button">Multiplayer</button>
+        </div>
+        <div class="menu-main__item">
+            <button class="button">Scoreboard</button>
+        </div>
+        <div class="menu-main__item">
+            <button class="button">Authors</button>
+        </div>
+    </section>
 </body>
 </html>

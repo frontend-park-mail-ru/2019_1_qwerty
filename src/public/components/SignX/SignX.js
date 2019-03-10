@@ -1,7 +1,7 @@
 import AjaxModule from '../../modules/ajax.js';
 import ButtonComponent from '../Button/Button.js';
 import InputComponent from '../Input/Input.js';
-import makeSafe from '../../utils/safe.js';
+
 
 const noop = () => null;
 
@@ -14,7 +14,7 @@ export default class SignXComponent {
         this._parent = parent;
         this._isSignup = isSignup;
         this._afterSuccessSubmit = afterSuccessSubmit;
-        this._path = isSignup ? '/api/user/signup' : '/api/user/login';
+        this._path = isSignup ? 'http://localhost:8080/api/user/signup' : 'http://localhost:8080/api/user/login';
         this._elements = [];
     }
 
@@ -29,19 +29,16 @@ export default class SignXComponent {
         this._errorDiv.display = 'none';
     }
 
-    _onSubmit (xhr) {
-        if (xhr.status === 400) {
-            const response = JSON.parse(xhr.responseText);
-            this._addFormError(response.error);
+    _onSubmit = (xhr) => {
+        if (xhr.status === 404) {
+            const errorMessage = 'Не верный Nickname и/или пароль';
+            this._addFormError(errorMessage);
             return;
         }
+            this.onDestroy();
+            this._afterSuccessSubmit();
 
-        alert('Hello from /SignX: ' + xhr.responseText);
-
-        this.onDestroy();
-
-        this._afterSuccessSubmit();
-    }
+    };
 
     _onFocus () {
         if (this._errorDiv.display === 'block') {
@@ -59,17 +56,16 @@ export default class SignXComponent {
 
     submitEvent = (event) => {
         event.preventDefault();
-        console.log(this);
 
-        const nickname = makeSafe(this._form.elements.nickname.value.trim());
-        const password = makeSafe(this._form.elements.password.value.trim());
+        const nickname = this._form.elements.nickname.value.trim();
+        const password = this._form.elements.password.value.trim();
 
         const body = { nickname, password };
         let errorExpression = !nickname || !password;
         let errorMsg = 'nickname or password is not filled';
 
         if (this._isSignup) {
-            const email = makeSafe(this._form.elements.email.value.trim());
+            const email = this._form.elements.email.value.trim();
             body['email'] = email;
             errorExpression = errorExpression || !email;
             errorMsg = 'nickname or password or email is not filled';
@@ -85,15 +81,8 @@ export default class SignXComponent {
             return;
         }
 
-        if (nickname.length < 8) {
-            this._addFormError('Nickname must be longer than 8 characters');
-            return;
-        }
-
         AjaxModule.doPost({
-            callback: (xhr) => {
-                this._onSubmit(xhr);
-            },
+            callback: this._onSubmit,
             path: this._path,
             body
         });
@@ -130,7 +119,8 @@ export default class SignXComponent {
         const signXButton = new ButtonComponent({
             name,
             title,
-            parent: buttonParent
+            parent: buttonParent,
+            type: 'submit'
         });
 
         this._form = document.querySelector('.sign-x-form');

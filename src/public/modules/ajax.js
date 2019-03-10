@@ -38,6 +38,7 @@ export default class AjaxModule {
             callback,
             method: 'GET',
             path,
+            isAsync: false,
             body
         });
     }

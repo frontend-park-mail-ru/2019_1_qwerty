@@ -5,15 +5,17 @@ export default class ButtonComponent {
     constructor ({
         name = '',
         title = '',
+        type = '',
         parent = document.body,
         onClick = noop
     } = {}) {
+        this.type = type;
         this.title = title;
         this.parent = parent;
         this.name = name;
         this.class = 'button';
         this._elem = null;
-        this._onClick = onClick;
+        this.onClick = onClick;
     }
 
     render () {

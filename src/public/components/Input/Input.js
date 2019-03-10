@@ -40,9 +40,10 @@ export default class InputComponent {
         this._elem.addEventListener('focus', this._onFocus);
     }
 
-    _showIconListener (event) {
+    _showIconListener = (event) => {
         this._elem.type = this._elem.type === 'password' ? 'text' : 'password';
-    }
+    };
+
     showPassword () {
         if (!this.isPassword) {
             return null;

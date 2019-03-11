@@ -1,6 +1,6 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="userInfo">
     <section class="profile">
-        <form action="/" method="post" class="profile-form">
+        <form action="/" method="post" class="profile-form" enctype="multipart/form-data">
             <div class="profile-form__content profile-form__content_space_around">
                 <div class="profile-form__content-item">
                     <div class="profile-form__position" data-section="img">
@@ -17,7 +17,7 @@
                         <!--</fest:attributes>-->
                     <!--</fest:element>-->
                     <div class="profile-form__button">
-                        <input type="file" name="file" id="file" class="inputfile" />
+                        <input type="file" name="file" id="file" class="inputfile"/>
                         <label for="file">Change</label>
                     </div>
                 </div>

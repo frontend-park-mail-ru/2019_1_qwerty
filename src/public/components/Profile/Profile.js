@@ -27,7 +27,6 @@ export default class ProfileComponent {
         event.preventDefault();
 
         this.file = this.uploadInput.files[0];
-        alert(this.file);
     }
 
     addInfo () {
@@ -108,9 +107,9 @@ export default class ProfileComponent {
         this._errorDiv = document.querySelector('.profile-form__error');
         this._errorDiv.display = 'none';
         this._form = document.querySelector('form');
-        this.uploadInput = document.querySelector('.input');
+        this.uploadInput = document.querySelector('.inputfile');
         this._form.addEventListener('submit', this.submitEvent);
-        // this.uploadInput.addEventListener('''', this._addFile);
+        this.uploadInput.addEventListener('change', this._addFile);
     }
 
     _addFormError (error) {
@@ -130,8 +129,30 @@ export default class ProfileComponent {
             this._addFormError(errorMessage);
             return;
         }
-        this.insertElements.email.innerText = (this.body.email ? this.body.email : this.insertElements.email.innerText);
+        this._form.elements.email.value = '';
+        this._form.elements.password.value  = '';
+        this.file = null;
+
+        AjaxModule.doGet({
+            path: '/user',
+            callback: (xhr) => {
+                if (xhr.status === 404) {
+                    alert(xhr.status);
+                    return;
+                }
+                this.userInfo = JSON.parse(xhr.responseText);
+                this.addInfo();
+            }
+        });
+        // this.insertElements.email.innerText = (this.body.email ? this.body.email : this.insertElements.email.innerText);
     };
+
+    sendFile () {
+        AjaxModule.sendData({
+            path: '/user/avatar',
+            file: this.file
+        });
+    }
 
     submitEvent (event) {
         event.preventDefault();
@@ -140,7 +161,7 @@ export default class ProfileComponent {
         const password = this._form.elements.password.value.trim();
 
         const body = { email, password };
-        let errorExpression = !email && !password;
+        let errorExpression = !email && !password && !this.file;
         let errorMsg = 'fill something to submit';
 
         if (errorExpression) {
@@ -151,6 +172,10 @@ export default class ProfileComponent {
         if (password.length && password.length < 5) {
             this._addFormError('Password must be longer than 5 characters');
             return;
+        }
+
+        if (this.file) {
+            this.sendFile();
         }
 
         this.body = body;

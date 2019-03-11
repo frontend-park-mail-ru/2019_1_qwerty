@@ -4,6 +4,7 @@
 @import url("components/Menu/Menu.css");
 @import url("components/Header/Header.css");
 @import url("components/Score/Score.css");
+@import url("components/Profile/Profile.css");
 
 @font-face {
     font-family: Pixel;
@@ -22,6 +23,10 @@
 
 html, body, #application {
     height: 100%;
+}
+
+body {
+    overflow: hidden;
 }
 
 html {

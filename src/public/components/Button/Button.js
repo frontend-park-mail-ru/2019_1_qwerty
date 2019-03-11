@@ -26,6 +26,7 @@ export default class ButtonComponent {
         this.onClick = onClick;
     }
 
+
     destroy() {
         this._elem.removeEventListener('click', this.onClick);
     }
@@ -37,7 +38,9 @@ export default class ButtonComponent {
      */
     render() {
         this.parent.innerHTML = window.fest['components/Button/Button.tmpl'](this);
+
         this._elem = document.querySelector(`[name='${this.name}']`);
+
         this._elem.addEventListener('click', this.onClick);
     }
 }

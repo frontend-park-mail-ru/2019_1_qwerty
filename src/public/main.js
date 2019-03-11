@@ -4,6 +4,7 @@ import SignXComponent from './components/SignX/SignX.js';
 import ScoreComponent from './components/Score/Score.js';
 import AjaxModule from './modules/ajax.js';
 import MenuComponent from './components/Menu/Menu.js';
+import ProfileComponent from './components/Profile/Profile.js';
 
 const application = document.getElementById('application');
 
@@ -15,7 +16,8 @@ function createMenu () {
         signin: createSignin,
         signup: createSignup,
         score: Scoreboard,
-        logout: logOut
+        logout: logOut,
+        profile: createProfile
 
         // ...
     };
@@ -45,6 +47,15 @@ function createSignin () {
 
     const signIn = new SignXComponent({ parent: application, isSignup: false, afterSuccessSubmit: createMenu });
     signIn.render();
+}
+
+function createProfile () {
+    application.innerHTML = '';
+    const profile = new ProfileComponent({
+        parent: application,
+        callback: createMenu
+    });
+    profile.render();
 }
 
 function createSignup () {

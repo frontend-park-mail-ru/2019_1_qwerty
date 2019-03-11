@@ -39,6 +39,20 @@ export default class AjaxModule {
         }
     }
 
+    static sendData ({
+        path = '/',
+        file
+    }) {
+        const newPath = API_URL + path;
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', newPath, true);
+        xhr.withCredentials = true;
+
+        const formdata = new FormData();
+        formdata.append('file', file);
+        xhr.send(formdata);
+    }
+
     /**
      * Метод отсылки пост запроса
      *

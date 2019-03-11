@@ -1,0 +1,83 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="userInfo">
+    <section class="profile">
+        <form action="/" method="post" class="profile-form" enctype="multipart/form-data">
+            <div class="profile-form__content profile-form__content_space_around">
+                <div class="profile-form__content-item">
+                    <div class="profile-form__position" data-section="img">
+                        <!--<fest:element name="img">-->
+                            <!--<fest:attributes>-->
+                                <!--<fest:attribute name="class">profile-form__img</fest:attribute>-->
+                            <!--</fest:attributes>-->
+                        <!--</fest:element>-->
+                    </div>
+                    <!--<fest:element name="div">-->
+                        <!--<fest:attributes>-->
+                            <!--<fest:attribute name="class">profile-form__button</fest:attribute>-->
+                            <!--<fest:attribute name="data-section">change</fest:attribute>-->
+                        <!--</fest:attributes>-->
+                    <!--</fest:element>-->
+                    <div class="profile-form__button">
+                        <input type="file" name="file" id="file" class="inputfile"/>
+                        <label for="file">Change</label>
+                    </div>
+                </div>
+                <div class="profile-form__content-item">
+                    <fest:element name="div">
+                        <fest:attributes>
+                            <fest:attribute name="class">profile-form__item</fest:attribute>
+                            <fest:attribute name="data-section">nickname</fest:attribute>
+                        </fest:attributes>
+                    </fest:element>
+                    <fest:element name="div">
+                        <fest:attributes>
+                            <fest:attribute name="class">profile-form__item</fest:attribute>
+                            <fest:attribute name="data-section">current-email</fest:attribute>
+                        </fest:attributes>
+                    </fest:element>
+                    <div class="profile-form__content profile-form__content_space_between">
+
+                        <fest:element name="div">
+                            <fest:attributes>
+                                <fest:attribute name="class">profile-form__item</fest:attribute>
+                                <fest:attribute name="data-section">max-score</fest:attribute>
+                            </fest:attributes>
+                        </fest:element>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-form__input-content">
+                <fest:element name="div">
+                    <fest:attributes>
+                        <fest:attribute name="class">profile-form__error</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+                <fest:element name="div">
+                    <fest:attributes>
+                        <fest:attribute name="class">profile-form__input</fest:attribute>
+                        <fest:attribute name="data-section">email</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+                <fest:element name="div">
+                    <fest:attributes>
+                        <fest:attribute name="class">profile-form__input</fest:attribute>
+                        <fest:attribute name="data-section">password</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+                <div class="profile-form__content profile-form__content_space_between profile-form__content_margin_m">
+                    <fest:element name="div">
+                        <fest:attributes>
+                            <fest:attribute name="class">profile-form__button profile-form__button_width_m</fest:attribute>
+                            <fest:attribute name="data-section">close</fest:attribute>
+                        </fest:attributes>
+                    </fest:element>
+                    <fest:element name="div">
+                        <fest:attributes>
+                            <fest:attribute name="class">profile-form__button profile-form__button_width_m</fest:attribute>
+                            <fest:attribute name="data-section">save</fest:attribute>
+                        </fest:attributes>
+                    </fest:element>
+                </div>
+            </div>
+        </form>
+    </section>
+</fest:template>

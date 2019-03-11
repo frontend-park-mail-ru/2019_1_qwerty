@@ -1,0 +1,110 @@
+
+
+.profile {
+    display:flex;
+    justify-content: center;
+}
+
+.profile-form {
+    flex-basis: 30%;
+    border: 2px solid white;
+    border-radius: 8px;
+    margin: 3% auto 0;
+    padding: 1.5% 0;
+}
+
+.profile-form__img{
+    width:100%;
+    height:100%
+}
+
+.profile-form__content {
+    display:flex;
+
+
+}
+
+.profile-form__content-item {
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    width:40%;
+}
+
+.profile-form__button {
+    margin-top:10%;
+}
+
+.profile-form__item {
+    text-align: left;
+    margin: 10% 0;
+}
+
+.profile-form__content_space_around {
+    justify-content: space-around;
+}
+
+.profile-form__content_space_between {
+    justify-content: space-between;
+}
+
+.profile-form__input-content {
+    display:flex;
+    flex-direction: column;
+}
+
+.profile-form__input {
+    position: relative;
+    margin:7% 5% 0;
+}
+
+.profile-form__content_margin_m {
+    margin-left: 5%;
+    margin-right:5%;
+}
+
+.profile-form__button_width_m {
+    flex-basis: 30%;
+}
+
+.profile-form__error {
+    margin-top:8%;
+    color:red;
+    font-size:0.8rem;
+    text-align: center;
+}
+
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label{
+    text-align: center;
+    display: inline-block;
+    width:100%;
+    box-sizing: border-box;
+    font-size:160%;
+    padding: 4%;
+    font-family: Pixel, serif;
+    background-color: rgba(0, 0, 0, 0);
+    color: #D3D3D3;
+    border: 2px solid white;
+    opacity: 0.5;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.inputfile:focus + label:hover,
+.inputfile + label:hover{
+    opacity: 1;
+}
+
+.inputfile + label {
+    cursor: pointer; /* "hand" cursor */
+}

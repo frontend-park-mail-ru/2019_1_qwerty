@@ -5,6 +5,7 @@
 @import url("components/Header/Header.css");
 @import url("components/Score/Score.css");
 @import url("components/Profile/Profile.css");
+@import url("components/FileInput/FileInput.css");
 
 @font-face {
     font-family: Pixel;

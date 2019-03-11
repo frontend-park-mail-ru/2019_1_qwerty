@@ -6,7 +6,7 @@
 }
 
 .profile-form {
-    flex-basis: 30%;
+    flex-basis: 40%;
     border: 2px solid white;
     border-radius: 8px;
     margin: 3% auto 0;
@@ -35,8 +35,19 @@
     margin-top:10%;
 }
 
+.profile-form__table {
+    border: 2px solid white;
+    border-radius: 8px;
+    /*text-align: left;*/
+    margin: 3% 0;
+}
+
+.header {
+    color: #7BD63B;
+}
+
 .profile-form__item {
-    text-align: left;
+    text-align: center;
     margin: 10% 0;
 }
 
@@ -75,36 +86,3 @@
 }
 
 
-.inputfile {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-}
-
-.inputfile + label{
-    text-align: center;
-    display: inline-block;
-    width:100%;
-    box-sizing: border-box;
-    font-size:160%;
-    padding: 4%;
-    font-family: Pixel, serif;
-    background-color: rgba(0, 0, 0, 0);
-    color: #D3D3D3;
-    border: 2px solid white;
-    opacity: 0.5;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.inputfile:focus + label:hover,
-.inputfile + label:hover{
-    opacity: 1;
-}
-
-.inputfile + label {
-    cursor: pointer; /* "hand" cursor */
-}

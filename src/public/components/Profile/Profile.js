@@ -1,6 +1,7 @@
 import InputComponent from '../Input/Input.js';
 import ButtonComponent from '../Button/Button.js';
 import AjaxModule from '../../modules/ajax.js';
+import FileInputComponent from '../FileInput/FileInput.js';
 
 const noop = () => null;
 
@@ -15,32 +16,40 @@ export default class ProfileComponent {
         this.userInfo = {};
         this.insertElements = {};
         this.callbackForRender = this.callbackForRender.bind(this);
-        this.uploadInput = null;
-        this.file = null;
+        // this.uploadInput = null;
+        // this.file = null;
         this._addFile = this._addFile.bind(this);
         this._errorDiv = null;
         this.submitEvent = this.submitEvent.bind(this);
         this._onSubmit = this._onSubmit.bind(this);
     }
 
-    _addFile (event) {
-        event.preventDefault();
-
-        this.file = this.uploadInput.files[0];
-    }
+    // _addFile (event) {
+    //     event.preventDefault();
+    //
+    //     this.file = this.uploadInput.files[0];
+    // }
 
     addInfo () {
-        let srcPath = `http://localhost:8080/static/${this.userInfo.avatar}`;
+        const srcPath = `http://localhost:8080/static/${this.userInfo.avatar}`;
 
         this.insertElements.imgParent.src = srcPath;
         this.insertElements.imgParent.innerHTML = `<img src="${srcPath}" alt="ava" class="profile-form__img">`;
 
-        this.insertElements.nickname.innerText = this.userInfo.name;
-        this.insertElements.email.innerText = this.userInfo.email;
-        this.insertElements.score.innerText = this.userInfo.score;
+        this.insertElements.nickname.textContent = this.userInfo.name;
+        this.insertElements.email.textContent = this.userInfo.email;
+        this.insertElements.score.textContent = this.userInfo.score;
     }
 
     _renderAllComponents () {
+        const uploadParent = document.querySelector('[data-section="change-button"]');
+        const uploadInput = new FileInputComponent({
+            parent: uploadParent,
+            title: 'Change'
+        });
+        uploadInput.render();
+        this.elements.upload = uploadInput;
+
         const emailParent = document.querySelector('[data-section="email"]');
         const emailInput = new InputComponent({
             name: 'email',
@@ -107,9 +116,9 @@ export default class ProfileComponent {
         this._errorDiv = document.querySelector('.profile-form__error');
         this._errorDiv.display = 'none';
         this._form = document.querySelector('form');
-        this.uploadInput = document.querySelector('.inputfile');
+        // this.uploadInput = document.querySelector('.inputfile');
         this._form.addEventListener('submit', this.submitEvent);
-        this.uploadInput.addEventListener('change', this._addFile);
+        // this.uploadInput.addEventListener('change', this._addFile);
     }
 
     _addFormError (error) {
@@ -130,7 +139,7 @@ export default class ProfileComponent {
             return;
         }
         this._form.elements.email.value = '';
-        this._form.elements.password.value  = '';
+        this._form.elements.password.value = '';
         this.file = null;
 
         AjaxModule.doGet({
@@ -150,7 +159,7 @@ export default class ProfileComponent {
     sendFile () {
         AjaxModule.sendData({
             path: '/user/avatar',
-            file: this.file
+            file: this.elements.upload.file
         });
     }
 

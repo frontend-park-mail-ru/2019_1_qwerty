@@ -47,6 +47,8 @@ export default class AjaxModule {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', newPath, true);
 
+        xhr.withCredentials = true;
+
         const formdata = new FormData();
         formdata.append('file', file);
         xhr.send(formdata);

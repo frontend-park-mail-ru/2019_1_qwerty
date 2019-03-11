@@ -16,24 +16,31 @@
                             <!--<fest:attribute name="data-section">change</fest:attribute>-->
                         <!--</fest:attributes>-->
                     <!--</fest:element>-->
-                    <div class="profile-form__button">
-                        <input type="file" name="file" id="file" class="inputfile"/>
-                        <label for="file">Change</label>
+                    <div class="profile-form__button" data-section="change-button">
+                        <!--<input type="file" name="file" id="file" class="inputfile"/>-->
+                        <!--<label for="file">Change</label>-->
                     </div>
                 </div>
                 <div class="profile-form__content-item">
-                    <fest:element name="div">
-                        <fest:attributes>
-                            <fest:attribute name="class">profile-form__item</fest:attribute>
-                            <fest:attribute name="data-section">nickname</fest:attribute>
-                        </fest:attributes>
-                    </fest:element>
-                    <fest:element name="div">
-                        <fest:attributes>
-                            <fest:attribute name="class">profile-form__item</fest:attribute>
-                            <fest:attribute name="data-section">current-email</fest:attribute>
-                        </fest:attributes>
-                    </fest:element>
+                    <div class="profile-form__table ">
+                        <div class="profile-form__item header">Nickname</div>
+                        <fest:element name="div">
+                            <fest:attributes>
+                                <fest:attribute name="class">profile-form__item</fest:attribute>
+                                <fest:attribute name="data-section">nickname</fest:attribute>
+                            </fest:attributes>
+                        </fest:element>
+                    </div>
+                    <div class="profile-form__table">
+                        <div class="profile-form__item header">Email</div>
+                        <fest:element name="div">
+                            <fest:attributes>
+                                <fest:attribute name="class">profile-form__item</fest:attribute>
+                                <fest:attribute name="data-section">current-email</fest:attribute>
+                            </fest:attributes>
+                        </fest:element>
+                    </div>
+
                     <div class="profile-form__content profile-form__content_space_between">
 
                         <fest:element name="div">

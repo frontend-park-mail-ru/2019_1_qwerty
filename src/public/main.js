@@ -58,6 +58,7 @@ function Scoreboard () {
     application.innerHTML = '';
 
     const board = new ScoreComponent({ parent: application });
+    board.getNext();
     board.render();
 }
 

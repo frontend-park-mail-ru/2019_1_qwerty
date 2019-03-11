@@ -2,7 +2,20 @@
     <div class="score-items">
         <h1>Scoresheet</h1>
         <div>
-            <table id="scoreboard"></table>
+            <table id="scoreboard">
+                    <tr>
+                        <th>Place</th>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>
+                <fest:for iterate="scoreboard" index="i" value="v">
+                    <tr>
+                        <td><fest:value>v.Place</fest:value></td>
+                        <td><fest:value>v.Name</fest:value></td>
+                        <td><fest:value>v.Score</fest:value></td>
+                    </tr>
+                </fest:for>
+            </table>
             <div class="score-nav__bottom">
                 <div class="score-nav_button_bottom" data-section="Prev10"></div>
                 <div class="score-nav_button_bottom" data-section="Next10"></div>

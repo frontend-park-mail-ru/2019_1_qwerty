@@ -17,14 +17,13 @@ export default class MenuComponent {
         this.menuItems = {
             singleplayer: 'Singleplayer',
             multiplayer: 'Multiplayer',
-            score: 'Scoreboard',
-            authors: 'Authors'
+            score: 'Scoreboard'
         };
         this.pages = pages;
         this.header = null;
         this.mainMenuButtons = {};
         this._elem = null;
-        this.onClickItem = this.onClickItem.bind(this);
+        // this.onClickItem = this.onClickItem.bind(this);
     }
 
     /**
@@ -33,22 +32,22 @@ export default class MenuComponent {
      * @this {MenuComponent}
      * @param {EventTarget} event
      */
-    onClickItem (event) {
-        const currentTarget = event.target;
-
-        if (!(currentTarget instanceof HTMLButtonElement)) {
-            return;
-        }
-        const name = currentTarget.name;
-        const button = this.mainMenuButtons[name];
-        if (!button) {
-            return;
-        }
-        event.preventDefault();
-
-        button.onClick();
-        this.onDestroy();
-    };
+    // onClickItem (event) {
+    //     const currentTarget = event.target;
+    //
+    //     if (!(currentTarget instanceof HTMLButtonElement)) {
+    //         return;
+    //     }
+    //     const name = currentTarget.name;
+    //     const button = this.mainMenuButtons[name];
+    //     if (!button) {
+    //         return;
+    //     }
+    //     event.preventDefault();
+    //
+    //     button.onClick();
+    //     this.onDestroy();
+    // };
 
     /**
      * Метод снятия обработчиков
@@ -57,7 +56,7 @@ export default class MenuComponent {
      */
     onDestroy () {
         Object.values(this.mainMenuButtons).forEach((button) => {
-            this._parent.removeEventListener('click', button.onClick);
+            button.destroy();
         });
 
         this.header.destroy();
@@ -94,6 +93,6 @@ export default class MenuComponent {
             button.render();
         });
 
-        this._elem.addEventListener('click', this.onClickItem);
+        // this._elem.addEventListener('click', this.onClickItem);
     }
 }

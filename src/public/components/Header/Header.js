@@ -34,22 +34,22 @@ export default class HeaderComponent {
      * @param {EventTarget} event
      */
     onClickItem (event) {
-        const currentTarget = event.target;
-
-        if (!(currentTarget instanceof HTMLButtonElement)) {
-            return;
-        }
-
-        const name = currentTarget.name;
-        const button = this._elements[name];
-
-        if (!button) {
-            return;
-        }
+        // const currentTarget = event.target;
+        //
+        // if (!(currentTarget instanceof HTMLButtonElement)) {
+        //     return;
+        // }
+        //
+        // const name = currentTarget.name;
+        // const button = this._elements[name];
+        //
+        // if (!button) {
+        //     return;
+        // }
 
         event.preventDefault();
 
-        button.onClick();
+        // button.onClick();
 
         this.menuDestroy();
     };
@@ -98,7 +98,7 @@ export default class HeaderComponent {
                     button.render();
 
                     this._elements[key] = button;
-                    this._elem.addEventListener('click', this.onClickItem);
+                    // this._elem.addEventListener('click', this.onClickItem);
                 });
             }
         });

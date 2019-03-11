@@ -11,7 +11,8 @@
                 </fest:element>
                 <fest:element name="i">
                     <fest:attributes>
-                        <fest:attribute name="class">sign-x-form__icon</fest:attribute>
+                        <!--<fest:attribute name="class">sign-x-form__icon</fest:attribute>-->
+                        <fest:attribute name="class">input__icon</fest:attribute>
                     </fest:attributes>
                 </fest:element>
         </fest:when>

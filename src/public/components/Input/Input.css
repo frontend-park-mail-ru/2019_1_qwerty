@@ -19,4 +19,10 @@
     font-size:95%;
 }
 
+.input__icon {
+    content: url("./show.svg");
+    position: absolute;
+    top:30%;
+    right:5%;
+}
 

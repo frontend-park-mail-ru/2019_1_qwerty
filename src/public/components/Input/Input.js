@@ -37,7 +37,7 @@ export default class InputComponent {
 
         this._elem = document.querySelector(`input[name='${this.name}']`);
         if (this.isPassword) {
-            this._showIcon = document.querySelector('.sign-x-form__icon');
+            this._showIcon = document.querySelector('.input__icon');
         }
 
         this.addEventOnFocus();

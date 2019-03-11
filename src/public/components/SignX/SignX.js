@@ -2,7 +2,6 @@ import AjaxModule from '../../modules/ajax.js';
 import ButtonComponent from '../Button/Button.js';
 import InputComponent from '../Input/Input.js';
 
-
 const noop = () => null;
 
 export default class SignXComponent {

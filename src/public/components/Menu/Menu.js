@@ -23,31 +23,8 @@ export default class MenuComponent {
         this.header = null;
         this.mainMenuButtons = {};
         this._elem = null;
-        // this.onClickItem = this.onClickItem.bind(this);
     }
 
-    /**
-     * Обработчик события 'click'
-     *
-     * @this {MenuComponent}
-     * @param {EventTarget} event
-     */
-    // onClickItem (event) {
-    //     const currentTarget = event.target;
-    //
-    //     if (!(currentTarget instanceof HTMLButtonElement)) {
-    //         return;
-    //     }
-    //     const name = currentTarget.name;
-    //     const button = this.mainMenuButtons[name];
-    //     if (!button) {
-    //         return;
-    //     }
-    //     event.preventDefault();
-    //
-    //     button.onClick();
-    //     this.onDestroy();
-    // };
 
     /**
      * Метод снятия обработчиков
@@ -87,12 +64,14 @@ export default class MenuComponent {
                 title,
                 name: key,
                 parent,
-                onClick: this.pages[key]
+                onClick: (event) => {
+                    event.preventDefault();
+                    this.pages[key]();
+                    this.onDestroy();
+                }
             });
             this.mainMenuButtons[key] = button;
             button.render();
         });
-
-        // this._elem.addEventListener('click', this.onClickItem);
     }
 }

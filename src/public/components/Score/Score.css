@@ -4,7 +4,7 @@
     align-items: center;
 }
 
-.score-nav__bottom a {
+.score-nav__bottom {
     display: block;
     margin: 8pt auto;
     padding: 8pt;

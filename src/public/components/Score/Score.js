@@ -1,3 +1,4 @@
+import ButtonComponent from '../Button/Button.js';
 export default class ScoreComponent {
     constructor({
         parent = document.body
@@ -5,8 +6,30 @@ export default class ScoreComponent {
         this._parent = parent;
     }
 
+    foo () {  console.log("i am clicked"); };
+
     render() {
         this._parent.innerHTML = fest['components/Score/Score.tmpl'](this.scoreboard);
+        let prev = document.querySelector('[data-section="Prev10"]')
+        let next = document.querySelector('[data-section="Next10"]')
+
+        const prevButton = new ButtonComponent({
+            parent: prev,
+            name: "Prev 10",
+            title: "Prev 10",
+            onClick: this.getNext.bind(this, -10)
+        });
+
+        const nextButton = new ButtonComponent({
+            parent: next,
+            name: "Next 10",
+            title: "Next 10",
+            onClick: this.getNext.bind(this, 10)
+        });
+
+        prevButton.render();
+        nextButton.render();
+        this.getNext();
     }
 
     /**
@@ -14,7 +37,7 @@ export default class ScoreComponent {
      * 
      * @param  {} startIndex=0 - integer - Смещение относительно текущего начала.
      */
-    static getNext(start_index = 0) {
+    getNext(start_index = 0) {
         /**
          * Формирует HTML таблицу на основе JSON
          * 

@@ -4,9 +4,10 @@
     align-items: center;
 }
 
-.score-nav__bottom a {
+.score-nav_button_bottom {
     display: block;
     margin: 8pt auto;
+    width: 128pt;
     padding: 8pt;
 }
 
@@ -19,6 +20,7 @@
 }
 
 .score-button__backward {
+    display: block;
     margin: 8pt auto;
     padding: 8pt;
     border-radius: 4pt;

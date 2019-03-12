@@ -48,8 +48,6 @@ export default class AjaxModule {
         xhr.open('POST', newPath, true);
         xhr.withCredentials = true;
 
-        xhr.withCredentials = true;
-
         const formdata = new FormData();
         formdata.append('file', file);
         xhr.send(formdata);

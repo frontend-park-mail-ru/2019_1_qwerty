@@ -4,11 +4,11 @@
             <div class="profile-form__content profile-form__content_space_around">
                 <div class="profile-form__content-item">
                     <div class="profile-form__position" data-section="img">
-                        <!--<fest:element name="img">-->
-                            <!--<fest:attributes>-->
-                                <!--<fest:attribute name="class">profile-form__img</fest:attribute>-->
-                            <!--</fest:attributes>-->
-                        <!--</fest:element>-->
+                        <fest:element name="img">
+                            <fest:attributes>
+                                <fest:attribute name="class">profile-form__img</fest:attribute>
+                            </fest:attributes>
+                        </fest:element>
                     </div>
                     <!--<fest:element name="div">-->
                         <!--<fest:attributes>-->

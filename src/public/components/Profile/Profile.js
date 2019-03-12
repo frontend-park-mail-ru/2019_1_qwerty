@@ -2,6 +2,7 @@ import InputComponent from '../Input/Input.js';
 import ButtonComponent from '../Button/Button.js';
 import AjaxModule from '../../modules/ajax.js';
 import FileInputComponent from '../FileInput/FileInput.js';
+import { API_STATIC } from '../../config.js';
 
 const noop = () => null;
 
@@ -16,29 +17,47 @@ export default class ProfileComponent {
         this.userInfo = {};
         this.insertElements = {};
         this.callbackForRender = this.callbackForRender.bind(this);
-        // this.uploadInput = null;
-        // this.file = null;
-        this._addFile = this._addFile.bind(this);
         this._errorDiv = null;
         this.submitEvent = this.submitEvent.bind(this);
         this._onSubmit = this._onSubmit.bind(this);
     }
 
-    // _addFile (event) {
-    //     event.preventDefault();
-    //
-    //     this.file = this.uploadInput.files[0];
-    // }
-
     addInfo () {
-        const srcPath = `http://localhost:8080/static/${this.userInfo.avatar}`;
+        const srcPath = API_STATIC + this.userInfo.avatar;
 
-        this.insertElements.imgParent.src = srcPath;
-        this.insertElements.imgParent.innerHTML = `<img src="${srcPath}" alt="ava" class="profile-form__img">`;
+        this.insertElements.img.src = srcPath;
 
         this.insertElements.nickname.textContent = this.userInfo.name;
         this.insertElements.email.textContent = this.userInfo.email;
         this.insertElements.score.textContent = this.userInfo.score;
+    }
+
+    changeRealTimeImage () {
+        const file = this.elements.upload.file;
+        console.log(file.type);
+        if (!/image\/(jpg|jpeg|png)/.test(file.type)) {
+            this._addFormError('Incorrect file format');
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            this.insertElements.img.src = reader.result;
+        };
+
+        if (file) {
+            this._removeFormError();
+            reader.readAsDataURL(file);
+        } else {
+            this.insertElements.img.src = '';
+        }
+    }
+
+    _onFocus () {
+        if (this._errorDiv.display === 'block') {
+            this._removeFormError();
+        }
     }
 
     _renderAllComponents () {
@@ -49,6 +68,7 @@ export default class ProfileComponent {
         });
         uploadInput.render();
         this.elements.upload = uploadInput;
+        uploadInput.onChange = this.changeRealTimeImage.bind(this);
 
         const emailParent = document.querySelector('[data-section="email"]');
         const emailInput = new InputComponent({
@@ -58,6 +78,7 @@ export default class ProfileComponent {
             parent: emailParent
         });
         emailInput.render();
+        emailInput.onFocus = this._onFocus.bind(this);
         this.elements.email = emailInput;
 
         const passwordParent = document.querySelector('[data-section="password"]');
@@ -69,6 +90,7 @@ export default class ProfileComponent {
             isPassword: true
         });
         passwordInput.render();
+        passwordInput.onFocus = this._onFocus.bind(this);
         this.elements.password = passwordInput;
 
         const closeButtonParent = document.querySelector('[data-section="close"]');
@@ -105,7 +127,7 @@ export default class ProfileComponent {
         this._parent.innerHTML = window.fest['components/Profile/Profile.tmpl']();
 
         this.insertElements = {
-            imgParent: document.querySelector('[data-section="img"]'),
+            img: document.querySelector('.profile-form__img'),
             nickname: document.querySelector('[data-section="nickname"]'),
             email: document.querySelector('[data-section="current-email"]'),
             score: document.querySelector('[data-section="max-score"]')
@@ -116,9 +138,7 @@ export default class ProfileComponent {
         this._errorDiv = document.querySelector('.profile-form__error');
         this._errorDiv.display = 'none';
         this._form = document.querySelector('form');
-        // this.uploadInput = document.querySelector('.inputfile');
         this._form.addEventListener('submit', this.submitEvent);
-        // this.uploadInput.addEventListener('change', this._addFile);
     }
 
     _addFormError (error) {
@@ -153,7 +173,6 @@ export default class ProfileComponent {
                 this.addInfo();
             }
         });
-        // this.insertElements.email.innerText = (this.body.email ? this.body.email : this.insertElements.email.innerText);
     };
 
     sendFile () {
@@ -170,7 +189,7 @@ export default class ProfileComponent {
         const password = this._form.elements.password.value.trim();
 
         const body = { email, password };
-        let errorExpression = !email && !password && !this.file;
+        let errorExpression = !email && !password && !this.elements.upload.file;
         let errorMsg = 'fill something to submit';
 
         if (errorExpression) {
@@ -183,7 +202,7 @@ export default class ProfileComponent {
             return;
         }
 
-        if (this.file) {
+        if (this.elements.upload.file) {
             this.sendFile();
         }
 

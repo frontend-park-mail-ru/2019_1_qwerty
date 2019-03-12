@@ -23,40 +23,12 @@ export default class HeaderComponent {
         this._elements = {};
         this._elem = null;
         this.namesAndTitles = null;
-        this.onClickItem = this.onClickItem.bind(this);
         this.menuDestroy = callback;
     }
 
-    /**
-     * Обработчик события 'click'
-     *
-     * @this {MenuComponent}
-     * @param {EventTarget} event
-     */
-    onClickItem (event) {
-        // const currentTarget = event.target;
-        //
-        // if (!(currentTarget instanceof HTMLButtonElement)) {
-        //     return;
-        // }
-        //
-        // const name = currentTarget.name;
-        // const button = this._elements[name];
-        //
-        // if (!button) {
-        //     return;
-        // }
-
-        event.preventDefault();
-
-        // button.onClick();
-
-        this.menuDestroy();
-    };
-
     destroy () {
         Object.values(this._elements).forEach((button) => {
-            this._parent.removeEventListener('click', button.onClick);
+            button.destroy();
         });
     }
 
@@ -92,13 +64,17 @@ export default class HeaderComponent {
                         name: key,
                         title: data,
                         parent,
-                        onClick: this.pages[key]
+                        onClick: (event) => {
+                            event.preventDefault();
+                            this.pages[key]();
+                            this.menuDestroy();
+                        }
+
                     });
 
                     button.render();
 
                     this._elements[key] = button;
-                    // this._elem.addEventListener('click', this.onClickItem);
                 });
             }
         });

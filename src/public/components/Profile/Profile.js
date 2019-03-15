@@ -3,6 +3,7 @@ import ButtonComponent from '../Button/Button.js';
 import AjaxModule from '../../modules/ajax.js';
 import FileInputComponent from '../FileInput/FileInput.js';
 import { API_STATIC } from '../../config.js';
+import NotificationComponent from '../Notification/Notification.js';
 
 const noop = () => null;
 
@@ -11,7 +12,11 @@ export default class ProfileComponent {
         parent = document.body,
         callback = noop
     }) {
-        this.callback = callback;
+        this.callback = function () {
+            callback();
+            this.onDestroy();
+        }.bind(this);
+
         this._parent = parent;
         this.elements = {};
         this.userInfo = {};
@@ -61,6 +66,14 @@ export default class ProfileComponent {
     }
 
     _renderAllComponents () {
+        const notificationParent = document.querySelector('[data-section="profile-notification"]');
+        const notification = new NotificationComponent({
+            parent: notificationParent
+        });
+        notification.render();
+        notification.display = 'none';
+        this.elements.notification = notification;
+
         const uploadParent = document.querySelector('[data-section="change-button"]');
         const uploadInput = new FileInputComponent({
             parent: uploadParent,
@@ -77,8 +90,8 @@ export default class ProfileComponent {
             placeholder: 'New Email',
             parent: emailParent
         });
-        emailInput.render();
         emailInput.onFocus = this._onFocus.bind(this);
+        emailInput.render();
         this.elements.email = emailInput;
 
         const passwordParent = document.querySelector('[data-section="password"]');
@@ -89,8 +102,8 @@ export default class ProfileComponent {
             parent: passwordParent,
             isPassword: true
         });
-        passwordInput.render();
         passwordInput.onFocus = this._onFocus.bind(this);
+        passwordInput.render();
         this.elements.password = passwordInput;
 
         const closeButtonParent = document.querySelector('[data-section="close"]');
@@ -141,6 +154,19 @@ export default class ProfileComponent {
         this._form.addEventListener('submit', this.submitEvent);
     }
 
+    onDestroy () {
+        Object.values(this.elements).forEach((item) => {
+            item.destroy();
+        });
+    }
+
+    showNotification () {
+        this.elements.notification.display = 'block';
+    }
+
+    removeNotification () {
+        this.elements.notification.display = 'none';
+    }
     _addFormError (error) {
         this._errorDiv.textContent = error;
         this._errorDiv.dataset.section = 'error';
@@ -154,10 +180,12 @@ export default class ProfileComponent {
 
     _onSubmit (xhr) {
         if (xhr.status === 404) {
-            const errorMessage = 'Не верный Nickname и/или пароль';
+            const errorMessage = 'Incorrect Nickname and/or password';
             this._addFormError(errorMessage);
+            this.removeNotification();
             return;
         }
+        this.showNotification();
         this._form.elements.email.value = '';
         this._form.elements.password.value = '';
         this.file = null;
@@ -194,11 +222,13 @@ export default class ProfileComponent {
 
         if (errorExpression) {
             this._addFormError(errorMsg);
+            this.removeNotification();
             return;
         }
 
         if (password.length && password.length < 5) {
             this._addFormError('Password must be longer than 5 characters');
+            this.removeNotification();
             return;
         }
 

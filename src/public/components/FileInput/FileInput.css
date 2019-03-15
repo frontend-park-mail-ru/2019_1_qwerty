@@ -7,7 +7,7 @@
     z-index: -1;
 }
 
-.inputfile + label{
+.inputfile__label{
     text-align: center;
     display: inline-block;
     width:100%;
@@ -23,11 +23,11 @@
     cursor: pointer;
 }
 
-.inputfile:focus + label:hover,
-.inputfile + label:hover{
+.inputfile:focus + .inputfile__label:hover,
+.inputfile__label:hover{
     opacity: 1;
 }
 
-.inputfile + label {
+.inputfile__label {
     cursor: pointer; /* "hand" cursor */
 }

@@ -1,24 +1,22 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="userInfo">
     <section class="profile">
+        <fest:element name="div">
+            <fest:attributes>
+                <fest:attribute name="class">profile__notification profile__notification_margin_m</fest:attribute>
+                <fest:attribute name="data-section">profile-notification</fest:attribute>
+            </fest:attributes>
+        </fest:element>
         <form action="/" method="post" class="profile-form" enctype="multipart/form-data">
             <div class="profile-form__content profile-form__content_space_around">
                 <div class="profile-form__content-item">
-                    <div class="profile-form__position" data-section="img">
+                    <div class="profile-form__img_border" data-section="img">
                         <fest:element name="img">
                             <fest:attributes>
                                 <fest:attribute name="class">profile-form__img</fest:attribute>
                             </fest:attributes>
                         </fest:element>
                     </div>
-                    <!--<fest:element name="div">-->
-                        <!--<fest:attributes>-->
-                            <!--<fest:attribute name="class">profile-form__button</fest:attribute>-->
-                            <!--<fest:attribute name="data-section">change</fest:attribute>-->
-                        <!--</fest:attributes>-->
-                    <!--</fest:element>-->
                     <div class="profile-form__button" data-section="change-button">
-                        <!--<input type="file" name="file" id="file" class="inputfile"/>-->
-                        <!--<label for="file">Change</label>-->
                     </div>
                 </div>
                 <div class="profile-form__content-item">
@@ -40,9 +38,7 @@
                             </fest:attributes>
                         </fest:element>
                     </div>
-
                     <div class="profile-form__content profile-form__content_space_between">
-
                         <fest:element name="div">
                             <fest:attributes>
                                 <fest:attribute name="class">profile-form__item</fest:attribute>

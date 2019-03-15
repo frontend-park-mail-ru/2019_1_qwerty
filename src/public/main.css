@@ -6,6 +6,7 @@
 @import url("components/Score/Score.css");
 @import url("components/Profile/Profile.css");
 @import url("components/FileInput/FileInput.css");
+@import url("components/Notification/Notification.css");
 
 @font-face {
     font-family: Pixel;

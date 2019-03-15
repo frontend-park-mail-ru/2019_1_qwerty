@@ -11,7 +11,7 @@ export default class ButtonComponent {
      * @param {HTMLElement} parent родительский элемент
      * @param {Function} onClick callback-функция.
      */
-    constructor({
+    constructor ({
         name = '',
         title = '',
         type = '',
@@ -26,8 +26,7 @@ export default class ButtonComponent {
         this.onClick = onClick;
     }
 
-
-    destroy() {
+    destroy () {
         this._elem.removeEventListener('click', this.onClick);
     }
 
@@ -36,7 +35,7 @@ export default class ButtonComponent {
      *
      * @this {ButtonComponent}.
      */
-    render() {
+    render () {
         this.parent.innerHTML = window.fest['components/Button/Button.tmpl'](this);
 
         this._elem = document.querySelector(`[name='${this.name}']`);

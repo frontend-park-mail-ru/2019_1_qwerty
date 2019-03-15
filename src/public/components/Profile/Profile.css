@@ -1,5 +1,4 @@
 
-
 .profile {
     display:flex;
     justify-content: center;
@@ -9,28 +8,21 @@
 .profile__notification {
     position: absolute;
     top:7%;
-    right:-0.01%;
+    right:0.01%;
     color: #7BD63B;
     border: 2px solid white;
     border-radius: 8px;
     width: 20%;
-    animation: shake 0.7s linear;
-
-
-    /*-webkit-box-shadow: 4px 6px 66px -6px rgba(148,98,168,1);*/
-    /*-moz-box-shadow: 4px 6px 66px -6px rgba(148,98,168,1);*/
-    /*box-shadow: 4px 6px 66px -6px rgba(148,98,168,1);*/
+    animation: fadeInRight 0.7s linear;
 }
 
-/*@keyframes shake {*/
-    /*!*0% {*!*/
-        /*!*transform: translate(30px);*!*/
-    /*!*}*!*/
-    /*100% {*/
-        /*transform: translateX(-30px);*/
-
-    /*}*/
-/*}*/
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(10%);
+    }
+    to { opacity: 1 }
+}
 
 .profile__notification_margin_m {
     margin-right: 20px;
@@ -47,7 +39,7 @@
 .profile-form {
     flex-basis: 35%;
     border: 2px solid white;
-    border-radius: 8px;
+    border-radius: 8pt;
     margin: 3% auto 0;
     padding: 1.5% 0;
 }

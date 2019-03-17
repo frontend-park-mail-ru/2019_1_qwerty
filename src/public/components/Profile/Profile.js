@@ -193,9 +193,10 @@ export default class ProfileComponent {
             path: this._path,
             body: this.body,
 		})
-			.then(function (response) {
+			.then(response => {
                 if (!response.ok) {
-                    var error = new Error("Incorrect Nickname and/or password");
+                    let error =  new Error("Incorrect user data");
+                    error.response = response;
                     throw error;
                 } 
                 this.showNotification();
@@ -206,23 +207,25 @@ export default class ProfileComponent {
                 return AjaxModule.doFetchGet({
                     path: '/user',
                 });
-            }.bind(this))
-            .then(function (response) {                
-                if (!response.ok) {                    
-                    var error = new Error(response.status);
-                    throw error;
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.status);
                 }                                 
                 return response.json();
-            }.bind(this))
-            .then(function (response) {                                      
+            })
+            .then(response => {
                 this.userInfo = response;
                 console.log(this.userInfo);
                 this.addInfo();
-            }.bind(this))
-            .catch(function (error) {
+            })
+            .catch(e => {
                 this._addFormError(error.message);
                 this.removeNotification();
-            }.bind(this));
+                alert('Error: ' + e.message  + " " + e.response.status + " " + e.response.statusText);
+                console.log('Error: ' + e.message);
+                console.log(e.response);
+            });
 
     };
 
@@ -230,14 +233,15 @@ export default class ProfileComponent {
         AjaxModule.doFetchGet({
             path: '/user',
         })
-            .then(function (response) {
+            .then(response => {
                 if (!response.ok) {
-                    var error = new Error(response.status);
+                    let error =  new Error("Can't get user data, status code: ");
+                    error.response = response;
                     throw error;
                 } 
                 return response.json();
             })
-            .then(function (response) {
+            .then(response => {
                 this.userInfo = response;
 
                 this._parent.innerHTML = window.fest['components/Profile/Profile.tmpl']();
@@ -255,9 +259,11 @@ export default class ProfileComponent {
                 this._errorDiv.display = 'none';
                 this._form = document.querySelector('form');
                 this._form.addEventListener('submit', this.submitEvent);
-            }.bind(this))
-            .catch(function (error) {
-                alert(error);
-            }.bind(this));
+            })
+            .catch(e => {
+                alert('Error: ' + e.message  + " " + e.response.status + " " + e.response.statusText);
+                console.log('Error: ' + e.message);
+                console.log(e.response);
+            });
     }
 }

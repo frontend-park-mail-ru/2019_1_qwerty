@@ -23,13 +23,7 @@ export default class SignXComponent {
         this._afterSuccessSubmit = afterSuccessSubmit;
         this._path = isSignup ? '/user/create' : '/user/login';
         this._elements = [];
-        this._onSubmit = this._onSubmit.bind(this);
         this.submitEvent = this.submitEvent.bind(this);
-        this.myfunc = this.myfunc.bind(this);
-    }
-
-    myfunc () {
-        alert("in my func");
     }
 
     _addFormError (error) {
@@ -42,16 +36,6 @@ export default class SignXComponent {
         this._errorDiv.textContent = '';
         this._errorDiv.display = 'none';
     }
-
-    _onSubmit (xhr) {
-        if (xhr.status === 404) {
-            const errorMessage = 'Incorrect Nickname and/or password';
-            this._addFormError(errorMessage);
-            return;
-        }
-        this.onDestroy();
-        this._afterSuccessSubmit();
-    };
 
     _onFocus () {
         if (this._errorDiv.display === 'block') {
@@ -99,18 +83,20 @@ export default class SignXComponent {
             path: this._path,
             body: body,
 		})
-			.then(function (response) {
-                if (response.ok) {
-                    this.onDestroy();
-                    this._afterSuccessSubmit();
-                    return;
+			.then(response => {
+                if (!response.ok) {
+                    let error =  new Error("Incorrect Nickname and/or password");
+                    error.response = response;
+                    throw error;
                 } 
-                var error = new Error("Incorrect Nickname and/or password");
-                throw error;
-			}.bind(this))
-            .catch(function (error) {
-                this._addFormError(error.message);
-			}.bind(this));
+                this.onDestroy();
+                this._afterSuccessSubmit();
+			})
+            .catch(e => {
+                this._addFormError(e.message);
+                console.log('Error: ' + e.message  + " " + e.response.status + " " + e.response.statusText);
+                console.log(e.response);
+			});
     };
 
     render () {

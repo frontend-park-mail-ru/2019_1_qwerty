@@ -48,17 +48,24 @@ export default class ScoreComponent {
      */
     getNext(startIndex = 0) {
         const url = '/score?offset=' + (this.currentOffset + startIndex).toString();
-        AjaxModule.doGet({
+
+        AjaxModule.doFetchGet({
             path: url,
-            callback: (xhr) => {
-                try {
-                    this.scoreboard = JSON.parse(xhr.responseText);
-                    this.currentOffset += startIndex;
-                } catch (err) {}
+		})
+			.then(response => {
+                if (!response.ok) {
+                    throw new Error("Can't load score");
+                }
+                return response.json();
+            })
+            .then(response => {
+                this.scoreboard = response;
+                this.currentOffset += startIndex;
+			})
+            .catch(e => {
+                console.log('Error: ' + e.message);
                 this.onDestroy();
                 this.render();
-            }
-        });
+			});
     }
-
 }

@@ -21,7 +21,7 @@ export default class SignXComponent {
         this._parent = parent;
         this._isSignup = isSignup;
         this._afterSuccessSubmit = afterSuccessSubmit;
-        this._path = isSignup ? '/user/signup' : '/user/login';
+        this._path = isSignup ? '/user/create' : '/user/login';
         this._elements = [];
         this._onSubmit = this._onSubmit.bind(this);
         this.submitEvent = this.submitEvent.bind(this);
@@ -40,7 +40,7 @@ export default class SignXComponent {
 
     _onSubmit (xhr) {
         if (xhr.status === 404) {
-            const errorMessage = 'Не верный Nickname и/или пароль';
+            const errorMessage = 'Incorrect Nickname and/or password';
             this._addFormError(errorMessage);
             return;
         }

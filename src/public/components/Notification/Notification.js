@@ -15,7 +15,7 @@ export default class NotificationComponent {
     onClick (event) {
         event.preventDefault();
 
-        this.parent.style.display = 'none';
+        this.elem.style.display = 'none';
     }
     render () {
         this.parent.innerHTML = window.fest['components/Notification/Notification.tmpl']();
@@ -26,10 +26,10 @@ export default class NotificationComponent {
     }
 
     set display (data) {
-        this.parent.style.display = data;
+        this.elem.style.display = data;
     }
 
     get display () {
-        return this.parent.style.display;
+        return this.elem.style.display;
     }
 }

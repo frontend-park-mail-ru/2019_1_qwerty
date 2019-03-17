@@ -161,7 +161,7 @@ export default class ProfileComponent {
     }
 
     showNotification () {
-        this.elements.notification.display = 'block';
+        this.elements.notification.display = 'flex';
     }
 
     removeNotification () {

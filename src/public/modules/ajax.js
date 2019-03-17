@@ -74,6 +74,24 @@ export default class AjaxModule {
         });
     }
 
+    static doFetchPost({
+        path = "/",
+        body = null,
+    } = {}) {
+        return fetch(API_URL + path, {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+            body: JSON.stringify(body),
+        });
+    }
+
+    
+
+
     /**
      * Метод отсылки гет запроса
      *
@@ -93,4 +111,33 @@ export default class AjaxModule {
             body
         });
     }
+
+    static doFetchGet({
+        path = "/",
+        body = null,
+    } = {}) {
+        return fetch(API_URL + path, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+            body
+        });
+    }
+
+    // static doFetchGet({
+    //     path = "/",
+    // } = {}) {
+    //     return fetch(API_URL + path, {
+    //         method: 'GET',
+    //         mode: 'cors',
+    //         credentials: 'include',
+    //         body: null,
+    //     })
+    // }
+
+
+    static doPromiceGet
 }

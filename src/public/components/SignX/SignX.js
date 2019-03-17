@@ -25,6 +25,11 @@ export default class SignXComponent {
         this._elements = [];
         this._onSubmit = this._onSubmit.bind(this);
         this.submitEvent = this.submitEvent.bind(this);
+        this.myfunc = this.myfunc.bind(this);
+    }
+
+    myfunc () {
+        alert("in my func");
     }
 
     _addFormError (error) {
@@ -89,11 +94,23 @@ export default class SignXComponent {
             return;
         }
 
-        AjaxModule.doPost({
-            callback: this._onSubmit,
+        
+        AjaxModule.doFetchPost({
             path: this._path,
-            body
-        });
+            body: body,
+		})
+			.then(function (response) {
+                if (response.ok) {
+                    this.onDestroy();
+                    this._afterSuccessSubmit();
+                    return;
+                } 
+                var error = new Error("Incorrect Nickname and/or password");
+                throw error;
+			}.bind(this))
+            .catch(function (error) {
+                this._addFormError(error.message);
+			}.bind(this));
     };
 
     render () {

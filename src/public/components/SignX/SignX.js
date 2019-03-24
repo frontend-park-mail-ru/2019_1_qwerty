@@ -78,25 +78,23 @@ export default class SignXComponent {
             return;
         }
 
-        
         AjaxModule.doFetchPost({
             path: this._path,
-            body: body,
-		})
-			.then(response => {
+            body: body
+        })
+            .then(response => {
                 if (!response.ok) {
-                    let error =  new Error("Incorrect Nickname and/or password");
+                    let error = new Error('Incorrect Nickname and/or password');
                     error.response = response;
                     throw error;
-                } 
+                }
                 this.onDestroy();
                 this._afterSuccessSubmit();
-			})
+            })
             .catch(e => {
                 this._addFormError(e.message);
-                console.log('Error: ' + e.message  + " " + e.response.status + " " + e.response.statusText);
-                console.log(e.response);
-			});
+                console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
+            });
     };
 
     render () {

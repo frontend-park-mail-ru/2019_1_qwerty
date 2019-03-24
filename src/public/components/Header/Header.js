@@ -40,12 +40,12 @@ export default class HeaderComponent {
      */
     render () {
         AjaxModule.doFetchGet({
-            path: this._path,
+            path: this._path
         })
             .then(response => {
                 this.namesAndTitles = {
                     signin: 'Sign In',
-                    signup: 'Sign Up',
+                    signup: 'Sign Up'
                 };
 
                 if (response.ok) {
@@ -77,7 +77,7 @@ export default class HeaderComponent {
                 });
             })
             .catch(e => {
-                console.log('Error: ' + e.message);
+                console.log(`Error: ${e.message}`);
             });
     }
 }

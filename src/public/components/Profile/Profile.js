@@ -128,8 +128,6 @@ export default class ProfileComponent {
         this.elements.save = saveButton;
     }
 
-    
-
     onDestroy () {
         Object.values(this.elements).forEach((item) => {
             item.destroy();
@@ -191,27 +189,27 @@ export default class ProfileComponent {
 
         AjaxModule.doFetchPost({
             path: this._path,
-            body: this.body,
-		})
-			.then(response => {
+            body: this.body
+        })
+            .then(response => {
                 if (!response.ok) {
-                    let error =  new Error("Incorrect user data");
+                    let error = new Error('Incorrect user data');
                     error.response = response;
                     throw error;
-                } 
+                }
                 this.showNotification();
                 this._form.elements.email.value = '';
                 this._form.elements.password.value = '';
                 this.file = null;
-        
+
                 return AjaxModule.doFetchGet({
-                    path: '/user',
+                    path: '/user'
                 });
             })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(response.status);
-                }                                 
+                }
                 return response.json();
             })
             .then(response => {
@@ -220,25 +218,22 @@ export default class ProfileComponent {
                 this.addInfo();
             })
             .catch(e => {
-                this._addFormError(error.message);
+                this._addFormError(e.message);
                 this.removeNotification();
-                alert('Error: ' + e.message  + " " + e.response.status + " " + e.response.statusText);
-                console.log('Error: ' + e.message);
-                console.log(e.response);
+                console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
             });
-
     };
 
     render () {
         AjaxModule.doFetchGet({
-            path: '/user',
+            path: '/user'
         })
             .then(response => {
                 if (!response.ok) {
-                    let error =  new Error("Can't get user data, status code: ");
+                    let error = new Error('Can not get user data, status code: ');
                     error.response = response;
                     throw error;
-                } 
+                }
                 return response.json();
             })
             .then(response => {
@@ -261,9 +256,8 @@ export default class ProfileComponent {
                 this._form.addEventListener('submit', this.submitEvent);
             })
             .catch(e => {
-                alert('Error: ' + e.message  + " " + e.response.status + " " + e.response.statusText);
-                console.log('Error: ' + e.message);
-                console.log(e.response);
+                alert('Error: ' + e.message);
+                console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
             });
     }
 }

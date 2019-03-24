@@ -24,18 +24,18 @@ export default class AjaxModule {
      * @param {Object} body данные.
      */
 
-    static doFetchPost({
-        path = "/",
-        body = null,
+    static doFetchPost ({
+        path = '/',
+        body = null
     } = {}) {
         return fetch(API_URL + path, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
             headers: {
-                'Content-Type': 'application/json; charset=utf-8',
+                'Content-Type': 'application/json; charset=utf-8'
             },
-            body: JSON.stringify(body),
+            body: JSON.stringify(body)
         });
     }
 
@@ -44,16 +44,16 @@ export default class AjaxModule {
      *
      * @param {string} path путь запроса
      */
-    static doFetchGet({
-        path = "/",
+    static doFetchGet ({
+        path = '/'
     } = {}) {
         return fetch(API_URL + path, {
             method: 'GET',
             mode: 'cors',
             credentials: 'include',
             headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-            },
+                'Content-Type': 'application/json; charset=utf-8'
+            }
         });
     }
 }

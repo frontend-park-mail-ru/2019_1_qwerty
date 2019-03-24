@@ -32,11 +32,11 @@ function createMenu () {
 
 function logOut () {
     AjaxModule.doFetchGet({
-        path: '/user/logout',
+        path: '/user/logout'
     })
         .then(response => {
             if (!response.ok) {
-                let error =  new Error("Can't lodout");
+                let error = new Error('Can not logout');
                 error.response = response;
                 throw error;
             }
@@ -44,8 +44,7 @@ function logOut () {
         })
         .catch(e => {
             this._addFormError(e.message);
-            console.log('Error: ' + e.message  + " " + e.response.status + " " + e.response.statusText);
-            console.log(e.response);
+            console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
         });
 }
 

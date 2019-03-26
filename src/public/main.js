@@ -1,10 +1,13 @@
 'use strict';
 
-import SignXComponent from './components/SignX/SignX.js';
 import ScoreComponent from './components/Score/Score.js';
 import AjaxModule from './modules/ajax.js';
 import MenuComponent from './components/Menu/Menu.js';
 import ProfileComponent from './components/Profile/Profile.js';
+import SignXController from './controllers/SignXController.js';
+import SignXView from './views/SignXView.js';
+import SignXService from './services/SignXService.js';
+import EventBus from './modules/EventBus.js';
 
 const application = document.getElementById('application');
 
@@ -51,9 +54,17 @@ function logOut () {
 // SignX
 function createSignin () {
     application.innerHTML = '';
+    const model = new SignXService();
 
-    const signIn = new SignXComponent({ parent: application, isSignup: false, afterSuccessSubmit: createMenu });
-    signIn.render();
+    EventBus.on('signX:request', model.requestForSignupOrSignin);
+    const signInController = new SignXController({
+        parent: application,
+        isSignup: false,
+        afterSuccessSubmit: createMenu,
+        View: SignXView
+    });
+
+    signInController.show();
 }
 
 function createProfile () {
@@ -67,9 +78,17 @@ function createProfile () {
 
 function createSignup () {
     application.innerHTML = '';
+    const model = new SignXService();
 
-    const signUp = new SignXComponent({ parent: application, isSignup: true, afterSuccessSubmit: createMenu });
-    signUp.render();
+    EventBus.on('signX:request', model.requestForSignupOrSignin);
+    const signUpController = new SignXController({
+        parent: application,
+        isSignup: true,
+        afterSuccessSubmit: createMenu,
+        View: SignXView
+    });
+
+    signUpController.show();
 }
 
 function Scoreboard () {

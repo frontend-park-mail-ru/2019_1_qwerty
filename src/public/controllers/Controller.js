@@ -1,8 +1,12 @@
 
 export default class Controller {
-    constructor (data) {
+    constructor ({
+        EventBus = {},
+        View = null,
+        data = {}
+    }) {
         this.data = data;
-        this.view = new data.View(this.getData());
+        this.EventBus = EventBus;
     }
 
     getData () {

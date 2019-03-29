@@ -1,27 +1,70 @@
 import Controller from './Controller.js';
-import EventBus from '../modules/EventBus.js';
 
 export default class SignXController extends Controller {
+    constructor ({
+        EventBus = {},
+        View = null,
+        data = {}
+    } = {}) {
+        super({
+            EventBus,
+            View,
+            data
+        });
+        this.view = new View(this.getData());
+        this.contentFromNameField = '';
+        this.contentFromPasswordField = '';
+        this.contentFromEmailField = '';
+    }
 
     getData () {
-        delete this.data.view;
-        const callbacks = {
+        this.data.callbacks = {
             SignX: {
                 submit: this.submitEvent.bind(this)
             },
-            Input: {
-                focus: this.onFocus.bind(this)
+            InputNickname: {
+                focus: this.onFocus.bind(this),
+                change: this.getNickname.bind(this)
+            },
+            InputEmail: {
+                focus: this.onFocus.bind(this),
+                change: this.getEmail.bind(this)
+            },
+            InputPassword: {
+                focus: this.onFocus.bind(this),
+                change: this.getPassword.bind(this)
             }
         };
-        this.data.callbacks = callbacks;
         return this.data;
     }
 
     onFocus (formView) {
-        return () => {
-            if (formView._errorDiv.display === 'block') {
-                formView._removeFormError();
+        return (event) => {
+            event.preventDefault();
+            if (formView.parentView._errorDiv.display === 'block') {
+                formView.parentView._removeFormError();
             }
+        };
+    }
+
+    getEmail (viewElement) {
+        return event => {
+            event.preventDefault();
+            this.contentFromEmailField = viewElement.getContent().trim();
+        };
+    }
+
+    getNickname (viewElement) {
+        return event => {
+            event.preventDefault();
+            this.contentFromNameField = viewElement.getContent().trim();
+        };
+    }
+
+    getPassword (viewElement) {
+        return event => {
+            event.preventDefault();
+            this.contentFromPasswordField = viewElement.getContent().trim();
         };
     }
 
@@ -29,15 +72,15 @@ export default class SignXController extends Controller {
         return event => {
             event.preventDefault();
 
-            const nickname = formView._form.elements.nickname.value.trim();
-            const password = formView._form.elements.password.value.trim();
+            const nickname = this.contentFromNameField;
+            const password = this.contentFromPasswordField;
 
             const body = { nickname, password };
             let errorExpression = !nickname || !password;
             let errorMsg = 'nickname or password is not filled';
 
             if (formView._isSignup) {
-                const email = formView._form.elements.email.value.trim();
+                const email = this.contentFromEmailField;
                 body.email = email;
                 errorExpression = errorExpression || !email;
                 errorMsg = 'nickname or password or email is not filled';
@@ -53,7 +96,13 @@ export default class SignXController extends Controller {
                 return;
             }
 
-            EventBus.emit('signX:request', { formView, body });
+            this.EventBus.emit('signX:request', {
+                path: formView._path,
+                body,
+                onDestroy: formView.onDestroy.bind(formView),
+                afterSuccessSubmit: formView._afterSuccessSubmit,
+                addFormError: formView._addFormError.bind(formView)
+            });
         };
     }
 }

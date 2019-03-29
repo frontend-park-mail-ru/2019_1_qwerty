@@ -2,12 +2,14 @@
 
 import ScoreComponent from './components/Score/Score.js';
 import AjaxModule from './modules/ajax.js';
-import MenuComponent from './components/Menu/Menu.js';
 import ProfileComponent from './components/Profile/Profile.js';
 import SignXController from './controllers/SignXController.js';
 import SignXView from './views/SignXView.js';
 import SignXService from './services/SignXService.js';
 import EventBus from './modules/EventBus.js';
+import MenuService from './services/MenuService.js';
+import MenuController from './controllers/MenuController.js';
+import MenuView from './views/MenuView.js';
 
 const application = document.getElementById('application');
 
@@ -21,16 +23,27 @@ function createMenu () {
         score: Scoreboard,
         logout: logOut,
         profile: createProfile
-
-        // ...
     };
 
-    const menu = new MenuComponent({
-        parent: application,
-        pages
+    const menuItems = {
+        singleplayer: 'Singleplayer',
+        multiplayer: 'Multiplayer',
+        score: 'Scoreboard'
+    };
+
+    const model = new MenuService();
+    EventBus.on('menu:user-auth', model.requestForUserAuth);
+    const menu = new MenuController({
+        pages,
+        EventBus,
+        View: MenuView,
+        data: {
+            parent: application,
+            menuItems
+        }
     });
 
-    menu.render();
+    EventBus.on('model:user-auth-info', menu.createViewAndRender.bind(menu));
 }
 
 function logOut () {
@@ -58,10 +71,13 @@ function createSignin () {
 
     EventBus.on('signX:request', model.requestForSignupOrSignin);
     const signInController = new SignXController({
-        parent: application,
-        isSignup: false,
-        afterSuccessSubmit: createMenu,
-        View: SignXView
+        data: {
+            parent: application,
+            isSignup: false,
+            afterSuccessSubmit: createMenu
+        },
+        View: SignXView,
+        EventBus
     });
 
     signInController.show();
@@ -82,10 +98,13 @@ function createSignup () {
 
     EventBus.on('signX:request', model.requestForSignupOrSignin);
     const signUpController = new SignXController({
-        parent: application,
-        isSignup: true,
-        afterSuccessSubmit: createMenu,
-        View: SignXView
+        data: {
+            parent: application,
+            isSignup: true,
+            afterSuccessSubmit: createMenu
+        },
+        View: SignXView,
+        EventBus
     });
 
     signUpController.show();

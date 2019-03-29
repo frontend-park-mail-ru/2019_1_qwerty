@@ -1,9 +1,9 @@
 import AjaxModule from '../modules/ajax.js';
 
 export default class SignXService {
-    requestForSignupOrSignin ({ formView, body }) {
+    requestForSignupOrSignin ({ path, body, onDestroy, afterSuccessSubmit, addFormError }) {
         AjaxModule.doFetchPost({
-            path: formView._path,
+            path: path,
             body: body
         })
             .then(response => {
@@ -12,11 +12,11 @@ export default class SignXService {
                     error.response = response;
                     throw error;
                 }
-                formView.onDestroy();
-                formView._afterSuccessSubmit();
+                onDestroy();
+                afterSuccessSubmit();
             })
             .catch(e => {
-                formView._addFormError(e.message);
+                addFormError(e.message);
                 console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
             });
     }

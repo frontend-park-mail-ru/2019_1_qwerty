@@ -4,13 +4,14 @@ const noop = () => null;
 export default class FileInputComponent {
     constructor ({
         parent = null,
-        title = ''
+        title = '',
+        callback
     }) {
         this.title = title;
         this._elem = null;
         this.parent = parent;
         this.file = null;
-        this._callback = null;
+        this.callback = null;
     }
 
     addFile () {
@@ -21,6 +22,7 @@ export default class FileInputComponent {
             this._callback();
         }
     }
+
     destroy () {
         this._elem.removeEventListener('change', this.addFile);
     }

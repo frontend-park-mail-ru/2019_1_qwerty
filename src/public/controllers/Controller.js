@@ -7,6 +7,7 @@ export default class Controller {
     }) {
         this.data = data;
         this.EventBus = EventBus;
+        this.View = View;
     }
 
     getData () {

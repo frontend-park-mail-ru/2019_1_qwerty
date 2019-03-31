@@ -11,7 +11,6 @@ export default class Input extends View {
         parent,
         callbacks,
         nameOfView = 'Input',
-        onFocus = noop,
         parentView = null
     }) {
         super({

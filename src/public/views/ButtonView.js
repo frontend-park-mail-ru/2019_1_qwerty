@@ -7,7 +7,8 @@ export default class ButtonView extends View {
         nameOfView = 'Button',
         title = '',
         type = '',
-        parentView
+        parentView,
+        name = ''
     }) {
         super({
             parent,
@@ -18,10 +19,6 @@ export default class ButtonView extends View {
         this.type = type;
         this.title = title;
         this.name = name;
-    }
-
-    onDestroy () {
-        super.onDestroy();
     }
 
     render () {

@@ -20,6 +20,7 @@ export default class MenuView extends View {
         this.mainMenuButtons = {};
         this.destroy = this.onDestroy.bind(this);
         this.headerTitles = headerTitles;
+        this.parentView = this;
     }
 
     onDestroy () {

@@ -40,8 +40,8 @@ export default class MenuController extends Controller {
                 click: function (viewElement) {
                     return (event) => {
                         event.preventDefault();
-                        viewElement.parentView.destroy();
                         func();
+                        viewElement.parentView.destroy();
                     };
                 }
             };

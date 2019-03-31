@@ -126,7 +126,7 @@ export default class ProfileComponent {
 
         saveButton.render();
         this.elements.save = saveButton;
-    }
+    }//
 
     onDestroy () {
         Object.values(this.elements).forEach((item) => {

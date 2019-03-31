@@ -2,7 +2,6 @@
 
 import ScoreComponent from './components/Score/Score.js';
 import AjaxModule from './modules/ajax.js';
-import ProfileComponent from './components/Profile/Profile.js';
 import SignXController from './controllers/SignXController.js';
 import SignXView from './views/SignXView.js';
 import SignXService from './services/SignXService.js';
@@ -10,6 +9,9 @@ import EventBus from './modules/EventBus.js';
 import MenuService from './services/MenuService.js';
 import MenuController from './controllers/MenuController.js';
 import MenuView from './views/MenuView.js';
+import ProfileService from './services/ProfileService.js';
+import ProfileController from './controllers/ProfileController.js';
+import ProfileView from './views/ProfileView.js';
 
 const application = document.getElementById('application');
 
@@ -85,17 +87,27 @@ function createSignin () {
 
 function createProfile () {
     application.innerHTML = '';
-    const profile = new ProfileComponent({
-        parent: application,
-        callback: createMenu
+
+    const model = new ProfileService();
+
+    EventBus.on('profile:send-img', model.sendFile);
+    EventBus.on('profile:get-current-user', model.requestForCurrentUser);
+    EventBus.on('profile:send-user-data', model.sendUserInfo);
+    const profile = new ProfileController({
+        EventBus,
+        View: ProfileView,
+        data: {
+            afterSubmit: createMenu,
+            parent: application
+        }
     });
-    profile.render();
+    // profile.show();
 }
 
 function createSignup () {
     application.innerHTML = '';
     const model = new SignXService();
-
+    console.log('asd');
     EventBus.on('signX:request', model.requestForSignupOrSignin);
     const signUpController = new SignXController({
         data: {

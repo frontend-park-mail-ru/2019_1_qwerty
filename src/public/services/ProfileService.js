@@ -1,10 +1,11 @@
 import AjaxModule from '../modules/ajax.js';
 import EventBus from '../modules/EventBus.js';
+import { SEND_IMAGE, CURRENT_USER, UPDATE_USER } from '../config.js';
 
 export default class ProfileService {
-    requestForCurrentUser (path) {
+    requestForCurrentUser () {
         const promise = AjaxModule.doFetchGet({
-            path
+            path: CURRENT_USER
         })
             .then(response => {
                 if (!response.ok) {
@@ -21,28 +22,16 @@ export default class ProfileService {
         EventBus.emit('profile-model:get-current-user', promise);
     }
 
-    sendFile ({
-        path,
-        file
-    }) {
+    sendFile (file) {
         AjaxModule.sendData({
-            path,
-            file
+            file,
+            path: SEND_IMAGE
         });
     }
 
-    sendUserInfo ({
-        path,
-        body,
-        pathForInfo,
-        addError,
-        addInfo,
-        showNotification,
-        removeNotification,
-        clearFields
-    }) {
+    sendUserInfo (body) {
         AjaxModule.doFetchPost({
-            path,
+            path: UPDATE_USER,
             body
         })
             .then(response => {
@@ -51,10 +40,10 @@ export default class ProfileService {
                     error.response = response;
                     throw error;
                 }
-                showNotification();
-                clearFields();
+                EventBus.emit('profile-model:show-notification');
+                EventBus.emit('profile-model:clear-fields');
                 return AjaxModule.doFetchGet({
-                    path: pathForInfo
+                    path: CURRENT_USER
                 });
             })
             .then(response => {
@@ -65,11 +54,11 @@ export default class ProfileService {
             })
             .then(response => {
                 console.log(response);
-                addInfo(response);
+                EventBus.emit('profile-model:add-info', response);
             })
             .catch(e => {
-                addError(e.message);
-                removeNotification();
+                EventBus.emit('profile-model:add-error', e.message);
+                EventBus.emit('profile-model:remove-notification');
                 console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
             });
     }

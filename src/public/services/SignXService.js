@@ -1,7 +1,8 @@
 import AjaxModule from '../modules/ajax.js';
+import EventBus from '../modules/EventBus.js';
 
 export default class SignXService {
-    requestForSignupOrSignin ({ path, body, onDestroy, afterSuccessSubmit, addFormError }) {
+    requestForSignupOrSignin ({ path, body }) {
         AjaxModule.doFetchPost({
             path: path,
             body: body
@@ -12,11 +13,10 @@ export default class SignXService {
                     error.response = response;
                     throw error;
                 }
-                onDestroy();
-                afterSuccessSubmit();
+                EventBus.emit('signx-model:after-success-submit');
             })
             .catch(e => {
-                addFormError(e.message);
+                EventBus.emit('signx-model:add-errors', e.message);
                 console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
             });
     }

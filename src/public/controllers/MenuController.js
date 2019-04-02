@@ -1,51 +1,55 @@
 import Controller from './Controller.js';
 import { USER_CHECK } from '../config.js';
+import MenuView from '../views/MenuView.js';
 
 export default class MenuController extends Controller {
-    constructor ({
-        EventBus,
-        View,
-        pages = {},
-        data = {}
-    } = {}) {
-        super({
-            EventBus,
-            View,
-            data
-        });
-        this.pages = pages;
+    constructor (data) {
+        super(data);
+        this.pages = data.pages;
         this.path = USER_CHECK;
-        this.ViewClass = View;
-        this.data.callbacks = this.changePagesToEventListeners();
-        this.EventBus.emit('menu:user-auth', this.path);
+        this.getData();
+        this.EventBus.on('model:user-auth-info', this.createViewAndRender.bind(this));
+        this.EventBus.emit('menu:user-auth');
     }
 
     createViewAndRender (namesAndTitles) {
         this.data.headerTitles = namesAndTitles;
-        this.view = new this.ViewClass(this.data);
+        this.view = new MenuView(this.data);
         this.show();
     }
 
-    // getData () {
-    //
-    //     this.EventBus.emit('menu:user-auth', {
-    //         path: this.path,
-    //         createViewAndRender: this.createViewAndRender.bind(this)
-    //     });
-    // }
-
-    changePagesToEventListeners () {
-        return Object.entries(this.pages).reduce((accum, [key, func]) => {
-            accum[key] = {
-                click: function (viewElement) {
-                    return (event) => {
-                        event.preventDefault();
-                        func();
-                        viewElement.parentView.destroy();
-                    };
+    getData () {
+        this.data.callbacks = {
+            menu: {
+                header: {
+                    signin: {
+                        click: this.changePagesToEventListeners(this.pages.signin).bind(this)
+                    },
+                    signup: {
+                        click: this.changePagesToEventListeners(this.pages.signup).bind(this)
+                    },
+                    profile: {
+                        click: this.changePagesToEventListeners(this.pages.profile).bind(this)
+                    },
+                    logout: {
+                        click: function (event) {
+                            event.preventDefault();
+                            this.pages.logout();
+                        }.bind(this)
+                    }
+                },
+                score: {
+                    click: this.changePagesToEventListeners(this.pages.score).bind(this)
                 }
-            };
-            return accum;
-        }, {});
+            }
+        };
+    }
+
+    changePagesToEventListeners (func) {
+        return event => {
+            event.preventDefault();
+            this.view.onDestroy();
+            func();
+        };
     }
 }

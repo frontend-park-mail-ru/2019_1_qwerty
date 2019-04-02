@@ -1,7 +1,5 @@
 import View from './View.js';
 
-const noop = () => null;
-
 export default class Input extends View {
     constructor ({
         name = '',
@@ -24,7 +22,6 @@ export default class Input extends View {
         this.placeholder = placeholder;
         this.isPassword = isPassword;
         this._showIconListener = this._showIconListener.bind(this);
-        // this._onFocus = onFocus;
     }
 
     render () {
@@ -36,12 +33,10 @@ export default class Input extends View {
         }
 
         this.setEvents();
-        // this.addEventOnFocus();
         this.showPassword();
     }
 
     onDestroy () {
-        // this.elem.removeEventListener('focus', this._onFocus);
         if (this.isPassword) {
             this._showIcon.removeEventListener('click', this._showIconListener);
         }
@@ -63,5 +58,4 @@ export default class Input extends View {
 
         this._showIcon.addEventListener('click', this._showIconListener);
     }
-
 }

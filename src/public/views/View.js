@@ -7,10 +7,8 @@ export default class View {
     }) {
         this.parent = parent;
         this.parentView = parentView;
-        this.callbacks = callbacks;
         this.elem = null;
-        this.callbacksForView = this.callbacks[nameOfView];
-        View.instance = this;
+        this.callbacksForView = callbacks[nameOfView];
     }
 
     render () {
@@ -31,8 +29,12 @@ export default class View {
             return;
         }
         this.eventlistnersForView = {};
+
         Object.entries(this.callbacksForView).forEach(([event, callback]) => {
-            this.eventlistnersForView[event] = callback(this);
+            if (typeof callback !== 'function') {
+                return;
+            }
+            this.eventlistnersForView[event] = callback;
             this.elem.addEventListener(event, this.eventlistnersForView[event]);
         });
     }

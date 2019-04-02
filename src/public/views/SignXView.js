@@ -19,10 +19,10 @@ export default class SignXView extends View {
             callbacks,
             nameOfView
         });
-        this._isSignup = isSignup;
-        this._afterSuccessSubmit = afterSuccessSubmit;
-        this._path = isSignup ? CREATE_USER : LOGIN_USER;
-        this._elements = [];
+        this.isSignup = isSignup;
+        this.afterSuccessSubmit = afterSuccessSubmit;
+        this.path = isSignup ? CREATE_USER : LOGIN_USER;
+        this.elements = {};
     }
 
     _addFormError (error) {
@@ -37,19 +37,17 @@ export default class SignXView extends View {
     }
 
     onDestroy () {
-        this._elements.forEach((component) => {
+        Object.values(this.elements).forEach((component) => {
             component.onDestroy();
         });
 
         super.onDestroy();
-        //
-        // this._form.removeEventListener('submit', this.submitEvent);
     }
 
     render () {
-        const title = this._isSignup ? 'Sign Up' : 'Sign In';
+        const title = this.isSignup ? 'Sign Up' : 'Sign In';
 
-        this.parent.innerHTML = window.fest['components/SignX/SignX.tmpl'](this._isSignup);
+        this.parent.innerHTML = window.fest['components/SignX/SignX.tmpl'](this.isSignup);
         const nicknameParent = document.querySelector('div[data-section-name="nickname"]');
         const signXNickname = new InputView({
             name: 'nickname',
@@ -57,11 +55,11 @@ export default class SignXView extends View {
             placeholder: 'Nickname',
             parent: nicknameParent,
             nameOfView: 'InputNickname',
-            callbacks: this.callbacks,
+            callbacks: this.callbacksForView,
             parentView: this
         });
 
-        this._elements.push(signXNickname);
+        this.elements['nickname'] = signXNickname;
 
         const passwordParent = document.querySelector('div[data-section-name="password"]');
         const signXPassword = new InputView({
@@ -71,11 +69,11 @@ export default class SignXView extends View {
             isPassword: true,
             parent: passwordParent,
             nameOfView: 'InputPassword',
-            callbacks: this.callbacks,
+            callbacks: this.callbacksForView,
             parentView: this
         });
 
-        this._elements.push(signXPassword);
+        this.elements['password'] = signXPassword;
 
         const buttonParent = document.querySelector('div[data-section-name="button"]');
         const name = 'button';
@@ -84,7 +82,7 @@ export default class SignXView extends View {
             title,
             parent: buttonParent,
             type: 'submit',
-            callbacks: this.callbacks
+            callbacks: this.callbacksForView
         });
 
         this.elem = document.querySelector('.sign-x-form');
@@ -93,7 +91,7 @@ export default class SignXView extends View {
         this._errorDiv.display = 'none';
 
         signXNickname.render();
-        if (this._isSignup) {
+        if (this.isSignup) {
             const emailParent = document.querySelector('div[data-section-name="email"]');
             const signXEmail = new InputView({
                 name: 'email',
@@ -101,18 +99,17 @@ export default class SignXView extends View {
                 placeholder: 'Email',
                 parent: emailParent,
                 nameOfView: 'InputEmail',
-                callbacks: this.callbacks,
+                callbacks: this.callbacksForView,
                 parentView: this
             });
 
             signXEmail.render();
-            this._elements.push(signXEmail);
+            this.elements['email'] = signXEmail;
         }
 
         signXPassword.render();
         signXButton.render();
 
         this.setEvents();
-        // this._form.addEventListener('submit', this.callbacks.SignX.submit(this));
     }
 }

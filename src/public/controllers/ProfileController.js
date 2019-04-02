@@ -1,36 +1,30 @@
 import Controller from './Controller.js';
-import { CURRENT_USER, SEND_IMAGE, UPDATE_USER } from '../config.js';
+import ProfileView from '../views/ProfileView.js';
 
 export default class ProfileController extends Controller {
-    constructor ({
-        EventBus = {},
-        View = null,
-        data = {}
-    }) {
-        super({
-            EventBus,
-            View,
-            data
-        });
-
+    constructor (data) {
+        super(data);
         this.contentFromEmailField = '';
         this.contentFromImageField = '';
         this.contentFromPasswordField = '';
         this.getData();
-        this.clearFields.bind(this);
-        EventBus.on('profile-model:get-current-user', this.getPromiseFromModel.bind(this));
-        EventBus.emit('profile:get-current-user', CURRENT_USER);
+        this.EventBus.on('profile-model:get-current-user', this.getPromiseFromModel.bind(this));
+        this.EventBus.emit('profile:get-current-user');
         this.promise
             .then(userInfo => {
                 this.data.userInfo = userInfo;
-                this.createView();
+                this.createViewAndRender();
             });
-        this.view = null;
     }
 
-    createView () {
-        this.view = new this.View(this.data);
-        this.view.render();
+    createViewAndRender () {
+        this.view = new ProfileView(this.data);
+        this.EventBus.on('profile-model:clear-fields', this.clearFields.bind(this));
+        this.EventBus.on('profile-model:add-info', this.addInfoForModel.bind(this));
+        this.EventBus.on('profile-model:add-error', this.view._addFormError.bind(this.view));
+        this.EventBus.on('profile-model:show-notification', this.view.showNotification.bind(this.view));
+        this.EventBus.on('profile-model:remove-notification', this.view.removeNotification.bind(this.view));
+        this.show();
     }
 
     getPromiseFromModel (promise) {
@@ -40,139 +34,110 @@ export default class ProfileController extends Controller {
     getData () {
         this.data.callbacks = {
             profile: {
+                close: {
+                    click: this.changeCallbackToEventListener.bind(this)
+                },
+                email: {
+                    focus: this.onFocus.bind(this),
+                    change: this.getEmail.bind(this)
+                },
+                password: {
+                    focus: this.onFocus.bind(this),
+                    change: this.getPassword.bind(this)
+                },
+                upload: {
+                    change: this.addAndGetImage.bind(this)
+                },
                 submit: this.submitEvent.bind(this)
-            },
-            close: {
-                click: this.changeCallbackToEventListener.bind(this)
-            },
-            email: {
-                focus: this.onFocus.bind(this),
-                change: this.getEmail.bind(this)
-            },
-            password: {
-                focus: this.onFocus.bind(this),
-                change: this.getPassword.bind(this)
-            },
-            upload: {
-                change: this.addAndGetImage.bind(this)
-            }
-        };
-
-    }
-
-    getEmail (viewElement) {
-        return event => {
-            event.preventDefault();
-            this.contentFromEmailField = viewElement.getContent().trim();
-        };
-    }
-
-    addAndGetImage (viewElement) {
-        return event => {
-            event.preventDefault();
-            viewElement.file = viewElement.elem.files[0];
-            if (!/image\/(jpg|jpeg|png)/.test(viewElement.file.type)) {
-                viewElement.parentView._addFormError('Incorrect file format');
-                return;
-            }
-            const reader = new FileReader();
-
-            reader.onloadend = () => {
-                viewElement.parentView.insertElements.img.src = reader.result;
-                this.contentFromImageField = viewElement.file;
-            };
-
-            if (viewElement.file) {
-                viewElement.parentView._removeFormError();
-                reader.readAsDataURL(viewElement.file);
-            } else {
-                viewElement.insertElements.img.src = '';
             }
         };
     }
 
-    getPassword (viewElement) {
-        return event => {
-            event.preventDefault();
-            this.contentFromPasswordField = viewElement.getContent().trim();
-        };
+    getEmail (event) {
+        event.preventDefault();
+        this.contentFromEmailField = this.view.elements.email.getContent().trim();
     }
 
-    onFocus (formView) {
-        return (event) => {
-            event.preventDefault();
-            if (formView.parentView._errorDiv.display === 'block') {
-                formView.parentView._removeFormError();
-            }
+    addAndGetImage (event) {
+        event.preventDefault();
+        this.view.file = this.view.elements.upload.elem.files[0];
+        if (!/image\/(jpg|jpeg|png)/.test(this.view.file.type)) {
+            this.view._addFormError('Incorrect file format');
+            return;
+        }
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            this.view.insertElements.img.src = reader.result;
+            this.contentFromImageField = this.view.file;
         };
+
+        if (this.view.file) {
+            this.view._removeFormError();
+            reader.readAsDataURL(this.view.file);
+        } else {
+            this.insertElements.img.src = '';
+        }
     }
 
-    changeCallbackToEventListener (formView) {
-        return event => {
-            event.preventDefault();
-            this.data.afterSubmit();
-            formView.parentView.onDestroy();
-        };
+    getPassword (event) {
+        event.preventDefault();
+        this.contentFromPasswordField = this.view.elements.password.getContent().trim();
     }
 
-    submitEvent (viewElement) {
-        return event => {
-            event.preventDefault();
-
-            const email = this.contentFromEmailField;
-            const password = this.contentFromPasswordField;
-            const upload = this.contentFromImageField;
-
-            const body = { email, password };
-            let errorExpression = !email && !password && !upload;
-            let errorMsg = 'fill something to submit';
-
-            if (errorExpression) {
-                viewElement._addFormError(errorMsg);
-                viewElement.removeNotification();
-                return;
-            }
-
-            if (password.length && password.length < 5) {
-                viewElement._addFormError('Password must be longer than 5 characters');
-                viewElement.removeNotification();
-                return;
-            }
-
-            if (upload) {
-                this.EventBus.emit('profile:send-img', {
-                    path: SEND_IMAGE,
-                    file: upload
-                });
-            }
-
-            // this.body = body;
-            this.EventBus.emit('profile:send-user-data', {
-                path: UPDATE_USER,
-                body,
-                pathForInfo: CURRENT_USER,
-                addError: viewElement._addFormError.bind(viewElement),
-                addInfo: this.addInfoForModel(viewElement),
-                showNotification: viewElement.showNotification.bind(viewElement),
-                removeNotification: viewElement.removeNotification.bind(viewElement),
-                clearFields: this.clearFields(viewElement)
-            });
-        };
+    onFocus (event) {
+        event.preventDefault();
+        if (this.view._errorDiv.display === 'block') {
+            this.view._removeFormError();
+        }
     }
-    addInfoForModel (viewElement) {
-        return response => {
-            viewElement.userInfo = response;
-            viewElement.addInfo();
-        };
+
+    changeCallbackToEventListener (event) {
+        event.preventDefault();
+        this.data.afterSubmit();
+        this.view.onDestroy();
     }
-    clearFields (viewElement) {
-        return () => {
-            viewElement.elem.elements.email.value = '';
-            viewElement.elem.elements.password.value = '';
-            viewElement.elem.file = null;
-            this.contentFromPasswordField = '';
-            this.contentFromEmailField = '';
-            this.contentFromImageField = null;
-        };
+
+    submitEvent (event) {
+        event.preventDefault();
+
+        const email = this.contentFromEmailField;
+        const password = this.contentFromPasswordField;
+        const upload = this.contentFromImageField;
+
+        const body = { email, password };
+        let errorExpression = !email && !password && !upload;
+        let errorMsg = 'fill something to submit';
+
+        if (errorExpression) {
+            this.view._addFormError(errorMsg);
+            this.view.removeNotification();
+            return;
+        }
+
+        if (password.length && password.length < 5) {
+            this.view._addFormError('Password must be longer than 5 characters');
+            this.view.removeNotification();
+            return;
+        }
+
+        if (upload) {
+            this.EventBus.emit('profile:send-img', upload);
+        }
+        this.EventBus.emit('profile:send-user-data', body);
+    }
+
+    addInfoForModel (response) {
+        this.view.userInfo = response;
+        this.view.addInfo();
+    }
+
+    clearFields () {
+        this.view.elem.elements.email.value = '';
+        this.view.elem.elements.password.value = '';
+        this.view.elem.file = null;
+        this.contentFromPasswordField = '';
+        this.contentFromEmailField = '';
+        this.contentFromImageField = null;
     }
 }

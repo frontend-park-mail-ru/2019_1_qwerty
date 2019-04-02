@@ -6,7 +6,7 @@ export default class MenuView extends View {
     constructor ({
         parent = document.body,
         callbacks = {},
-        nameOfView = '',
+        nameOfView = 'menu',
         menuItems = {},
         headerTitles = {}
     } = {}) {
@@ -18,7 +18,6 @@ export default class MenuView extends View {
         this.menuItems = menuItems;
         this.header = null;
         this.mainMenuButtons = {};
-        this.destroy = this.onDestroy.bind(this);
         this.headerTitles = headerTitles;
         this.parentView = this;
     }
@@ -38,10 +37,9 @@ export default class MenuView extends View {
 
         const headerParent = document.querySelector('.menu-header__item_width_m');
         this.header = new HeaderView({
-            callbacks: this.callbacks,
+            callbacks: this.callbacksForView,
             parent: headerParent,
             pages: this.pages,
-            destroy: this.destroy,
             headerTitles: this.headerTitles
         });
         this.header.render();
@@ -51,7 +49,7 @@ export default class MenuView extends View {
             const button = new ButtonView({
                 title,
                 parent,
-                callbacks: this.callbacks,
+                callbacks: this.callbacksForView,
                 name: key,
                 nameOfView: key,
                 parentView: this

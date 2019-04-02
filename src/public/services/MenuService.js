@@ -1,26 +1,19 @@
 import AjaxModule from '../modules/ajax.js';
 import EventBus from '../modules/EventBus.js';
 
-const noop = () => null;
+import { USER_CHECK } from '../config.js';
 
 export default class MenuService {
-    requestForUserAuth (path = '') {
+    requestForUserAuth () {
         AjaxModule.doFetchGet({
-            path
+            path: USER_CHECK
         })
-            .then(response => {
-                let namesAndTitles = {
-                    signin: 'Sign In',
-                    signup: 'Sign Up'
-                };
-
-                if (response.ok) {
-                    namesAndTitles = {
-                        profile: 'My Profile',
-                        logout: 'Log Out'
-                    };
-                }
-                return namesAndTitles;
+            .then(response => (response.ok) ? {
+                profile: 'My Profile',
+                logout: 'Log Out'
+            } : {
+                signin: 'Sign In',
+                signup: 'Sign Up'
             })
             .then(res => {
                 EventBus.emit('model:user-auth-info', res);

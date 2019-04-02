@@ -1,18 +1,12 @@
-import AjaxModule from '../modules/ajax.js';
-// import ButtonComponent from "../components/Button/Button";
-
 import ButtonView from './ButtonView.js';
 import View from './View.js';
-
-const noop = () => null;
 
 export default class HeaderView extends View {
     constructor ({
         parent = document.body,
         callbacks = {},
-        nameOfView = '',
+        nameOfView = 'header',
         parentView = null,
-        destroy = noop,
         headerTitles = {}
     } = {}) {
         super({
@@ -22,7 +16,6 @@ export default class HeaderView extends View {
             parentView
         });
         this.elements = {};
-        this.destroy = destroy;
         this.headerTitles = headerTitles;
     }
 
@@ -52,7 +45,7 @@ export default class HeaderView extends View {
                 name: key,
                 title: data,
                 parent,
-                callbacks: this.callbacks,
+                callbacks: this.callbacksForView,
                 nameOfView: key,
                 parentView: this
             });

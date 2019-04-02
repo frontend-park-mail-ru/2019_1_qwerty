@@ -1,20 +1,20 @@
+import EventBus from '../modules/EventBus.js';
 
 export default class Controller {
-    constructor ({
-        EventBus = {},
-        View = null,
-        data = {}
-    }) {
+    constructor (data = {}) {
         this.data = data;
         this.EventBus = EventBus;
-        this.View = View;
     }
 
     getData () {
-        return {};
+        return this.data;
     }
 
     show () {
         this.view.render();
+    }
+
+    createViewAndRender () {
+        return null;
     }
 }

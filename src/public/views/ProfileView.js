@@ -81,13 +81,12 @@ export default class ProfileView extends View {
         const uploadInput = new FileInputView({
             parent: uploadParent,
             title: 'Change',
-            callbacks: this.callbacks,
+            callbacks: this.callbacksForView,
             parentView: this,
             nameOfView: 'upload'
         });
         uploadInput.render();
         this.elements.upload = uploadInput;
-        // uploadInput.onChange = this.changeRealTimeImage.bind(this);
 
         const emailParent = document.querySelector('[data-section="email"]');
         const emailInput = new InputView({
@@ -96,11 +95,10 @@ export default class ProfileView extends View {
             placeholder: 'New Email',
             isPassword: false,
             parent: emailParent,
-            callbacks: this.callbacks,
+            callbacks: this.callbacksForView,
             nameOfView: 'email',
             parentView: this
         });
-        // emailInput.onFocus = this._onFocus.bind(this);
         emailInput.render();
         this.elements.email = emailInput;
 
@@ -111,11 +109,10 @@ export default class ProfileView extends View {
             placeholder: 'New Password',
             parent: passwordParent,
             isPassword: true,
-            callbacks: this.callbacks,
+            callbacks: this.callbacksForView,
             nameOfView: 'password',
             parentView: this
         });
-
         passwordInput.render();
         this.elements.password = passwordInput;
 
@@ -125,11 +122,10 @@ export default class ProfileView extends View {
             title: 'Close',
             parent: closeButtonParent,
             type: 'button',
-            callbacks: this.callbacks,
+            callbacks: this.callbacksForView,
             parentView: this,
             nameOfView: 'close'
         });
-
         closeButton.render();
         this.elements.close = closeButton;
 
@@ -139,7 +135,7 @@ export default class ProfileView extends View {
             title: 'Save',
             parent: saveButtonParent,
             type: 'submit',
-            callbacks: this.callbacks,
+            callbacks: this.callbacksForView,
             parentView: this,
             nameOfView: 'save'
         });

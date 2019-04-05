@@ -3,15 +3,13 @@
 import ScoreComponent from './components/Score/Score.js';
 import AjaxModule from './modules/ajax.js';
 import SignXController from './controllers/SignXController.js';
-import SignXView from './views/SignXView.js';
 import SignXService from './services/SignXService.js';
 import EventBus from './modules/EventBus.js';
 import MenuService from './services/MenuService.js';
 import MenuController from './controllers/MenuController.js';
-import MenuView from './views/MenuView.js';
 import ProfileService from './services/ProfileService.js';
 import ProfileController from './controllers/ProfileController.js';
-import ProfileView from './views/ProfileView.js';
+import router from './modules/Router.js';
 
 const application = document.getElementById('application');
 
@@ -110,4 +108,14 @@ function Scoreboard () {
     board.render();
 }
 
-createMenu();
+// createMenu();
+
+router.register('/signin', createSignin);
+router.register('/', createMenu);
+router.register('/signup', createSignup);
+router.register('/profile', createProfile);
+router.register('/logout', logOut);
+router.register('/score', Scoreboard);
+
+router.go(window.location.pathname);
+// router.go('/score');

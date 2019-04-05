@@ -1,5 +1,6 @@
 import Controller from './Controller.js';
 import SignXView from '../views/SignXView.js';
+import router from '../modules/Router.js';
 
 export default class SignXController extends Controller {
     constructor (data) {
@@ -11,7 +12,8 @@ export default class SignXController extends Controller {
         this.EventBus.on('signx-model:add-errors', this.view._addFormError.bind(this.view));
         this.EventBus.on('signx-model:after-success-submit', function () {
             this.view.onDestroy();
-            this.view.afterSuccessSubmit();
+            router.go('/');
+            // this.view.afterSuccessSubmit();
         }.bind(this));
     }
 

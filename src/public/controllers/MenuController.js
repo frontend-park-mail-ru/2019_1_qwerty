@@ -1,6 +1,7 @@
 import Controller from './Controller.js';
 import { USER_CHECK } from '../config.js';
 import MenuView from '../views/MenuView.js';
+import router from '../modules/Router.js';
 
 export default class MenuController extends Controller {
     constructor (data) {
@@ -23,33 +24,46 @@ export default class MenuController extends Controller {
             menu: {
                 header: {
                     signin: {
-                        click: this.changePagesToEventListeners(this.pages.signin).bind(this)
+                        // click: this.changePagesToEventListeners(this.pages.signin).bind(this)
+                        click: this.routeFunction('/signin').bind(this)
                     },
                     signup: {
-                        click: this.changePagesToEventListeners(this.pages.signup).bind(this)
+                        click: this.routeFunction('/signup').bind(this)
+                        // click: this.changePagesToEventListeners(this.pages.signup).bind(this)
                     },
                     profile: {
-                        click: this.changePagesToEventListeners(this.pages.profile).bind(this)
+                        click: this.routeFunction('/profile').bind(this)
+                        // click: this.changePagesToEventListeners(this.pages.profile).bind(this)
                     },
                     logout: {
                         click: function (event) {
                             event.preventDefault();
-                            this.pages.logout();
-                        }.bind(this)
+                            router.go('/logout');
+                            // this.pages.logout();
+                        }
                     }
                 },
                 score: {
-                    click: this.changePagesToEventListeners(this.pages.score).bind(this)
+                    // click: this.changePagesToEventListeners(this.pages.score).bind(this)
+                    click: this.routeFunction('/score').bind(this)
                 }
             }
         };
     }
+    //
+    // changePagesToEventListeners (func) {
+    //     return event => {
+    //         event.preventDefault();
+    //         this.view.onDestroy();
+    //         func();
+    //     };
+    // }
 
-    changePagesToEventListeners (func) {
+    routeFunction (path) {
         return event => {
             event.preventDefault();
             this.view.onDestroy();
-            func();
+            router.go(path);
         };
     }
 }

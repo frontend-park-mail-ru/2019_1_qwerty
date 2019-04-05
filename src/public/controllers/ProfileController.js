@@ -1,5 +1,6 @@
 import Controller from './Controller.js';
 import ProfileView from '../views/ProfileView.js';
+import router from '../modules/Router.js';
 
 export default class ProfileController extends Controller {
     constructor (data) {
@@ -94,8 +95,9 @@ export default class ProfileController extends Controller {
 
     changeCallbackToEventListener (event) {
         event.preventDefault();
-        this.data.afterSubmit();
+        // this.data.afterSubmit();
         this.view.onDestroy();
+        router.go('/');
     }
 
     submitEvent (event) {

@@ -7,6 +7,7 @@
 @import url("components/Profile/Profile.css");
 @import url("components/FileInput/FileInput.css");
 @import url("components/Notification/Notification.css");
+@import url("components/404NotFound/Error404.css");
 
 @font-face {
     font-family: Pixel;

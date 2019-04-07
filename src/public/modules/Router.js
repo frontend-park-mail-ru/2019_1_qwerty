@@ -1,10 +1,14 @@
+const noop = () => null;
+
 class Router {
     constructor () {
         this.routes = {};
+        this.errorFunction = noop;
 
         window.addEventListener('popstate', event => {
             console.dir(event);
-            this.routes[event.state.path]();
+            this.getPage(event.state.path);
+            // this.routes[event.state.path]();
         });
     }
 
@@ -16,7 +20,20 @@ class Router {
         window.history.pushState({
             path
         }, '', path);
+        this.getPage(path);
+        // this.routes[path]();
+    }
+
+    getPage (path) {
+        if (!this.routes.hasOwnProperty(path)) {
+            this.errorFunction();
+            return;
+        }
         this.routes[path]();
+    }
+
+    error (func) {
+        this.errorFunction = func;
     }
 }
 

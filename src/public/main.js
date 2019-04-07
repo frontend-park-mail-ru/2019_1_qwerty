@@ -9,6 +9,7 @@ import MenuService from './services/MenuService.js';
 import MenuController from './controllers/MenuController.js';
 import ProfileService from './services/ProfileService.js';
 import ProfileController from './controllers/ProfileController.js';
+import Error404Controller from './controllers/Error404Controller.js';
 import router from './modules/Router.js';
 
 const application = document.getElementById('application');
@@ -108,7 +109,13 @@ function Scoreboard () {
     board.render();
 }
 
-// createMenu();
+function create404Page () {
+    application.innerHTML = '';
+    const error = new Error404Controller({
+        parent: application
+    });
+    error.show();
+}
 
 router.register('/signin', createSignin);
 router.register('/', createMenu);
@@ -116,6 +123,7 @@ router.register('/signup', createSignup);
 router.register('/profile', createProfile);
 router.register('/logout', logOut);
 router.register('/score', Scoreboard);
+router.error(create404Page);
 
 router.go(window.location.pathname);
 // router.go('/score');

@@ -4,7 +4,7 @@ import { SEND_IMAGE, CURRENT_USER, UPDATE_USER } from '../config.js';
 
 export default class ProfileService {
     requestForCurrentUser () {
-        const promise = AjaxModule.doFetchGet({
+        AjaxModule.doFetchGet({
             path: CURRENT_USER
         })
             .then(response => {
@@ -13,13 +13,16 @@ export default class ProfileService {
                     error.response = response;
                     throw error;
                 }
+
                 return response.json();
+            })
+            .then(data => {
+                EventBus.emit('profile-model:get-current-user', data);
             })
             .catch(e => {
                 alert('Error: ' + e.message);
                 console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
             });
-        EventBus.emit('profile-model:get-current-user', promise);
     }
 
     sendFile (file) {

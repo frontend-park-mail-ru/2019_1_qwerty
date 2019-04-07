@@ -9,34 +9,41 @@ export default class ProfileController extends Controller {
         this.contentFromImageField = '';
         this.contentFromPasswordField = '';
         this.getData();
-        this.EventBus.on('profile-model:get-current-user', this.getPromiseFromModel.bind(this));
+        this.EventBus.on('profile-model:get-current-user', this.createViewAndRender.bind(this));
         this.EventBus.emit('profile:get-current-user');
-        this.promise
-            .then(userInfo => {
-                this.data.userInfo = userInfo;
-                this.createViewAndRender();
-            });
     }
 
-    createViewAndRender () {
+    createViewAndRender (userInfo) {
+        this.data.userInfo = userInfo;
         this.view = new ProfileView(this.data);
         this.EventBus.on('profile-model:clear-fields', this.clearFields.bind(this));
         this.EventBus.on('profile-model:add-info', this.addInfoForModel.bind(this));
-        this.EventBus.on('profile-model:add-error', this.view._addFormError.bind(this.view));
-        this.EventBus.on('profile-model:show-notification', this.view.showNotification.bind(this.view));
-        this.EventBus.on('profile-model:remove-notification', this.view.removeNotification.bind(this.view));
+        this.EventBus.on('profile-model:add-error', this.addFormError.bind(this));
+        this.EventBus.on('profile-model:show-notification', this.showNotification.bind(this));
+        this.EventBus.on('profile-model:remove-notification', this.removeNotification.bind(this));
         this.show();
     }
 
-    getPromiseFromModel (promise) {
-        this.promise = promise;
+    addFormError () {
+        this.view._addFormError.bind(this.view);
+        this.view._addFormError();
+    }
+
+    showNotification () {
+        this.view.showNotification.bind(this.view);
+        this.view.showNotification();
+    }
+
+    removeNotification () {
+        this.view.removeNotification.bind(this.view);
+        this.view.removeNotification();
     }
 
     getData () {
         this.data.callbacks = {
             profile: {
                 close: {
-                    click: this.changeCallbackToEventListener.bind(this)
+                    click: this.routeFunction('/')
                 },
                 email: {
                     focus: this.onFocus.bind(this),
@@ -93,12 +100,12 @@ export default class ProfileController extends Controller {
         }
     }
 
-    changeCallbackToEventListener (event) {
-        event.preventDefault();
-        // this.data.afterSubmit();
-        this.view.onDestroy();
-        router.go('/');
-    }
+    // changeCallbackToEventListener (event) {
+    //     event.preventDefault();
+    //     // this.data.afterSubmit();
+    //     this.view.onDestroy();
+    //     router.go('/');
+    // }
 
     submitEvent (event) {
         event.preventDefault();

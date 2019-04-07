@@ -6,7 +6,7 @@ import router from '../modules/Router.js';
 export default class MenuController extends Controller {
     constructor (data) {
         super(data);
-        this.pages = data.pages;
+       // this.pages = data.pages;
         this.path = USER_CHECK;
         this.getData();
         this.EventBus.on('model:user-auth-info', this.createViewAndRender.bind(this));
@@ -24,46 +24,33 @@ export default class MenuController extends Controller {
             menu: {
                 header: {
                     signin: {
-                        // click: this.changePagesToEventListeners(this.pages.signin).bind(this)
-                        click: this.routeFunction('/signin').bind(this)
+                        click: this.routeFunction('/signin')
                     },
                     signup: {
-                        click: this.routeFunction('/signup').bind(this)
-                        // click: this.changePagesToEventListeners(this.pages.signup).bind(this)
+                        click: this.routeFunction('/signup')
                     },
                     profile: {
-                        click: this.routeFunction('/profile').bind(this)
-                        // click: this.changePagesToEventListeners(this.pages.profile).bind(this)
+                        click: this.routeFunction('/profile')
                     },
                     logout: {
-                        click: function (event) {
+                        click: event => {
                             event.preventDefault();
                             router.go('/logout');
-                            // this.pages.logout();
                         }
                     }
                 },
                 score: {
-                    // click: this.changePagesToEventListeners(this.pages.score).bind(this)
-                    click: this.routeFunction('/score').bind(this)
+                    click: this.routeFunction('/score')
                 }
             }
         };
     }
     //
-    // changePagesToEventListeners (func) {
+    // routeFunction (path) {
     //     return event => {
     //         event.preventDefault();
     //         this.view.onDestroy();
-    //         func();
+    //         router.go(path);
     //     };
     // }
-
-    routeFunction (path) {
-        return event => {
-            event.preventDefault();
-            this.view.onDestroy();
-            router.go(path);
-        };
-    }
 }

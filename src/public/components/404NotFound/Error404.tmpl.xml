@@ -1,0 +1,8 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+    <section class="error">
+        <h1 class="error__header error__item">Error 404</h1>
+        <article class="error_content error__item">Oh! Page not found.</article>
+        <div class="error__item error__button">
+        </div>
+    </section>
+</fest:template>

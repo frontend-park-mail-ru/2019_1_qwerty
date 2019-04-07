@@ -6,3 +6,4 @@ export const USER_CHECK = '/user/check';
 export const CURRENT_USER = '/user';
 export const SEND_IMAGE = '/user/avatar';
 export const UPDATE_USER = '/user/update';
+export const GET_SCORE = '/score?offset=';

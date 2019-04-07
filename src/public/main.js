@@ -1,6 +1,5 @@
 'use strict';
 
-import ScoreComponent from './components/Score/Score.js';
 import AjaxModule from './modules/ajax.js';
 import SignXController from './controllers/SignXController.js';
 import SignXService from './services/SignXService.js';
@@ -10,6 +9,8 @@ import MenuController from './controllers/MenuController.js';
 import ProfileService from './services/ProfileService.js';
 import ProfileController from './controllers/ProfileController.js';
 import Error404Controller from './controllers/Error404Controller.js';
+import ScoreboardController from './controllers/ScoreboardController.js';
+import ScoreboardService from './services/ScoreboardService.js';
 import router from './modules/Router.js';
 
 const application = document.getElementById('application');
@@ -104,9 +105,13 @@ function createSignup () {
 function Scoreboard () {
     application.innerHTML = '';
 
-    const board = new ScoreComponent({ parent: application });
-    board.getNext();
-    board.render();
+    const model = new ScoreboardService();
+    EventBus.on('scoreboard:get-score', model.getScore.bind(model));
+
+    const scoreboard = new ScoreboardController({
+        parent: application
+    });
+    scoreboard.show();
 }
 
 function create404Page () {

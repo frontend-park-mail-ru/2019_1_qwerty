@@ -130,5 +130,5 @@ router.register('/logout', logOut);
 router.register('/score', Scoreboard);
 router.error(create404Page);
 
-router.go(window.location.pathname);
-// router.go('/score');
+var url = new URL(window.location.href);
+router.go(url.pathname, url.searchParams.toString());

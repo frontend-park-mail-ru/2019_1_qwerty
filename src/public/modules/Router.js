@@ -16,10 +16,13 @@ class Router {
         this.routes[path] = func;
     }
 
-    go (path) {
+    go (path, params = '') {
+        if (params !== '') {
+            params = '?' + params;
+        }
         window.history.pushState({
             path
-        }, '', path);
+        }, '', path + params);
         this.getPage(path);
         // this.routes[path]();
     }

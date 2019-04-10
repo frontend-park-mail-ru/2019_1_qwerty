@@ -41,6 +41,9 @@ export default class MenuController extends Controller {
                 },
                 score: {
                     click: this.routeFunction('/score')
+                },
+                singleplayer: {
+                    click: this.routeFunction('/singleplayer')
                 }
             }
         };

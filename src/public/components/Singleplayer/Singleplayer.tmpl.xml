@@ -1,16 +1,28 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="scoreboard">
-
-    <fest:element name="div">
-        <fest:attributes>
-            <fest:attribute name="class">single</fest:attribute>
-        </fest:attributes>
-        
+    <section class="singleplayer">
         <fest:element name="div">
             <fest:attributes>
-                <fest:attribute name="class">single-canvas</fest:attribute>
+                 <fest:attribute name="class">singleplayer__canvas</fest:attribute>
                 <fest:attribute name="data-section-name">canvas</fest:attribute>
-            </fest:attributes>
+             </fest:attributes>
         </fest:element>
-
-    </fest:element>
+        <div class="singleplayer-menu">
+            <article class="singleplayer-menu__item singleplayer-menu__item_width_20">
+                <div class="info__label">
+                    <div class="info__item header">Level</div>
+                    <div class="info__item" data-section="level">0</div>
+                </div>
+                <div class="info__label">
+                    <div class="info__item header">Score</div>
+                    <div class="info__item"><span class="username">User1</span> : <span class="score">0</span></div>
+                </div>
+            </article>
+            <article class="singleplayer-menu__item singleplayer-menu__item_width_40">
+                <div class="singleplayer-menu__button" data-section-name="help"></div>
+                <div class="singleplayer-menu__button" data-section-name="scoreboard"></div>
+                <div class="singleplayer-menu__button" data-section-name="pause"></div>
+                <div class="singleplayer-menu__button" data-section-name="menu"></div>
+            </article>
+        </div>
+    </section>
 </fest:template>

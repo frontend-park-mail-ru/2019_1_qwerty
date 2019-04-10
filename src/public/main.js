@@ -11,7 +11,7 @@ import ProfileController from './controllers/ProfileController.js';
 import Error404Controller from './controllers/Error404Controller.js';
 import ScoreboardController from './controllers/ScoreboardController.js';
 import ScoreboardService from './services/ScoreboardService.js';
-import SingleplayerController from './controllers/SingleplayerController.js'
+import SingleplayerController from './controllers/SingleplayerController.js';
 import router from './modules/Router.js';
 
 const application = document.getElementById('application');

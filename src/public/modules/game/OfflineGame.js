@@ -7,7 +7,6 @@ import EventBus from '/modules/EventBus.js';
 export default class OfflineGame extends Core {
 	constructor(controller, scene) {
 		super(controller, scene);
-
 		this.state = {};
 		this.gameloop = this.gameloop.bind(this);
 		this.gameloopRequestId = null;
@@ -101,14 +100,12 @@ export default class OfflineGame extends Core {
 		this.controller.start();
 		this.scene.init(evt);
 		this.scene.start();
-
 		this.lastFrame = performance.now();
 		this.gameloopRequestId = requestAnimationFrame(this.gameloop);
 	}
 
 	onGameFinished(evt) {
 		cancelAnimationFrame(this.gameloopRequestId);
-
 		EventBus.emit('CLOSE_GAME');
 	}
 

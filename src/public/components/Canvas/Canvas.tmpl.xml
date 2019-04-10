@@ -1,9 +1,11 @@
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
-    <canvas class="canvas">
+<fest:template xmlns:fest="http://fest.mail.ru">
+    <fest:element name="canvas">
         <fest:attributes>
-            <fest:attribute name="class">canvas</fest:attribute>    
-            <fest:attribute name="name"><fest:value>canvas</fest:value></fest:attribute>        
+            <fest:attribute name="class">canvas</fest:attribute>
+            <fest:attribute name="name">canvas</fest:attribute>
         </fest:attributes>
-    </canvas>
-
+    </fest:element>
+    <!--<canvas class="canvas">-->
+        <!---->
+    <!--</canvas>-->
 </fest:template>

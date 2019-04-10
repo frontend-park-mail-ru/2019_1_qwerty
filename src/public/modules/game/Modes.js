@@ -1,6 +1,6 @@
-export default function GAME_MODES () {
-	return {
-		ONLINE: 'ONLINE',
-		OFFLINE: 'OFFLINE'
-	};
-}
+const GAME_MODES = {
+    ONLINE: 'ONLINE',
+    OFFLINE: 'OFFLINE'
+};
+
+export default GAME_MODES;

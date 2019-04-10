@@ -1,0 +1,16 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="scoreboard">
+
+    <fest:element name="div">
+        <fest:attributes>
+            <fest:attribute name="class">single</fest:attribute>
+        </fest:attributes>
+        
+        <fest:element name="div">
+            <fest:attributes>
+                <fest:attribute name="class">single-canvas</fest:attribute>
+                <fest:attribute name="data-section-name">canvas</fest:attribute>
+            </fest:attributes>
+        </fest:element>
+
+    </fest:element>
+</fest:template>

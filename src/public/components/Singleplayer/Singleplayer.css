@@ -1,0 +1,12 @@
+.single {
+    display:flex;
+    width: 100%;
+    position: relative;
+}
+
+.single-canvas {
+    border: 2px solid white;
+    border-radius: 8px;
+    margin: 2%;
+    flex-basis: 75%;
+}

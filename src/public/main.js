@@ -11,6 +11,7 @@ import ProfileController from './controllers/ProfileController.js';
 import Error404Controller from './controllers/Error404Controller.js';
 import ScoreboardController from './controllers/ScoreboardController.js';
 import ScoreboardService from './services/ScoreboardService.js';
+import SingleplayerController from './controllers/SingleplayerController.js'
 import router from './modules/Router.js';
 
 const application = document.getElementById('application');
@@ -24,7 +25,8 @@ function createMenu () {
         signup: createSignup,
         score: Scoreboard,
         logout: logOut,
-        profile: createProfile
+        profile: createProfile,
+        singleplayer: Singleplayer
     };
 
     const menuItems = {
@@ -122,12 +124,23 @@ function create404Page () {
     error.show();
 }
 
+function Singleplayer() {
+    application.innerHTML = '';
+
+    const singleplayer = new SingleplayerController({
+        parent: application
+    });
+    singleplayer.show();
+    
+}
+
 router.register('/signin', createSignin);
 router.register('/', createMenu);
 router.register('/signup', createSignup);
 router.register('/profile', createProfile);
 router.register('/logout', logOut);
 router.register('/score', Scoreboard);
+router.register('/singleplayer', Singleplayer);
 router.error(create404Page);
 
 var url = new URL(window.location.href);

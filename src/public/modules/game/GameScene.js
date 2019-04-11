@@ -46,7 +46,7 @@ export default class GameScene {
             x: this.me.x + this.me.width,
             y: this.me.y + this.me.height * 0.6 / 2,
             radius: 1,
-            linearSpeed: 0
+            linearSpeed: 0.1
         });
 
         bullets.push(b);
@@ -89,7 +89,7 @@ export default class GameScene {
                 return;
             }
 
-            item.x += delay * 0.2;
+            item.x += delay * item.linearSpeed;
         });
 
         scene.render();

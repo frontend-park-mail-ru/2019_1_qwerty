@@ -22,6 +22,7 @@ export default class OfflineGame extends Core {
             bullets: []
         };
         this.gameStopped = false;
+        this.canvasWidth = scene.canvas.width;
     }
 
     start () {
@@ -44,7 +45,7 @@ export default class OfflineGame extends Core {
         if (this.timer < 0) {
             const m = new Meteor({
                 rotationSpeed: 0,
-                linearSpeed: 0.17
+                linearSpeed: 0.1// 0.17
             });
             this.state.meteorits.push(m);
             EventBus.emit(Events.METEOR_CREATED, m);
@@ -65,12 +66,20 @@ export default class OfflineGame extends Core {
         }.bind(this));
 
         this.state.bullets.forEach(function (bullet, bulletId, bullets) {
-            if (bullet.x > 350) {
+            if (bullet.x > this.canvasWidth) {
                 bullet.dead = true;
             }
 
             this.state.meteorits.forEach(function (meteorit, meteoritId, meteorits) {
-                const distance = Math.sqrt((bullet.x - meteorit.x) ** 2 + (bullet.y - meteorit.y) ** 2);
+                const bulletCenter = {
+                    x: bullet.x + bullet.radius / 2,
+                    y: bullet.y + bullet.radius / 2
+                };
+                const meteoritCenter = {
+                    x: meteorit.x + meteorit.width / 2,
+                    y: meteorit.y + meteorit.height / 2
+                };
+                const distance = Math.sqrt((bulletCenter.x - meteoritCenter.x) ** 2 + (bulletCenter.y - meteoritCenter.y) ** 2);
 
                 if (distance < (bullet.radius / 2 + meteorit.width / 2)) {
                     meteorit.dead = true;

@@ -6,6 +6,7 @@ export default class Bullet extends DynamicObject {
         this.radius = 0;
         this.x = bullet.x;
         this.y = bullet.y;
+        this.linearSpeed = bullet.linearSpeed;
         this.radius = bullet.radius;
         this.draw = this.draw.bind(this);
     }

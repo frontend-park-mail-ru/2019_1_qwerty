@@ -1,4 +1,4 @@
-import {Events} from './Events.js';
+import { Events } from './Events.js';
 import EventBus from '/modules/EventBus.js';
 
 const KEYS = {
@@ -7,10 +7,10 @@ const KEYS = {
     RIGHT: ['d', 'D', 'в', 'В', 'ArrowRight'],
     UP: ['w', 'W', 'ц', 'Ц', 'ArrowUp'],
     DOWN: ['s', 'S', 'ы', 'Ы', 'ArrowDown']
-}
+};
 
 export default class GameCore {
-    constructor(controller, scene) {
+    constructor (controller, scene) {
         this.controller = controller;
         this.scene = scene;
 
@@ -22,7 +22,7 @@ export default class GameCore {
         this.controllersLoopIntervalId = null;
     }
 
-    start() {
+    start () {
         EventBus.on(Events.START_GAME, this.onGameStarted.bind(this));
         EventBus.on(Events.FINISH_GAME, this.onGameFinished.bind(this));
         EventBus.on(Events.CONTROLS_PRESSED, this.onControllsPressed.bind(this));
@@ -38,7 +38,7 @@ export default class GameCore {
         }, 50);
     }
 
-    destroy() {
+    destroy () {
         clearInterval(this.controllersLoopIntervalId);
         EventBus.off(Events.START_GAME, this.onGameStarted);
         EventBus.off(Events.FINISH_GAME, this.onGameFinished);
@@ -49,23 +49,23 @@ export default class GameCore {
         this.scene.stop();
     }
 
-    onControllsPressed(evt) {
+    onControllsPressed (evt) {
         throw new Error('This method must be overridden');
     }
 
-    onGameStarted(evt) {
+    onGameStarted (evt) {
         throw new Error('This method must be overridden');
     }
 
-    onGameFinished(evt) {
+    onGameFinished (evt) {
         throw new Error('This method must be overridden');
     }
 
-    onGameStateChanged(evt) {
+    onGameStateChanged (evt) {
         throw new Error('This method must be overridden');
     }
 
-    _pressed(name, data) {
+    _pressed (name, data) {
         return KEYS[name].some(k => data[k.toLowerCase()]);
     }
 };

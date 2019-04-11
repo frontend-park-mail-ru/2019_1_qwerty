@@ -1,93 +1,60 @@
 import Scene from './Scene.js';
-//import FadingBlock from 'game/game-scene/fading-block';
-import Player from './Player.js';
-import EventBus from '../EventBus.js';
-// import rand from './Rand.js';
+import EventBus from '/modules/EventBus.js';
+import { Events } from './Events.js';
+import Rand from './Rand.js';
 
 export default class GameScene {
-    constructor(canvas) {
+    constructor (canvas) {
         this.EventBus = EventBus;
         this.canvas = canvas;
-        const ctx = canvas.getContext('2d');
-        this.ctx = ctx;
-        this.scene = new Scene(ctx);
+        this.ctx = canvas.getContext('2d');
+        this.scene = new Scene(this.ctx);
         this.state = null;
         this.requestFrameId = null;
-
         this.lastFrameTime = 0;
-
         this.field = [];
         this.me = null;
 
         this.renderScene = this.renderScene.bind(this);
+        EventBus.on(Events.METEOR_CREATED, this.pushMeteorToScene.bind(this));
+        EventBus.on(Events.PLAYER_CREATED, this.pushPlayerToScene.bind(this));
+        EventBus.on(Events.FINISH_GAME, this.pause.bind(this));
+
+        this.sceneWidth = 300;
+        this.sceneHeight = 150;
     }
 
-    init(state) {
-        const ctx = this.ctx;
-        const scene = this.scene;
+    pushPlayerToScene (me) {
+        me.ctx = this.ctx;
+        me.y = 10;
+        me.x = 20;
 
-        this.state = state;
-
-        // this.field = this.state.items.map(function (item) {
-        //     const b = new FadingBlock(ctx);
-        //     b.id = scene.push(b);
-        //     b.setColor({
-        //         r: item.r || rand(10, 245),
-        //         g: item.g || rand(10, 245),
-        //         b: item.b || rand(10, 245)
-        //     });
-
-        //     b.height = 40;
-        //     b.width = 70;
-        //     b.x = 50 + item.coll * 75;
-        //     b.y = 50 + item.row * 50;
-        //     b.fadeDeep = 500;
-        //     b.rotationSpeed = rand(-25, 25) / 10;
-
-        //     return b;
-        // });
-
-        this.me = new Player(ctx);
-
-        this.me.y = 10;
-        this.me.x = 50;
-        this.me.width = 20;
-        this.me.height = 20;
-
-        this.me.id = scene.push(this.me);
+        me.id = this.scene.push(me);
     }
 
-    setState(state) {
-        const scene = this.scene;
+    pushMeteorToScene (m) {
+        m.ctx = this.ctx;
+        m.y = Rand(0, this.sceneHeight - m.height);
+        m.x = 280;
 
+        m.id = this.scene.push(m);
+    }
+
+    init (state) {
         this.state = state;
+    }
 
-        this.me.x += state.me.x;
-        this.me.y += state.me.y;
+    setState (state) {
+        this.state = state;
+        this.state.me.x += state.me.x;
+        this.state.me.y += state.me.y;
 
         // Отключаем сдвиг
         state.me.x = 0;
         state.me.y = 0;
-
-        // this.field.forEach(function (b, pos) {
-        //     const item = state.items[pos];
-        //     if (item.dead && b.id) {
-        //         scene.remove(b.id);
-        //         return;
-        //     }
-
-        //     if (item.fadeLevel) {
-        //         if (!b.fadeLevel) {
-        //             scene.toBack(b.id);
-        //         }
-
-        //         b.fadeLevel = item.fadeLevel;
-        //     }
-        // });
     }
 
-    renderScene(now) {
-        const ctx = this.ctx;
+    renderScene (now) {
         const scene = this.scene;
         const delay = now - this.lastFrameTime;
         this.lastFrameTime = now;
@@ -102,20 +69,33 @@ export default class GameScene {
 
         //     return b;
         // });
+
+        this.state.meteorits.forEach(function (item, pos) {
+            if (item.dead) {
+                scene.remove(item.id);
+                return;
+            }
+
+            item.x -= delay * item.linearSpeed;
+        });
         scene.render();
 
-        // bullets.forEach(bullet => scene.remove(bullet.id));
         this.requestFrameId = requestAnimationFrame(this.renderScene);
     }
 
-    start() {
+    start () {
         this.lastFrameTime = performance.now();
         this.requestFrameId = requestAnimationFrame(this.renderScene);
     }
 
-    stop() {
+    pause () {
+        cancelAnimationFrame(this.requestFrameId);
+        this.requestFrameId = null;
+    }
+
+    stop () {
         if (this.requestFrameId) {
-            window.cancelAnimationFrame(this.requestFrameId);
+            cancelAnimationFrame(this.requestFrameId);
             this.requestFrameId = null;
         }
 

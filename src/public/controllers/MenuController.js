@@ -6,7 +6,7 @@ import router from '../modules/Router.js';
 export default class MenuController extends Controller {
     constructor (data) {
         super(data);
-       // this.pages = data.pages;
+        // this.pages = data.pages;
         this.path = USER_CHECK;
         this.getData();
         this.EventBus.on('model:user-auth-info', this.createViewAndRender.bind(this));

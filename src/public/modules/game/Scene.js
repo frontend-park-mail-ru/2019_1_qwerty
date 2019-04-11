@@ -1,5 +1,5 @@
 export default class Scene {
-    constructor(ctx) {
+    constructor (ctx) {
         this.ctx = ctx;
         this.frontView = [];
         this.backView = [];
@@ -8,11 +8,11 @@ export default class Scene {
         this._id = 0;
     }
 
-    ID() {
+    ID () {
         return `#${this._id++}`;
     }
 
-    push(figure) {
+    push (figure) {
         const id = this.ID();
         this.figures[id] = figure;
         this.frontView.push(figure);
@@ -20,7 +20,7 @@ export default class Scene {
         return id;
     }
 
-    toFront(id) {
+    toFront (id) {
         const figure = this.figures[id];
         this.backView = this.backView.filter(function (item) {
             return item !== figure;
@@ -31,7 +31,7 @@ export default class Scene {
         this.frontView.push(figure);
     }
 
-    toBack(id) {
+    toBack (id) {
         const figure = this.figures[id];
         this.backView = this.backView.filter(function (item) {
             return item !== figure;
@@ -42,7 +42,7 @@ export default class Scene {
         this.backView.push(figure);
     }
 
-    remove(id) {
+    remove (id) {
         const figure = this.figures[id];
         this.backView = this.backView.filter(function (item) {
             return item !== figure;
@@ -57,14 +57,14 @@ export default class Scene {
         }
     }
 
-    render() {
+    render () {
         const ctx = this.ctx;
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         this.backView.forEach(figure => figure.render());
         this.frontView.forEach(figure => figure.render());
     }
 
-    clear() {
+    clear () {
         const ctx = this.ctx;
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     }

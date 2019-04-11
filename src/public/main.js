@@ -124,14 +124,13 @@ function create404Page () {
     error.show();
 }
 
-function Singleplayer() {
+function Singleplayer () {
     application.innerHTML = '';
 
     const singleplayer = new SingleplayerController({
         parent: application
     });
     singleplayer.show();
-    
 }
 
 router.register('/signin', createSignin);

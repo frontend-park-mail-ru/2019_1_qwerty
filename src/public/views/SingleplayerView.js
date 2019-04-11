@@ -21,7 +21,7 @@ export default class SingleplayerView extends View {
         this.elements = {};
         this.canvas = {};
         this.namesOfButtons = ['help', 'scoreboard', 'pause', 'menu'];
-        // this.EventBus.on('CLOSE_GAME', function () {
+        // this.EventBus.on(Events.CLOSE_GAME, function () {
         //     if (this.active) {
         //         this.router.open('/');
         //     }
@@ -37,11 +37,10 @@ export default class SingleplayerView extends View {
     }
 
     create () {
-        this.canvas = document.querySelector(name='canvas');
+        this.canvas = document.querySelector(name = 'canvas');
         this.ctx = this.canvas.getContext('2d');
 
         this.doGame();
-        //return this;
     }
 
     doGame () {

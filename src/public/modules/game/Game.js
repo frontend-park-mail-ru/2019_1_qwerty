@@ -4,7 +4,7 @@ import GameScene from './GameScene.js';
 import GameControllers from './GameControllers.js';
 
 export default class Game {
-    constructor(mode, canvas) {
+    constructor (mode, canvas) {
         let GameConstructor = null;
         switch (mode) {
             // case GAME_MODES.ONLINE: {
@@ -24,12 +24,11 @@ export default class Game {
         this.gameCore = new GameConstructor(this.gameControllers, this.gameScene);
     }
 
-    start() {
+    start () {
         this.gameCore.start();
     }
 
-    destroy() {
+    destroy () {
         this.gameCore.destroy();
     }
-
 }

@@ -1,11 +1,12 @@
 export default class DynamicObject {
-    constructor(ctx) {
+    constructor (ctx) {
         this.ctx = ctx;
+        // console.log("ctx inside asteroid: ", this.ctx);
         this.x = 0;
         this.y = 0;
     }
 
-    render() {
+    render () {
         this.ctx.save();
         this.setup();
 
@@ -18,12 +19,12 @@ export default class DynamicObject {
      * @abstract
      * @private
      */
-    draw() {
+    draw () {
         const ctx = this.ctx;
         ctx.rect(this.x, this.y, 50, 50);
     }
 
-    setup() {
+    setup () {
 
     }
 };

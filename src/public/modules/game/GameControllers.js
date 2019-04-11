@@ -2,7 +2,7 @@ export default class GameControllers {
     constructor (root) {
         this.root = root;
         this.previous = {};
-        this.keys = [];
+        this.keys = {};
 
         // this._onKeyPress = this._keyHandler.bind(this, 'press');
         this._onKeyDown = this._keyHandler.bind(this, 'down');
@@ -46,7 +46,6 @@ export default class GameControllers {
         // this.keys[event.key.toLowerCase()] = type === 'press';
         // this.keys[event.key.toLowerCase()] = type === 'up';
         this.keys[event.key.toLowerCase()] = type;
-        // console.log('key type: ', this.keys[event.key.toLowerCase()]);
     }
 
     /**
@@ -65,15 +64,12 @@ export default class GameControllers {
 
         const clicked = allkeys.reduce((res, key) => {
             res[key] = !this.previous[key] && this.keys[key] === 'down';
+            if (key === ' ') this.previous[key] = true;
+            if (this.keys[key] === 'up') {
+                if (key === ' ') this.previous[key] = false;
+            }
             return res;
         }, {});
-
-        // console.log(this.keys);
-        this.previous = this.keys.slice(0);
-        // console.log('key type inside: ', this.keys[event.key.toLowerCase()]);
-        this.previous = this.previous.filter((key) => {
-            return key !== 'up';
-        });
 
         return clicked;
     }

@@ -2,6 +2,7 @@ import Scene from './Scene.js';
 import EventBus from '/modules/EventBus.js';
 import { Events } from './Events.js';
 import Rand from './Rand.js';
+import Bullet from './Bullet.js';
 
 export default class GameScene {
     constructor (canvas) {
@@ -17,6 +18,7 @@ export default class GameScene {
 
         this.renderScene = this.renderScene.bind(this);
         EventBus.on(Events.METEOR_CREATED, this.pushMeteorToScene.bind(this));
+        EventBus.on(Events.BULLET_CREATED, this.pushBulletToScene.bind(this));
         EventBus.on(Events.PLAYER_CREATED, this.pushPlayerToScene.bind(this));
         EventBus.on(Events.FINISH_GAME, this.pause.bind(this));
 
@@ -30,6 +32,7 @@ export default class GameScene {
         me.x = 20;
 
         me.id = this.scene.push(me);
+        this.me = me;
     }
 
     pushMeteorToScene (m) {
@@ -38,6 +41,18 @@ export default class GameScene {
         m.x = 280;
 
         m.id = this.scene.push(m);
+    }
+
+    pushBulletToScene (bullets) {
+        const ctx = this.ctx;
+        const b = new Bullet(ctx, {
+            x: this.me.x + this.me.width,
+            y: this.me.y + this.me.height * 0.6 / 2,
+            radius: 1,
+            linearSpeed: 0
+        });
+        bullets.push(b);
+        b.id = this.scene.push(b);
     }
 
     init (state) {
@@ -58,7 +73,7 @@ export default class GameScene {
         const scene = this.scene;
         const delay = now - this.lastFrameTime;
         this.lastFrameTime = now;
-
+        console.log('me: ', this.me.x, this.me.y);
         // const bullets = this.state.bullets.map(function (bullet) {
         //     const b = new Circle(ctx);
         //     b.id = scene.push(b);
@@ -70,7 +85,7 @@ export default class GameScene {
         //     return b;
         // });
 
-        this.state.meteorits.forEach(function (item, pos) {
+        this.state.meteorits.forEach(function (item) {
             if (item.dead) {
                 scene.remove(item.id);
                 return;
@@ -78,8 +93,17 @@ export default class GameScene {
 
             item.x -= delay * item.linearSpeed;
         });
-        scene.render();
 
+        this.state.bullets.forEach(function (item, pos) {
+            if (item.dead) {
+                scene.remove(item.id);
+                return;
+            }
+
+            item.x += delay * 0.2;
+        });
+
+        scene.render();
         this.requestFrameId = requestAnimationFrame(this.renderScene);
     }
 

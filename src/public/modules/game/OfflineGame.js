@@ -18,7 +18,8 @@ export default class OfflineGame extends Core {
         this.timer = timer * 1000;
         this.state = {
             me: {},
-            meteorits: []
+            meteorits: [],
+            bullets: []
         };
         this.gameStopped = false;
     }
@@ -63,7 +64,6 @@ export default class OfflineGame extends Core {
 
         // 		return bullet.percents < 1;
         // 	}.bind(this));
-        console.log('1');
 
         if (this.timer < 0) {
             const m = new Meteor({
@@ -74,9 +74,8 @@ export default class OfflineGame extends Core {
             EventBus.emit(Events.METEOR_CREATED, m);
             this.timer = Rand(0.8, 2) * 1000;
         }
-        this.q = 1;
+
         this.state.meteorits.forEach(function (item, pos) {
-            console.log('gameloop:');
             if (item.x < -item.width) {
                 item.dead = true;
             }
@@ -108,6 +107,9 @@ export default class OfflineGame extends Core {
         if (this._pressed('DOWN', evt)) {
             this.state.me.y += this.shitStep;
         }
+        if (this._pressed('FIRE', evt)) {
+            EventBus.emit(Events.BULLET_CREATED, this.state.bullets);
+        }
     }
 
     onGameStarted (evt) {
@@ -119,7 +121,6 @@ export default class OfflineGame extends Core {
     }
 
     onGameFinished (evt) {
-        console.log('canceled');
         cancelAnimationFrame(this.gameloopRequestId);
     }
 

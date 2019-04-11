@@ -17,8 +17,7 @@ export default class Meteor extends DynamicObject {
     }
 
     draw () {
-        const ctx = this.ctx;
-        ctx.drawImage(this.body, this.x, this.y, this.width, this.height);
+        this.ctx.drawImage(this.body, this.x, this.y, this.width, this.height);
     }
 
     setup () {

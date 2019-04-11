@@ -21,9 +21,6 @@ export default class GameScene {
         EventBus.on(Events.BULLET_CREATED, this.pushBulletToScene.bind(this));
         EventBus.on(Events.PLAYER_CREATED, this.pushPlayerToScene.bind(this));
         EventBus.on(Events.FINISH_GAME, this.pause.bind(this));
-
-        this.sceneWidth = 300;
-        this.sceneHeight = 150;
     }
 
     pushPlayerToScene (me) {
@@ -37,8 +34,8 @@ export default class GameScene {
 
     pushMeteorToScene (m) {
         m.ctx = this.ctx;
-        m.y = Rand(0, this.sceneHeight - m.height);
-        m.x = 280;
+        m.y = Rand(0, this.canvas.height - m.height);
+        m.x = this.canvas.width;
 
         m.id = this.scene.push(m);
     }
@@ -51,6 +48,7 @@ export default class GameScene {
             radius: 1,
             linearSpeed: 0
         });
+
         bullets.push(b);
         b.id = this.scene.push(b);
     }
@@ -73,30 +71,21 @@ export default class GameScene {
         const scene = this.scene;
         const delay = now - this.lastFrameTime;
         this.lastFrameTime = now;
-        console.log('me: ', this.me.x, this.me.y);
-        // const bullets = this.state.bullets.map(function (bullet) {
-        //     const b = new Circle(ctx);
-        //     b.id = scene.push(b);
-        //     b.radius = 4;
 
-        //     b.x = 50 + bullet.coll * 75;
-        //     b.y = 660 - (660 - (50 + bullet.row * 50)) * bullet.percents;
-
-        //     return b;
-        // });
-
-        this.state.meteorits.forEach(function (item) {
+        this.state.meteorits.forEach(function (item, i, arr) {
             if (item.dead) {
                 scene.remove(item.id);
+                arr.splice(i, 1);
                 return;
             }
 
             item.x -= delay * item.linearSpeed;
         });
 
-        this.state.bullets.forEach(function (item, pos) {
+        this.state.bullets.forEach(function (item, i, arr) {
             if (item.dead) {
                 scene.remove(item.id);
+                arr.splice(i, 1);
                 return;
             }
 

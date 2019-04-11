@@ -21,11 +21,6 @@ export default class SingleplayerView extends View {
         this.elements = {};
         this.canvas = {};
         this.namesOfButtons = ['help', 'scoreboard', 'pause', 'menu'];
-        // this.EventBus.on(Events.CLOSE_GAME, function () {
-        //     if (this.active) {
-        //         this.router.open('/');
-        //     }
-        // }.bind(this));
     }
 
     onDestroy () {
@@ -45,11 +40,6 @@ export default class SingleplayerView extends View {
 
     doGame () {
         let mode = '';
-        // if (pathname === '/game/online-mode') {
-        //     mode = GAME_MODES.ONLINE;
-        // } else {
-        //     mode = GAME_MODES.OFFLINE;
-        // }
 
         mode = GAME_MODES.OFFLINE;
         this.game = new Game(mode, this.canvas);

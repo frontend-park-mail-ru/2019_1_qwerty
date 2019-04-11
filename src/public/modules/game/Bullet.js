@@ -17,7 +17,6 @@ export default class Bullet extends DynamicObject {
         const ctx = this.ctx;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-        console.log('bullet: ', this.x, this.y);
         ctx.fillStyle = 'red';
         ctx.closePath();
         ctx.fill();

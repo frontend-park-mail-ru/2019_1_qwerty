@@ -6,7 +6,6 @@ export default class Meteor extends DynamicObject {
 
         this.img = new Image();
         this.img.src = 'meteor.png';
-        console.log('meteor img: ', this.img.src);
         this.x = 0;
         this.y = 0;
         this.width = 25;

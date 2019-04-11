@@ -30,16 +30,6 @@ export default class OfflineGame extends Core {
         this.state.me = new Player();
         EventBus.emit(Events.PLAYER_CREATED, this.state.me);
 
-        // this.state.items = Array.from(new Array(3 * 5), function (_, position) {
-        // 	return {
-        // 		x: position % 5,
-        // 		y: position < 5 ? 0 : (position / 5) | 0,
-        // 		dead: false,
-        // 		fadeSpeed: 0,
-        // 		fadeLevel: 0
-        // 	};
-        // });
-
         setTimeout(function () {
             EventBus.emit(Events.START_GAME, this.state);
         }.bind(this));
@@ -50,20 +40,6 @@ export default class OfflineGame extends Core {
         this.lastFrame = now;
         this.state.delay = delay;
         this.timer -= delay;
-
-        // this.state.bullets = this.state.bullets
-        // 	.map(function (bullet) {
-        // 		bullet.percents += 0.02;
-        // 		return bullet;
-        // 	})
-        // 	.filter(function (bullet) {
-        // 		if (bullet.percents >= 1 && bullet.row >= 0) {
-        // 			this.state.items[bullet.row * 5 + bullet.coll].fadeSpeed = rand(10, 20) / 1000;
-        // 			return false;
-        // 		}
-
-        // 		return bullet.percents < 1;
-        // 	}.bind(this));
 
         if (this.timer < 0) {
             const m = new Meteor({
@@ -78,6 +54,7 @@ export default class OfflineGame extends Core {
         this.state.meteorits.forEach(function (item, pos) {
             if (item.x < -item.width) {
                 item.dead = true;
+                this.state.meteorits.splice(pos, 1);
             }
 
             const distance = Math.sqrt((this.state.me.x - item.x) ** 2 + (this.state.me.y - item.y) ** 2);
@@ -87,6 +64,22 @@ export default class OfflineGame extends Core {
             }
         }.bind(this));
 
+        this.state.bullets.forEach(function (bullet, bulletId, bullets) {
+            if (bullet.x > 350) {
+                bullet.dead = true;
+            }
+
+            this.state.meteorits.forEach(function (meteorit, meteoritId, meteorits) {
+                const distance = Math.sqrt((bullet.x - meteorit.x) ** 2 + (bullet.y - meteorit.y) ** 2);
+
+                if (distance < (bullet.radius / 2 + meteorit.width / 2)) {
+                    meteorit.dead = true;
+                    bullet.dead = true;
+                }
+            });
+        }.bind(this));
+
+        // console.log(this.state.bullets, this.state.bullets.length);
         EventBus.emit(Events.GAME_STATE_CHANGED, this.state);
 
         if (!this.gameStopped) {

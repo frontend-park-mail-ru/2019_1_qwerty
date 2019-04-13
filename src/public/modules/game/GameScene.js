@@ -34,17 +34,17 @@ export default class GameScene {
         this.player = state.player;
     }
 
-    pushMeteorToScene (meteorits) {
+    pushMeteorToScene (data) {
         const ctx = this.ctx;
         const m = new Meteor(ctx, {
-            rotationSpeed: 0,
-            linearSpeed: 0.1
+            rotationSpeed: data.new.rotationSpeed,
+            linearSpeed: data.new.linearSpeed
         });
-
+        // console.log("speed: ", m.linearSpeed);
         m.y = Rand(0, this.canvas.height - m.height);
         m.x = this.canvas.width;
         m.id = this.scene.push(m);
-        meteorits.push(m);
+        data.meteorits.push(m);
     }
 
     pushBulletToScene (bullets) {

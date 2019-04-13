@@ -10,7 +10,7 @@
             <article class="singleplayer-menu__item singleplayer-menu__item_width_20">
                 <div class="info__label">
                     <div class="info__item header">Level</div>
-                    <div class="info__item" data-section="level">0</div>
+                    <div class="info__item" data-section-name="level">0</div>
                 </div>
                 <div class="info__label">
                     <div class="info__item header">Score</div>

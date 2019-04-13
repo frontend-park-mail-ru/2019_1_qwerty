@@ -13,6 +13,7 @@ export default class OfflineGame extends Core {
         this.gameloopRequestId = null;
         this.lastFrame = 0;
         this.shitStep = 5;
+        this.nextLevelCondition = 50;
         this.timer = timer * 1000;
         this.state = {
             player: {},
@@ -22,6 +23,12 @@ export default class OfflineGame extends Core {
         this.gameStopped = false;
         this.canvasWidth = scene.canvas.width;
         this.canvasHeight = scene.canvas.height;
+        this.score = 0;
+        this.level = 0;
+
+        EventBus.on(Events.UPDATE_SCORE, (newScore) => {
+            this.score = newScore;
+        });
     }
 
     start () {
@@ -36,12 +43,22 @@ export default class OfflineGame extends Core {
     gameloop (now) {
         const delay = now - this.lastFrame;
         this.lastFrame = now;
-        this.state.delay = delay;
         this.timer -= delay;
-
+        let levelFactor = Math.trunc(this.score / this.nextLevelCondition);
+        if (this.level < levelFactor) {
+            this.level = levelFactor;
+            EventBus.emit(Events.CHANGED_LEVEL, this.level);
+        }
         if (this.timer < 0) {
-            EventBus.emit(Events.METEOR_CREATED, this.state.meteorits);
-            this.timer = Rand(0.8, 2) * 1000;
+            EventBus.emit(Events.METEOR_CREATED, {
+                meteorits: this.state.meteorits,
+                new: {
+                    rotationSpeed: 0,
+                    linearSpeed: 0.1 + levelFactor / 100
+                }
+            });
+
+            this.timer = Rand(0.8, 2 - levelFactor * 0.1) * (1000 - levelFactor * 5);
         }
 
         this.state.meteorits.forEach(function (item, pos) {
@@ -76,6 +93,7 @@ export default class OfflineGame extends Core {
                 if (distance < (bullet.radius / 2 + meteorit.width / 2)) {
                     meteorit.dead = true;
                     bullet.dead = true;
+                    EventBus.emit(Events.INCREASED_SCORE, 15);
                 }
             });
         }.bind(this));

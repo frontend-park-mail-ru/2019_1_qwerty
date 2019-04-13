@@ -3,6 +3,8 @@ import EventBus from '/modules/EventBus.js';
 import { Events } from './Events.js';
 import Rand from './Rand.js';
 import Bullet from './Bullet.js';
+import Meteor from './Meteor.js';
+import Player from './Player.js';
 
 export default class GameScene {
     constructor (canvas) {
@@ -14,7 +16,7 @@ export default class GameScene {
         this.requestFrameId = null;
         this.lastFrameTime = 0;
         this.field = [];
-        this.me = null;
+        this.player = null;
 
         this.renderScene = this.renderScene.bind(this);
         EventBus.on(Events.METEOR_CREATED, this.pushMeteorToScene.bind(this));
@@ -23,28 +25,33 @@ export default class GameScene {
         EventBus.on(Events.FINISH_GAME, this.pause.bind(this));
     }
 
-    pushPlayerToScene (me) {
-        me.ctx = this.ctx;
-        me.y = 10;
-        me.x = 20;
-
-        me.id = this.scene.push(me);
-        this.me = me;
+    pushPlayerToScene (state) {
+        const ctx = this.ctx;
+        state.player = new Player(ctx);
+        state.player.y = this.canvas.height / 2;
+        state.player.x = 20;
+        state.player.id = this.scene.push(state.player);
+        this.player = state.player;
     }
 
-    pushMeteorToScene (m) {
-        m.ctx = this.ctx;
+    pushMeteorToScene (meteorits) {
+        const ctx = this.ctx;
+        const m = new Meteor(ctx, {
+            rotationSpeed: 0,
+            linearSpeed: 0.1
+        });
+
         m.y = Rand(0, this.canvas.height - m.height);
         m.x = this.canvas.width;
-
         m.id = this.scene.push(m);
+        meteorits.push(m);
     }
 
     pushBulletToScene (bullets) {
         const ctx = this.ctx;
         const b = new Bullet(ctx, {
-            x: this.me.x + this.me.width,
-            y: this.me.y + this.me.height * 0.6 / 2,
+            x: this.player.x + this.player.width,
+            y: this.player.y + this.player.height / 2,
             radius: 1,
             linearSpeed: 0.1
         });
@@ -59,17 +66,18 @@ export default class GameScene {
 
     setState (state) {
         this.state = state;
-        this.state.me.x += state.me.x;
-        this.state.me.y += state.me.y;
+        this.state.player.x += state.player.x;
+        this.state.player.y += state.player.y;
 
         // Отключаем сдвиг
-        state.me.x = 0;
-        state.me.y = 0;
+        state.player.x = 0;
+        state.player.y = 0;
     }
 
     renderScene (now) {
         const scene = this.scene;
         const delay = now - this.lastFrameTime;
+        // console.log("fps: ", 1000 / delay);
         this.lastFrameTime = now;
 
         this.state.meteorits.forEach(function (item, i, arr) {

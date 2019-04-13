@@ -1,14 +1,14 @@
 import DynamicObject from './DynamicObject.js';
 
 export default class Meteor extends DynamicObject {
-    constructor (params) {
-        super();
-
+    constructor (ctx, params) {
+        super(ctx);
+        this.ctx = ctx;
         this.img = new Image();
         this.img.src = 'meteor.png';
         this.x = 0;
         this.y = 0;
-        this.width = 25;
+        this.width = 30;
         this.height = 25;
         this.body = this.img;
         this.linearSpeed = params.linearSpeed;

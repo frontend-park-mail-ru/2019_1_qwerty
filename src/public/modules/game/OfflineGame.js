@@ -2,8 +2,6 @@ import Core from './Core.js';
 import { Events } from './Events.js';
 import Rand from './Rand.js';
 import EventBus from '/modules/EventBus.js';
-import Meteor from './Meteor.js';
-import Player from './Player.js';
 
 const timer = 2;
 
@@ -17,19 +15,18 @@ export default class OfflineGame extends Core {
         this.shitStep = 5;
         this.timer = timer * 1000;
         this.state = {
-            me: {},
+            player: {},
             meteorits: [],
             bullets: []
         };
         this.gameStopped = false;
         this.canvasWidth = scene.canvas.width;
+        this.canvasHeight = scene.canvas.height;
     }
 
     start () {
         super.start();
-
-        this.state.me = new Player();
-        EventBus.emit(Events.PLAYER_CREATED, this.state.me);
+        EventBus.emit(Events.PLAYER_CREATED, this.state);
 
         setTimeout(function () {
             EventBus.emit(Events.START_GAME, this.state);
@@ -43,12 +40,7 @@ export default class OfflineGame extends Core {
         this.timer -= delay;
 
         if (this.timer < 0) {
-            const m = new Meteor({
-                rotationSpeed: 0,
-                linearSpeed: 0.1// 0.17
-            });
-            this.state.meteorits.push(m);
-            EventBus.emit(Events.METEOR_CREATED, m);
+            EventBus.emit(Events.METEOR_CREATED, this.state.meteorits);
             this.timer = Rand(0.8, 2) * 1000;
         }
 
@@ -58,8 +50,8 @@ export default class OfflineGame extends Core {
                 this.state.meteorits.splice(pos, 1);
             }
 
-            const distance = Math.sqrt((this.state.me.x - item.x) ** 2 + (this.state.me.y - item.y) ** 2);
-            if (distance < (this.state.me.width / 2 + item.width / 2)) {
+            const distance = Math.sqrt((this.state.player.x - item.x) ** 2 + (this.state.player.y - item.y) ** 2);
+            if (distance < (this.state.player.width / 2 + item.width / 2)) {
                 EventBus.emit(Events.FINISH_GAME);
                 this.gameStopped = true;
             }
@@ -88,9 +80,7 @@ export default class OfflineGame extends Core {
             });
         }.bind(this));
 
-        // console.log(this.state.bullets, this.state.bullets.length);
         EventBus.emit(Events.GAME_STATE_CHANGED, this.state);
-
         if (!this.gameStopped) {
             this.gameloopRequestId = requestAnimationFrame(this.gameloop);
         }
@@ -98,16 +88,24 @@ export default class OfflineGame extends Core {
 
     onControllsPressed (evt) {
         if (this._pressed('LEFT', evt)) {
-            this.state.me.x -= this.shitStep;
+            if (this.state.player.x > 0) {
+                this.state.player.x -= this.shitStep;
+            }
         }
         if (this._pressed('RIGHT', evt)) {
-            this.state.me.x += this.shitStep;
+            if (this.state.player.x < this.canvasWidth - this.state.player.width) {
+                this.state.player.x += this.shitStep;
+            }
         }
         if (this._pressed('UP', evt)) {
-            this.state.me.y -= this.shitStep;
+            if (this.state.player.y > 0) {
+                this.state.player.y -= this.shitStep;
+            }
         }
         if (this._pressed('DOWN', evt)) {
-            this.state.me.y += this.shitStep;
+            if (this.state.player.y < this.canvasHeight - this.state.player.height) {
+                this.state.player.y += this.shitStep;
+            }
         }
         if (this._pressed('FIRE', evt)) {
             EventBus.emit(Events.BULLET_CREATED, this.state.bullets);

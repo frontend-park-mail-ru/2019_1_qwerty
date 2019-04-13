@@ -26,7 +26,7 @@ export default class SingleplayerController extends Controller {
                 }
             }
         };
-        EventBus.on(Events.INCREASED_SCORE, this.increaseScore.bind(this));
+        EventBus.on(Events.UPDATED_SCORE, this.setScore.bind(this));
         EventBus.on(Events.CHANGED_LEVEL, this.setLevel.bind(this));
 
         return this.data;
@@ -36,10 +36,7 @@ export default class SingleplayerController extends Controller {
         this.view.setLevel = newLevel;
     }
 
-    increaseScore (point) {
-        let curScore = parseInt(this.view.getScore);
-        curScore += point;
-        this.view.setScore = curScore.toString();
-        EventBus.emit(Events.UPDATE_SCORE, curScore);
+    setScore (newScore) {
+        this.view.setScore = newScore.toString();
     }
 }

@@ -37,7 +37,9 @@ export default class SingleplayerView extends View {
 
     onDestroy () {
         Object.values(this.elements).forEach((component) => {
-            component.onDestroy();
+            if (component.hasOwnProperty('onDestroy')) {
+                component.onDestroy();
+            }
         });
 
         super.onDestroy();

@@ -25,10 +25,6 @@ export default class OfflineGame extends Core {
         this.canvasHeight = scene.canvas.height;
         this.score = 0;
         this.level = 0;
-
-        EventBus.on(Events.UPDATE_SCORE, (newScore) => {
-            this.score = newScore;
-        });
     }
 
     start () {
@@ -44,6 +40,7 @@ export default class OfflineGame extends Core {
         const delay = now - this.lastFrame;
         this.lastFrame = now;
         this.timer -= delay;
+
         let levelFactor = Math.trunc(this.score / this.nextLevelCondition);
         if (this.level < levelFactor) {
             this.level = levelFactor;
@@ -93,11 +90,11 @@ export default class OfflineGame extends Core {
                 if (distance < (bullet.radius / 2 + meteorit.width / 2)) {
                     meteorit.dead = true;
                     bullet.dead = true;
-                    EventBus.emit(Events.INCREASED_SCORE, 15);
+                    this.score += meteorit.points;
+                    EventBus.emit(Events.UPDATED_SCORE, this.score);
                 }
-            });
+            }, this);
         }.bind(this));
-
         EventBus.emit(Events.GAME_STATE_CHANGED, this.state);
         if (!this.gameStopped) {
             this.gameloopRequestId = requestAnimationFrame(this.gameloop);

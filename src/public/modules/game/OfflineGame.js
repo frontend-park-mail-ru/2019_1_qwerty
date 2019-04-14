@@ -2,8 +2,7 @@ import Core from './Core.js';
 import { Events } from './Events.js';
 import Rand from './Rand.js';
 import EventBus from '/modules/EventBus.js';
-
-const timer = 2;
+import Meteor from './Meteor.js';
 
 export default class OfflineGame extends Core {
     constructor (controller, scene) {
@@ -14,7 +13,7 @@ export default class OfflineGame extends Core {
         this.lastFrame = 0;
         this.shitStep = 2.1;
         this.nextLevelCondition = 50;
-        this.timer = timer * 1000;
+        this.timer = 2000;
         this.state = {
             player: {},
             meteorits: [],
@@ -36,7 +35,25 @@ export default class OfflineGame extends Core {
         }.bind(this));
     }
 
+    checkCollisions (obj, massive) {
+        let index = null;
+        massive.forEach(function (item, pos) {
+            if (item.getCenter.x < -item.getWidth) {
+                item.dead = true;
+                massive.splice(pos, 1);
+            }
+
+            const distance = Math.sqrt((obj.getCenter.x - item.getCenter.x) ** 2 + (obj.getCenter.y - item.getCenter.y) ** 2);
+            if (distance < (obj.getWidth / 2 + item.getWidth / 2)) {
+                index = item;
+            }
+        });
+
+        return index;
+    }
+
     gameloop (now) {
+        // console.log("!");
         const delay = now - this.lastFrame;
         this.lastFrame = now;
         this.timer -= delay;
@@ -46,54 +63,57 @@ export default class OfflineGame extends Core {
             this.level = levelFactor;
             EventBus.emit(Events.CHANGED_LEVEL, this.level);
         }
+
+        // По таймеру генерируем новые метеориты
         if (this.timer < 0) {
+            let newMeteorit = new Meteor(null, {});
+            let y = Rand(0, this.canvasHeight - newMeteorit.height);
+            let x = this.canvasWidth;
+            newMeteorit.hp = 10 + this.level * 10;
+            newMeteorit.x = x;
+            newMeteorit.y = y;
+
+            // Метеориты не накладываются друг на друга
+            while (this.checkCollisions(newMeteorit, this.state.meteorits)) {
+                newMeteorit.y = Rand(0, this.canvasHeight - newMeteorit.height);
+            }
+
             EventBus.emit(Events.METEOR_CREATED, {
                 meteorits: this.state.meteorits,
                 new: {
                     rotationSpeed: 0,
-                    linearSpeed: 0.1 + levelFactor / 100
+                    linearSpeed: 0.1 + levelFactor / 100,
+                    x: newMeteorit.x,
+                    y: newMeteorit.y,
+                    hp: newMeteorit.hp
                 }
             });
 
-            this.timer = Rand(0.8, 2 - levelFactor * 0.1) * (1000 - levelFactor * 5);
+            let startInterval = 100;
+            let endInterval = 150 + 10000 / (this.score / 100 + 2);
+            this.timer = Rand(startInterval, endInterval);
+            // console.log("timer triggered: ", this.timer, this.score, startInterval, endInterval);
         }
 
-        this.state.meteorits.forEach(function (item, pos) {
-            if (item.x < -item.width) {
-                item.dead = true;
-                this.state.meteorits.splice(pos, 1);
-            }
+        // Коллизии игрока с метеоритами
+        if (this.checkCollisions(this.state.player, this.state.meteorits)) {
+            EventBus.emit(Events.FINISH_GAME);
+            this.gameStopped = true;
+        }
 
-            const distance = Math.sqrt((this.state.player.x - item.x) ** 2 + (this.state.player.y - item.y) ** 2);
-            if (distance < (this.state.player.width / 2 + item.width / 2)) {
-                EventBus.emit(Events.FINISH_GAME);
-                this.gameStopped = true;
-            }
-        }.bind(this));
-
+        // Коллизии пуль с метеоритами
         this.state.bullets.forEach(function (bullet, bulletId, bullets) {
             if (bullet.x > this.canvasWidth) {
                 bullet.dead = true;
             }
 
-            this.state.meteorits.forEach(function (meteorit, meteoritId, meteorits) {
-                const bulletCenter = {
-                    x: bullet.x + bullet.radius / 2,
-                    y: bullet.y + bullet.radius / 2
-                };
-                const meteoritCenter = {
-                    x: meteorit.x + meteorit.width / 2,
-                    y: meteorit.y + meteorit.height / 2
-                };
-                const distance = Math.sqrt((bulletCenter.x - meteoritCenter.x) ** 2 + (bulletCenter.y - meteoritCenter.y) ** 2);
-
-                if (distance < (bullet.radius / 2 + meteorit.width / 2)) {
-                    meteorit.dead = true;
-                    bullet.dead = true;
-                    this.score += meteorit.points;
-                    EventBus.emit(Events.UPDATED_SCORE, this.score);
-                }
-            }, this);
+            let obj = this.checkCollisions(bullet, this.state.meteorits);
+            if (obj) {
+                obj.reduceHealth(bullet.damage);
+                bullet.dead = true;
+                this.score += obj.points;
+                EventBus.emit(Events.UPDATED_SCORE, this.score);
+            }
         }.bind(this));
         EventBus.emit(Events.GAME_STATE_CHANGED, this.state);
         if (!this.gameStopped) {

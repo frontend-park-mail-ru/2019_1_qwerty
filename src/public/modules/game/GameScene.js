@@ -1,5 +1,5 @@
 import Scene from './Scene.js';
-import EventBus from '/modules/EventBus.js';
+import EventBus from '../EventBus.js';
 import { Events } from './Events.js';
 import Rand from './Rand.js';
 import Bullet from './Bullet.js';

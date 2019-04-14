@@ -1,7 +1,7 @@
 import Core from './Core.js';
 import { Events } from './Events.js';
 import Rand from './Rand.js';
-import EventBus from '/modules/EventBus.js';
+import EventBus from '../EventBus.js';
 
 const timer = 2;
 

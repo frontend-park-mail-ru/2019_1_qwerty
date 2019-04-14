@@ -13,6 +13,7 @@ import ScoreboardController from './controllers/ScoreboardController.js';
 import ScoreboardService from './services/ScoreboardService.js';
 import SingleplayerController from './controllers/SingleplayerController.js';
 import router from './modules/Router.js';
+import './main.css';
 
 const application = document.getElementById('application');
 

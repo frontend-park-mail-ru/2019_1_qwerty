@@ -1,5 +1,5 @@
 import { Events } from './Events.js';
-import EventBus from '/modules/EventBus.js';
+import EventBus from '../EventBus.js';
 
 const KEYS = {
     FIRE: [' ', 'Enter'],

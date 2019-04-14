@@ -20,7 +20,7 @@ export default class SingleplayerView extends View {
         });
         this.elements = {};
         this.canvas = {};
-        this.namesOfButtons = ['help', 'scoreboard', 'pause', 'menu'];
+        this.namesOfButtons = ['help', 'scoreboard', 'menu'];
     }
 
     get getScore () {

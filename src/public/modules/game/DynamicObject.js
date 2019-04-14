@@ -27,4 +27,15 @@ export default class DynamicObject {
     setup () {
 
     }
+
+    get getCenter () {
+        return {
+            x: this.x + this.width / 2,
+            y: this.y + this.height / 2
+        };
+    }
+
+    get getWidth () {
+        return this.width;
+    }
 };

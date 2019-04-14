@@ -18,9 +18,6 @@ export default class SingleplayerController extends Controller {
                 scoreboard: {
                     click: this.routeFunction('/score')
                 },
-                pause: {
-                    click: this.routeFunction('/pause')
-                },
                 menu: {
                     click: this.routeFunction('/')
                 }

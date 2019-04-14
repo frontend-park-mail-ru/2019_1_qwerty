@@ -1,10 +1,10 @@
 import Scene from './Scene.js';
 import EventBus from '../EventBus.js';
 import { Events } from './Events.js';
-import Rand from './Rand.js';
 import Bullet from './Bullet.js';
 import Meteor from './Meteor.js';
 import Player from './Player.js';
+import Text from './Text.js';
 
 export default class GameScene {
     constructor (canvas) {
@@ -43,11 +43,12 @@ export default class GameScene {
         const ctx = this.ctx;
         const m = new Meteor(ctx, {
             rotationSpeed: data.new.rotationSpeed,
-            linearSpeed: data.new.linearSpeed
+            linearSpeed: data.new.linearSpeed,
+            x: data.new.x,
+            y: data.new.y,
+            hp: data.new.hp
         });
 
-        m.y = Rand(0, this.canvas.height - m.height);
-        m.x = this.canvas.width;
         m.id = this.scene.push(m);
         data.meteorits.push(m);
     }
@@ -63,6 +64,16 @@ export default class GameScene {
 
         bullets.push(b);
         b.id = this.scene.push(b);
+    }
+
+    pushTextToScene (text) {
+        const ctx = this.ctx;
+        const t = new Text(ctx, {
+            x: this.canvas.width / 2,
+            y: this.canvas.height / 2,
+            text: text
+        });
+        this.scene.push(t);
     }
 
     init (state) {
@@ -117,6 +128,10 @@ export default class GameScene {
     pause () {
         cancelAnimationFrame(this.requestFrameId);
         this.requestFrameId = null;
+        this.scene.destroy();
+
+        this.pushTextToScene('Game over!');
+        this.scene.render();
     }
 
     stop () {

@@ -9,6 +9,7 @@ export default class Bullet extends DynamicObject {
         this.linearSpeed = bullet.linearSpeed;
         this.radius = bullet.radius;
         this.draw = this.draw.bind(this);
+        this.damage = 10;
     }
 
     /**
@@ -28,5 +29,16 @@ export default class Bullet extends DynamicObject {
 
         // ctx.translate(this.x, this.y);
         // ctx.scale(this.radius, this.radius);
+    }
+
+    get getCenter () {
+        return {
+            x: this.x + this.radius / 2,
+            y: this.y + this.radius / 2
+        };
+    }
+
+    get getWidth () {
+        return this.radius * 2;
     }
 };

@@ -4,7 +4,6 @@ export default class Scene {
         this.frontView = [];
         this.backView = [];
         this.figures = {};
-
         this._id = 0;
     }
 
@@ -67,5 +66,11 @@ export default class Scene {
     clear () {
         const ctx = this.ctx;
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    }
+
+    destroy () {
+        this.backView.forEach(figure => this.remove(figure.id));
+        this.frontView.forEach(figure => this.remove(figure.id));
+        this.clear();
     }
 };

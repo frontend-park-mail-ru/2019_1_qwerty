@@ -23,10 +23,10 @@ export default class GameCore {
     }
 
     start () {
-        EventBus.on(Events.START_GAME, this.onGameStarted.bind(this));
-        EventBus.on(Events.FINISH_GAME, this.onGameFinished.bind(this));
-        EventBus.on(Events.CONTROLS_PRESSED, this.onControllsPressed.bind(this));
-        EventBus.on(Events.GAME_STATE_CHANGED, this.onGameStateChanged.bind(this));
+        EventBus.on(Events.START_GAME, this.onGameStarted);
+        EventBus.on(Events.FINISH_GAME, this.onGameFinished);
+        EventBus.on(Events.CONTROLS_PRESSED, this.onControllsPressed);
+        EventBus.on(Events.GAME_STATE_CHANGED, this.onGameStateChanged);
 
         const controller = this.controller;
         this.controllersLoopIntervalId = setInterval(function () {

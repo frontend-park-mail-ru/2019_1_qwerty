@@ -12,7 +12,7 @@ export default class OfflineGame extends Core {
         this.gameloop = this.gameloop.bind(this);
         this.gameloopRequestId = null;
         this.lastFrame = 0;
-        this.shitStep = 5;
+        this.shitStep = 2.1;
         this.nextLevelCondition = 50;
         this.timer = timer * 1000;
         this.state = {

@@ -35,7 +35,7 @@ export default class GameCore {
             if (Object.keys(actions).some(k => actions[k])) {
                 EventBus.emit(Events.CONTROLS_PRESSED, actions);
             }
-        }, 50);
+        }, 20);
     }
 
     destroy () {
@@ -45,7 +45,7 @@ export default class GameCore {
         EventBus.off(Events.CONTROLS_PRESSED, this.onControllsPressed);
         EventBus.off(Events.GAME_STATE_CHANGED, this.onGameStateChanged);
 
-        // this.controller.destroy();
+        this.controller.destroy();
         this.scene.stop();
     }
 

@@ -43,6 +43,7 @@ export default class SingleplayerView extends View {
         });
 
         super.onDestroy();
+        this.game.destroy();
     }
 
     create () {

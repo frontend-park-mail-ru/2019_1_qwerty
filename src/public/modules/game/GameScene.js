@@ -19,10 +19,15 @@ export default class GameScene {
         this.player = null;
 
         this.renderScene = this.renderScene.bind(this);
-        EventBus.on(Events.METEOR_CREATED, this.pushMeteorToScene.bind(this));
-        EventBus.on(Events.BULLET_CREATED, this.pushBulletToScene.bind(this));
-        EventBus.on(Events.PLAYER_CREATED, this.pushPlayerToScene.bind(this));
-        EventBus.on(Events.FINISH_GAME, this.pause.bind(this));
+        this.pushMeteorToScene = this.pushMeteorToScene.bind(this);
+        this.pushBulletToScene = this.pushBulletToScene.bind(this);
+        this.pushPlayerToScene =  this.pushPlayerToScene.bind(this);
+        this.pause = this.pause.bind(this);
+
+        EventBus.on(Events.METEOR_CREATED, this.pushMeteorToScene);
+        EventBus.on(Events.BULLET_CREATED, this.pushBulletToScene);
+        EventBus.on(Events.PLAYER_CREATED, this.pushPlayerToScene);
+        EventBus.on(Events.FINISH_GAME, this.pause);
     }
 
     pushPlayerToScene (state) {
@@ -40,7 +45,7 @@ export default class GameScene {
             rotationSpeed: data.new.rotationSpeed,
             linearSpeed: data.new.linearSpeed
         });
-        // console.log("speed: ", m.linearSpeed);
+        
         m.y = Rand(0, this.canvas.height - m.height);
         m.x = this.canvas.width;
         m.id = this.scene.push(m);
@@ -121,5 +126,9 @@ export default class GameScene {
         }
 
         this.scene.clear();
+        EventBus.off(Events.METEOR_CREATED, this.pushMeteorToScene);
+        EventBus.off(Events.BULLET_CREATED, this.pushBulletToScene);
+        EventBus.off(Events.PLAYER_CREATED, this.pushPlayerToScene);
+        EventBus.off(Events.FINISH_GAME, this.pause);
     }
 }

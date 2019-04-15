@@ -40,8 +40,8 @@ export default class SignXController extends Controller {
 
     onFocus (event) {
         event.preventDefault();
-        if (this.view.parentView._errorDiv.display === 'block') {
-            this.view.parentView._removeFormError();
+        if (this.view._errorDiv.display === 'block') {
+            this.view._removeFormError();
         }
     }
 

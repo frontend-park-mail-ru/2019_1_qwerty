@@ -1,7 +1,7 @@
 import Core from './Core.js';
 import { Events } from './Events.js';
 import Rand from '../../utils/Rand.js';
-import EventBus from '/modules/EventBus.js';
+import EventBus from '../EventBus.js';
 import Meteor from './Meteor.js';
 
 export default class OfflineGame extends Core {

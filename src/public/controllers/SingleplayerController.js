@@ -21,11 +21,6 @@ export default class SingleplayerController extends Controller {
                 }
             }
         };
-<<<<<<< HEAD
-=======
-        this.EventBus.on(Events.UPDATED_SCORE, this.setScore.bind(this));
-        this.EventBus.on(Events.CHANGED_LEVEL, this.setLevel.bind(this));
->>>>>>> 232e3c1f532d547e0519398dc3cfdb91a51cc1ab
 
         return this.data;
     }

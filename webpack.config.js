@@ -23,7 +23,6 @@ module.exports = {
         path: path.resolve(__dirname, 'src/public'),
         filename: 'bundle.js'
     },
-    watch: true,
     watchOptions: {
         aggregateTimeout: 100
     },

@@ -40,5 +40,4 @@ export default class NotificationView extends View {
     get display () {
         return this.elem.style.display;
     }
-
 }

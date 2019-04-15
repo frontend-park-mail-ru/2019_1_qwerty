@@ -16,7 +16,7 @@ export default class InputComponent {
         type = 'text',
         placeholder = '',
         isPassword = false,
-        parent = document.body,
+        parent = document.body
 
     } = {}) {
         this.name = name;

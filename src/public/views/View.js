@@ -1,3 +1,5 @@
+import EventBus from '../modules/EventBus.js';
+
 export default class View {
     constructor ({
         parent = document.body,
@@ -5,6 +7,7 @@ export default class View {
         nameOfView = '',
         parentView = null
     }) {
+        this.EventBus = EventBus;
         this.parent = parent;
         this.parentView = parentView;
         this.elem = null;

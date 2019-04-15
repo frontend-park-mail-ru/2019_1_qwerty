@@ -13,7 +13,7 @@ export default class Meteor extends DynamicObject {
         this.body = this.img;
         this.linearSpeed = params.linearSpeed;
         this.rotationSpeed = params.rotationSpeed;
-        this.points = 15;
+        // this.points = 15;
         this.hp = params.hp;
     }
 

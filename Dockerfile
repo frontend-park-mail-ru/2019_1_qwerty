@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run tmpl
+RUN npm run build
 
 FROM nginx:alpine
 
@@ -24,4 +24,3 @@ EXPOSE $PORT
 COPY site /etc/nginx/sites-enabled
 
 COPY --from=builder /app/src/public /usr/share/nginx/html
-

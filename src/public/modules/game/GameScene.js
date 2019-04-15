@@ -36,6 +36,7 @@ export default class GameScene {
         state.player.y = this.canvas.height / 2;
         state.player.x = 20;
         state.player.id = this.scene.push(state.player);
+        state.player.linearSpeed = 0.1;
         this.player = state.player;
     }
 

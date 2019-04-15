@@ -1,6 +1,6 @@
 import Core from './Core.js';
 import { Events } from './Events.js';
-import Rand from './Rand.js';
+import Rand from '../../utils/Rand.js';
 import EventBus from '../EventBus.js';
 import Meteor from './Meteor.js';
 
@@ -13,7 +13,7 @@ export default class OfflineGame extends Core {
         this.lastFrame = 0;
         this.shitStep = 2.1;
         this.nextLevelCondition = 50;
-        this.timer = 2000;
+        this.timer = {};
         this.state = {
             player: {},
             meteorits: [],
@@ -30,14 +30,15 @@ export default class OfflineGame extends Core {
         super.start();
         EventBus.emit(Events.PLAYER_CREATED, this.state);
 
-        setTimeout(function () {
-            EventBus.emit(Events.START_GAME, this.state);
-        }.bind(this));
+        this.timer.meteorTimer = 2000;
+        this.timer.scoreTimer = 1000;
+
+        EventBus.emit(Events.START_GAME, this.state);
     }
 
     checkCollisions (obj, massive) {
         let index = null;
-        massive.forEach(function (item, pos) {
+        massive.forEach((item, pos) => {
             if (item.getCenter.x < -item.getWidth) {
                 item.dead = true;
                 massive.splice(pos, 1);
@@ -53,10 +54,10 @@ export default class OfflineGame extends Core {
     }
 
     gameloop (now) {
-        // console.log("!");
         const delay = now - this.lastFrame;
         this.lastFrame = now;
-        this.timer -= delay;
+        this.timer.meteorTimer -= delay;
+        this.timer.scoreTimer -= delay;
 
         let levelFactor = Math.trunc(this.score / this.nextLevelCondition);
         if (this.level < levelFactor) {
@@ -64,8 +65,14 @@ export default class OfflineGame extends Core {
             EventBus.emit(Events.CHANGED_LEVEL, this.level);
         }
 
+        if (this.timer.scoreTimer < 0) {
+            this.score += 10;
+            EventBus.emit(Events.UPDATED_SCORE, this.score);
+            this.timer.scoreTimer = 1000;
+        }
+
         // По таймеру генерируем новые метеориты
-        if (this.timer < 0) {
+        if (this.timer.meteorTimer < 0) {
             let newMeteorit = new Meteor(null, {});
             let y = Rand(0, this.canvasHeight - newMeteorit.height);
             let x = this.canvasWidth;
@@ -91,8 +98,7 @@ export default class OfflineGame extends Core {
 
             let startInterval = 100;
             let endInterval = 150 + 10000 / (this.score / 100 + 2);
-            this.timer = Rand(startInterval, endInterval);
-            // console.log("timer triggered: ", this.timer, this.score, startInterval, endInterval);
+            this.timer.meteorTimer = Rand(startInterval, endInterval);
         }
 
         // Коллизии игрока с метеоритами
@@ -102,7 +108,7 @@ export default class OfflineGame extends Core {
         }
 
         // Коллизии пуль с метеоритами
-        this.state.bullets.forEach(function (bullet, bulletId, bullets) {
+        this.state.bullets.forEach((bullet, bulletId, bullets) => {
             if (bullet.x > this.canvasWidth) {
                 bullet.dead = true;
             }
@@ -111,10 +117,8 @@ export default class OfflineGame extends Core {
             if (obj) {
                 obj.reduceHealth(bullet.damage);
                 bullet.dead = true;
-                this.score += obj.points;
-                EventBus.emit(Events.UPDATED_SCORE, this.score);
             }
-        }.bind(this));
+        });
         EventBus.emit(Events.GAME_STATE_CHANGED, this.state);
         if (!this.gameStopped) {
             this.gameloopRequestId = requestAnimationFrame(this.gameloop);

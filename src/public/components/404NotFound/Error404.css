@@ -1,0 +1,25 @@
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 60%;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.error__item {
+    flex-basis: 20%;
+    color: red;
+}
+
+.error__header {
+    font-size: 450%;
+}
+
+.error_content {
+    font-size: 250%;
+}
+
+.error__button {
+    width: 20%;
+}

@@ -1,10 +1,17 @@
 'use strict';
 
-import SignXComponent from './components/SignX/SignX.js';
-import ScoreComponent from './components/Score/Score.js';
 import AjaxModule from './modules/ajax.js';
-import MenuComponent from './components/Menu/Menu.js';
-import ProfileComponent from './components/Profile/Profile.js';
+import SignXController from './controllers/SignXController.js';
+import SignXService from './services/SignXService.js';
+import EventBus from './modules/EventBus.js';
+import MenuService from './services/MenuService.js';
+import MenuController from './controllers/MenuController.js';
+import ProfileService from './services/ProfileService.js';
+import ProfileController from './controllers/ProfileController.js';
+import Error404Controller from './controllers/Error404Controller.js';
+import ScoreboardController from './controllers/ScoreboardController.js';
+import ScoreboardService from './services/ScoreboardService.js';
+import router from './modules/Router.js';
 
 const application = document.getElementById('application');
 
@@ -12,22 +19,27 @@ function createMenu () {
     application.innerHTML = '';
 
     const pages = {
-        menu: createMenu,
+        // menu: createMenu,
         signin: createSignin,
         signup: createSignup,
         score: Scoreboard,
         logout: logOut,
         profile: createProfile
-
-        // ...
     };
 
-    const menu = new MenuComponent({
+    const menuItems = {
+        singleplayer: 'Singleplayer',
+        multiplayer: 'Multiplayer',
+        score: 'Scoreboard'
+    };
+
+    const model = new MenuService();
+    EventBus.on('menu:user-auth', model.requestForUserAuth);
+    const menu = new MenuController({
         parent: application,
+        menuItems,
         pages
     });
-
-    menu.render();
 }
 
 function logOut () {
@@ -51,33 +63,72 @@ function logOut () {
 // SignX
 function createSignin () {
     application.innerHTML = '';
+    const model = new SignXService();
 
-    const signIn = new SignXComponent({ parent: application, isSignup: false, afterSuccessSubmit: createMenu });
-    signIn.render();
+    EventBus.on('signX:request', model.requestForSignupOrSignin);
+    const signInController = new SignXController({
+        parent: application,
+        isSignup: false,
+        afterSuccessSubmit: createMenu
+    });
+
+    signInController.show();
 }
 
 function createProfile () {
     application.innerHTML = '';
-    const profile = new ProfileComponent({
-        parent: application,
-        callback: createMenu
+
+    const model = new ProfileService();
+
+    EventBus.on('profile:send-img', model.sendFile);
+    EventBus.on('profile:get-current-user', model.requestForCurrentUser);
+    EventBus.on('profile:send-user-data', model.sendUserInfo);
+    const profile = new ProfileController({
+        afterSubmit: createMenu,
+        parent: application
     });
-    profile.render();
 }
 
 function createSignup () {
     application.innerHTML = '';
+    const model = new SignXService();
+    EventBus.on('signX:request', model.requestForSignupOrSignin);
+    const signUpController = new SignXController({
+        parent: application,
+        isSignup: true,
+        afterSuccessSubmit: createMenu
+    });
 
-    const signUp = new SignXComponent({ parent: application, isSignup: true, afterSuccessSubmit: createMenu });
-    signUp.render();
+    signUpController.show();
 }
 
 function Scoreboard () {
     application.innerHTML = '';
 
-    const board = new ScoreComponent({ parent: application });
-    board.getNext();
-    board.render();
+    const model = new ScoreboardService();
+    EventBus.on('scoreboard:get-score', model.getScore.bind(model));
+
+    const scoreboard = new ScoreboardController({
+        parent: application
+    });
+    scoreboard.show();
 }
 
-createMenu();
+function create404Page () {
+    application.innerHTML = '';
+    const error = new Error404Controller({
+        parent: application
+    });
+    error.show();
+}
+
+router.register('/signin', createSignin);
+router.register('/', createMenu);
+router.register('/signup', createSignup);
+router.register('/profile', createProfile);
+router.register('/logout', logOut);
+router.register('/score', Scoreboard);
+router.error(create404Page);
+
+var url = new URL(window.location.href);
+router.go(url.pathname, url.searchParams.toString());

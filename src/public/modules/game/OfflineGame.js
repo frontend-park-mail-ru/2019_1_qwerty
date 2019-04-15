@@ -33,9 +33,7 @@ export default class OfflineGame extends Core {
         this.timer.meteorTimer = 2000;
         this.timer.scoreTimer = 1000;
 
-        setTimeout(function () {
-            EventBus.emit(Events.START_GAME, this.state);
-        }.bind(this));
+        EventBus.emit(Events.START_GAME, this.state);
     }
 
     checkCollisions (obj, massive) {

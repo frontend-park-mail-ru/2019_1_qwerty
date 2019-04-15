@@ -1,6 +1,4 @@
-
-const noop = () => null;
-const API_URL = 'http://localhost:8080/api';
+import { API_URL } from '../config.js';
 
 export default class AjaxModule {
     static sendData ({

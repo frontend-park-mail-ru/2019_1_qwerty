@@ -25,7 +25,6 @@ export default class MenuComponent {
         this._elem = null;
     }
 
-
     /**
      * Метод снятия обработчиков
      *

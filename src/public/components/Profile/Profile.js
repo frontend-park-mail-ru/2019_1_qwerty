@@ -21,10 +21,9 @@ export default class ProfileComponent {
         this.elements = {};
         this.userInfo = {};
         this.insertElements = {};
-        this.callbackForRender = this.callbackForRender.bind(this);
         this._errorDiv = null;
         this.submitEvent = this.submitEvent.bind(this);
-        this._onSubmit = this._onSubmit.bind(this);
+        this._path = '/user/update';
     }
 
     addInfo () {
@@ -129,31 +128,6 @@ export default class ProfileComponent {
         this.elements.save = saveButton;
     }
 
-    callbackForRender (xhr) {
-        if (xhr.status === 404) {
-            alert(xhr.status);
-            return;
-        }
-
-        this.userInfo = JSON.parse(xhr.responseText);
-
-        this._parent.innerHTML = window.fest['components/Profile/Profile.tmpl']();
-
-        this.insertElements = {
-            img: document.querySelector('.profile-form__img'),
-            nickname: document.querySelector('[data-section="nickname"]'),
-            email: document.querySelector('[data-section="current-email"]'),
-            score: document.querySelector('[data-section="max-score"]')
-        };
-
-        this.addInfo();
-        this._renderAllComponents();
-        this._errorDiv = document.querySelector('.profile-form__error');
-        this._errorDiv.display = 'none';
-        this._form = document.querySelector('form');
-        this._form.addEventListener('submit', this.submitEvent);
-    }
-
     onDestroy () {
         Object.values(this.elements).forEach((item) => {
             item.destroy();
@@ -177,31 +151,6 @@ export default class ProfileComponent {
         this._errorDiv.textContent = '';
         this._errorDiv.display = 'none';
     }
-
-    _onSubmit (xhr) {
-        if (xhr.status === 404) {
-            const errorMessage = 'Incorrect Nickname and/or password';
-            this._addFormError(errorMessage);
-            this.removeNotification();
-            return;
-        }
-        this.showNotification();
-        this._form.elements.email.value = '';
-        this._form.elements.password.value = '';
-        this.file = null;
-
-        AjaxModule.doGet({
-            path: '/user',
-            callback: (xhr) => {
-                if (xhr.status === 404) {
-                    alert(xhr.status);
-                    return;
-                }
-                this.userInfo = JSON.parse(xhr.responseText);
-                this.addInfo();
-            }
-        });
-    };
 
     sendFile () {
         AjaxModule.sendData({
@@ -237,17 +186,78 @@ export default class ProfileComponent {
         }
 
         this.body = body;
-        AjaxModule.doPost({
-            callback: this._onSubmit,
-            path: '/user/update',
-            body
-        });
+
+        AjaxModule.doFetchPost({
+            path: this._path,
+            body: this.body
+        })
+            .then(response => {
+                if (!response.ok) {
+                    let error = new Error('Incorrect user data');
+                    error.response = response;
+                    throw error;
+                }
+                this.showNotification();
+                this._form.elements.email.value = '';
+                this._form.elements.password.value = '';
+                this.file = null;
+
+                return AjaxModule.doFetchGet({
+                    path: '/user'
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.status);
+                }
+                return response.json();
+            })
+            .then(response => {
+                this.userInfo = response;
+                console.log(this.userInfo);
+                this.addInfo();
+            })
+            .catch(e => {
+                this._addFormError(e.message);
+                this.removeNotification();
+                console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
+            });
     };
 
     render () {
-        AjaxModule.doGet({
-            path: '/user',
-            callback: this.callbackForRender
-        });
+        AjaxModule.doFetchGet({
+            path: '/user'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    let error = new Error('Can not get user data, status code: ');
+                    error.response = response;
+                    throw error;
+                }
+                return response.json();
+            })
+            .then(response => {
+                this.userInfo = response;
+
+                this._parent.innerHTML = window.fest['components/Profile/Profile.tmpl']();
+
+                this.insertElements = {
+                    img: document.querySelector('.profile-form__img'),
+                    nickname: document.querySelector('[data-section="nickname"]'),
+                    email: document.querySelector('[data-section="current-email"]'),
+                    score: document.querySelector('[data-section="max-score"]')
+                };
+
+                this.addInfo();
+                this._renderAllComponents();
+                this._errorDiv = document.querySelector('.profile-form__error');
+                this._errorDiv.display = 'none';
+                this._form = document.querySelector('form');
+                this._form.addEventListener('submit', this.submitEvent);
+            })
+            .catch(e => {
+                alert('Error: ' + e.message);
+                console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
+            });
     }
 }

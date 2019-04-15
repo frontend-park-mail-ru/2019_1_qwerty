@@ -31,14 +31,21 @@ function createMenu () {
 }
 
 function logOut () {
-    AjaxModule.doGet({
-        path: '/user/logout',
-        callback: (xhr) => {
-            if (xhr.status === 200) {
-                createMenu();
+    AjaxModule.doFetchGet({
+        path: '/user/logout'
+    })
+        .then(response => {
+            if (!response.ok) {
+                let error = new Error('Can not logout');
+                error.response = response;
+                throw error;
             }
-        }
-    });
+            createMenu();
+        })
+        .catch(e => {
+            this._addFormError(e.message);
+            console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
+        });
 }
 
 // SignX

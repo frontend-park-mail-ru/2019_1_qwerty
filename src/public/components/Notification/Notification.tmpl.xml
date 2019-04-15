@@ -1,0 +1,7 @@
+<fest:template xmlns:fest="http://fest.mail.ru" >
+    <div class="notification" data-section="notification" >
+        <i class="notification__check-icon"></i>
+        <p class="notification__text-content">All good )</p>
+        <i class="notification__exit-icon"></i>
+    </div>
+</fest:template>

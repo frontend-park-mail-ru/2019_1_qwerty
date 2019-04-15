@@ -17,8 +17,9 @@
                 </fest:for>
             </table>
             <div class="score-nav__bottom">
-                <div class="score-nav_button_bottom" data-section="Prev10"></div>
-                <div class="score-nav_button_bottom" data-section="Next10"></div>
+                <div class="score-nav_button_bottom" data-section="Prev"></div>
+                <div class="score-nav_button_bottom" data-section="Close"></div>
+                <div class="score-nav_button_bottom" data-section="Next"></div>
             </div>
         </div>
     </div>

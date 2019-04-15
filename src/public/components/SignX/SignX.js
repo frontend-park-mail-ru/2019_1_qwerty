@@ -21,9 +21,8 @@ export default class SignXComponent {
         this._parent = parent;
         this._isSignup = isSignup;
         this._afterSuccessSubmit = afterSuccessSubmit;
-        this._path = isSignup ? '/user/signup' : '/user/login';
+        this._path = isSignup ? '/user/create' : '/user/login';
         this._elements = [];
-        this._onSubmit = this._onSubmit.bind(this);
         this.submitEvent = this.submitEvent.bind(this);
     }
 
@@ -37,16 +36,6 @@ export default class SignXComponent {
         this._errorDiv.textContent = '';
         this._errorDiv.display = 'none';
     }
-
-    _onSubmit (xhr) {
-        if (xhr.status === 404) {
-            const errorMessage = 'Не верный Nickname и/или пароль';
-            this._addFormError(errorMessage);
-            return;
-        }
-        this.onDestroy();
-        this._afterSuccessSubmit();
-    };
 
     _onFocus () {
         if (this._errorDiv.display === 'block') {
@@ -89,11 +78,23 @@ export default class SignXComponent {
             return;
         }
 
-        AjaxModule.doPost({
-            callback: this._onSubmit,
+        AjaxModule.doFetchPost({
             path: this._path,
-            body
-        });
+            body: body
+        })
+            .then(response => {
+                if (!response.ok) {
+                    let error = new Error('Incorrect Nickname and/or password');
+                    error.response = response;
+                    throw error;
+                }
+                this.onDestroy();
+                this._afterSuccessSubmit();
+            })
+            .catch(e => {
+                this._addFormError(e.message);
+                console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
+            });
     };
 
     render () {

@@ -24,6 +24,7 @@ export default class HeaderComponent {
         this._elem = null;
         this.namesAndTitles = null;
         this.menuDestroy = callback;
+        this._path = '/user/check';
     }
 
     destroy () {
@@ -38,15 +39,16 @@ export default class HeaderComponent {
      *@this {MenuComponent}.
      */
     render () {
-        AjaxModule.doGet({
-            path: '/user/check',
-            callback: (xhr) => {
+        AjaxModule.doFetchGet({
+            path: this._path
+        })
+            .then(response => {
                 this.namesAndTitles = {
                     signin: 'Sign In',
                     signup: 'Sign Up'
                 };
 
-                if (xhr.status === 200) {
+                if (response.ok) {
                     this.namesAndTitles = {
                         profile: 'My Profile',
                         logout: 'Log Out'
@@ -55,7 +57,6 @@ export default class HeaderComponent {
 
                 const names = Object.keys(this.namesAndTitles);
                 this._parent.innerHTML = window.fest['components/Header/Header.tmpl'](names);
-
                 this._elem = document.querySelector('.header');
 
                 Object.entries(this.namesAndTitles).forEach(([key, data]) => {
@@ -69,14 +70,14 @@ export default class HeaderComponent {
                             this.pages[key]();
                             this.menuDestroy();
                         }
-
                     });
 
                     button.render();
-
                     this._elements[key] = button;
                 });
-            }
-        });
+            })
+            .catch(e => {
+                console.log(`Error: ${e.message}`);
+            });
     }
 }

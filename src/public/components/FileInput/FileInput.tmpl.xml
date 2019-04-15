@@ -1,0 +1,5 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="title">
+    <input type="file" name="file" id="file" class="inputfile"/>
+    <label for="file" class="inputfile__label"><fest:value>title</fest:value></label>
+</fest:template>
+

@@ -1,10 +1,15 @@
 @import url("components/SignX/signx.css");
+@import url("components/Canvas/Canvas.css");
+@import url("components/Singleplayer/Singleplayer.css");
 @import url("components/Button/Button.css");
 @import url("components/Input/Input.css");
 @import url("components/Menu/Menu.css");
 @import url("components/Header/Header.css");
 @import url("components/Score/Score.css");
 @import url("components/Profile/Profile.css");
+@import url("components/FileInput/FileInput.css");
+@import url("components/Notification/Notification.css");
+@import url("components/404NotFound/Error404.css");
 
 @font-face {
     font-family: Pixel;

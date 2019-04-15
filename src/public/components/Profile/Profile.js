@@ -1,6 +1,9 @@
 import InputComponent from '../Input/Input.js';
 import ButtonComponent from '../Button/Button.js';
 import AjaxModule from '../../modules/ajax.js';
+import FileInputComponent from '../FileInput/FileInput.js';
+import { API_STATIC } from '../../config.js';
+import NotificationComponent from '../Notification/Notification.js';
 
 const noop = () => null;
 
@@ -9,38 +12,76 @@ export default class ProfileComponent {
         parent = document.body,
         callback = noop
     }) {
-        this.callback = callback;
+        this.callback = function () {
+            callback();
+            this.onDestroy();
+        }.bind(this);
+
         this._parent = parent;
         this.elements = {};
         this.userInfo = {};
         this.insertElements = {};
-        this.callbackForRender = this.callbackForRender.bind(this);
-        this.uploadInput = null;
-        this.file = null;
-        this._addFile = this._addFile.bind(this);
         this._errorDiv = null;
         this.submitEvent = this.submitEvent.bind(this);
-        this._onSubmit = this._onSubmit.bind(this);
-    }
-
-    _addFile (event) {
-        event.preventDefault();
-
-        this.file = this.uploadInput.files[0];
+        this._path = '/user/update';
     }
 
     addInfo () {
-        let srcPath = `http://localhost:8080/static/${this.userInfo.avatar}`;
+        const srcPath = API_STATIC + this.userInfo.avatar;
 
-        this.insertElements.imgParent.src = srcPath;
-        this.insertElements.imgParent.innerHTML = `<img src="${srcPath}" alt="ava" class="profile-form__img">`;
+        this.insertElements.img.src = srcPath;
 
-        this.insertElements.nickname.innerText = this.userInfo.name;
-        this.insertElements.email.innerText = this.userInfo.email;
-        this.insertElements.score.innerText = this.userInfo.score;
+        this.insertElements.nickname.textContent = this.userInfo.name;
+        this.insertElements.email.textContent = this.userInfo.email;
+        this.insertElements.score.textContent = this.userInfo.score;
+    }
+
+    changeRealTimeImage () {
+        const file = this.elements.upload.file;
+        console.log(file.type);
+        if (!/image\/(jpg|jpeg|png)/.test(file.type)) {
+            this._addFormError('Incorrect file format');
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            this.insertElements.img.src = reader.result;
+        };
+
+        if (file) {
+            this._removeFormError();
+            reader.readAsDataURL(file);
+        } else {
+            this.insertElements.img.src = '';
+        }
+    }
+
+    _onFocus () {
+        if (this._errorDiv.display === 'block') {
+            this._removeFormError();
+        }
     }
 
     _renderAllComponents () {
+        const notificationParent = document.querySelector('[data-section="profile-notification"]');
+        const notification = new NotificationComponent({
+            parent: notificationParent
+        });
+        notification.render();
+        notification.display = 'none';
+        this.elements.notification = notification;
+
+        const uploadParent = document.querySelector('[data-section="change-button"]');
+        const uploadInput = new FileInputComponent({
+            parent: uploadParent,
+            title: 'Change'
+        });
+        uploadInput.render();
+        this.elements.upload = uploadInput;
+        uploadInput.onChange = this.changeRealTimeImage.bind(this);
+
         const emailParent = document.querySelector('[data-section="email"]');
         const emailInput = new InputComponent({
             name: 'email',
@@ -48,6 +89,7 @@ export default class ProfileComponent {
             placeholder: 'New Email',
             parent: emailParent
         });
+        emailInput.onFocus = this._onFocus.bind(this);
         emailInput.render();
         this.elements.email = emailInput;
 
@@ -59,6 +101,7 @@ export default class ProfileComponent {
             parent: passwordParent,
             isPassword: true
         });
+        passwordInput.onFocus = this._onFocus.bind(this);
         passwordInput.render();
         this.elements.password = passwordInput;
 
@@ -83,35 +126,21 @@ export default class ProfileComponent {
 
         saveButton.render();
         this.elements.save = saveButton;
+    }//
+
+    onDestroy () {
+        Object.values(this.elements).forEach((item) => {
+            item.destroy();
+        });
     }
 
-    callbackForRender (xhr) {
-        if (xhr.status === 404) {
-            alert(xhr.status);
-            return;
-        }
-
-        this.userInfo = JSON.parse(xhr.responseText);
-
-        this._parent.innerHTML = window.fest['components/Profile/Profile.tmpl']();
-
-        this.insertElements = {
-            imgParent: document.querySelector('[data-section="img"]'),
-            nickname: document.querySelector('[data-section="nickname"]'),
-            email: document.querySelector('[data-section="current-email"]'),
-            score: document.querySelector('[data-section="max-score"]')
-        };
-
-        this.addInfo();
-        this._renderAllComponents();
-        this._errorDiv = document.querySelector('.profile-form__error');
-        this._errorDiv.display = 'none';
-        this._form = document.querySelector('form');
-        this.uploadInput = document.querySelector('.inputfile');
-        this._form.addEventListener('submit', this.submitEvent);
-        this.uploadInput.addEventListener('change', this._addFile);
+    showNotification () {
+        this.elements.notification.display = 'flex';
     }
 
+    removeNotification () {
+        this.elements.notification.display = 'none';
+    }
     _addFormError (error) {
         this._errorDiv.textContent = error;
         this._errorDiv.dataset.section = 'error';
@@ -123,34 +152,10 @@ export default class ProfileComponent {
         this._errorDiv.display = 'none';
     }
 
-    _onSubmit (xhr) {
-        if (xhr.status === 404) {
-            const errorMessage = 'Не верный Nickname и/или пароль';
-            this._addFormError(errorMessage);
-            return;
-        }
-        this._form.elements.email.value = '';
-        this._form.elements.password.value  = '';
-        this.file = null;
-
-        AjaxModule.doGet({
-            path: '/user',
-            callback: (xhr) => {
-                if (xhr.status === 404) {
-                    alert(xhr.status);
-                    return;
-                }
-                this.userInfo = JSON.parse(xhr.responseText);
-                this.addInfo();
-            }
-        });
-        // this.insertElements.email.innerText = (this.body.email ? this.body.email : this.insertElements.email.innerText);
-    };
-
     sendFile () {
         AjaxModule.sendData({
             path: '/user/avatar',
-            file: this.file
+            file: this.elements.upload.file
         });
     }
 
@@ -161,35 +166,98 @@ export default class ProfileComponent {
         const password = this._form.elements.password.value.trim();
 
         const body = { email, password };
-        let errorExpression = !email && !password && !this.file;
+        let errorExpression = !email && !password && !this.elements.upload.file;
         let errorMsg = 'fill something to submit';
 
         if (errorExpression) {
             this._addFormError(errorMsg);
+            this.removeNotification();
             return;
         }
 
         if (password.length && password.length < 5) {
             this._addFormError('Password must be longer than 5 characters');
+            this.removeNotification();
             return;
         }
 
-        if (this.file) {
+        if (this.elements.upload.file) {
             this.sendFile();
         }
 
         this.body = body;
-        AjaxModule.doPost({
-            callback: this._onSubmit,
-            path: '/user/update',
-            body
-        });
+
+        AjaxModule.doFetchPost({
+            path: this._path,
+            body: this.body
+        })
+            .then(response => {
+                if (!response.ok) {
+                    let error = new Error('Incorrect user data');
+                    error.response = response;
+                    throw error;
+                }
+                this.showNotification();
+                this._form.elements.email.value = '';
+                this._form.elements.password.value = '';
+                this.file = null;
+
+                return AjaxModule.doFetchGet({
+                    path: '/user'
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.status);
+                }
+                return response.json();
+            })
+            .then(response => {
+                this.userInfo = response;
+                console.log(this.userInfo);
+                this.addInfo();
+            })
+            .catch(e => {
+                this._addFormError(e.message);
+                this.removeNotification();
+                console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
+            });
     };
 
     render () {
-        AjaxModule.doGet({
-            path: '/user',
-            callback: this.callbackForRender
-        });
+        AjaxModule.doFetchGet({
+            path: '/user'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    let error = new Error('Can not get user data, status code: ');
+                    error.response = response;
+                    throw error;
+                }
+                return response.json();
+            })
+            .then(response => {
+                this.userInfo = response;
+
+                this._parent.innerHTML = window.fest['components/Profile/Profile.tmpl']();
+
+                this.insertElements = {
+                    img: document.querySelector('.profile-form__img'),
+                    nickname: document.querySelector('[data-section="nickname"]'),
+                    email: document.querySelector('[data-section="current-email"]'),
+                    score: document.querySelector('[data-section="max-score"]')
+                };
+
+                this.addInfo();
+                this._renderAllComponents();
+                this._errorDiv = document.querySelector('.profile-form__error');
+                this._errorDiv.display = 'none';
+                this._form = document.querySelector('form');
+                this._form.addEventListener('submit', this.submitEvent);
+            })
+            .catch(e => {
+                alert('Error: ' + e.message);
+                console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
+            });
     }
 }

@@ -1,6 +1,9 @@
 import InputComponent from '../Input/Input.js';
 import ButtonComponent from '../Button/Button.js';
 import AjaxModule from '../../modules/ajax.js';
+import FileInputComponent from '../FileInput/FileInput.js';
+import { API_STATIC } from '../../config.js';
+import NotificationComponent from '../Notification/Notification.js';
 
 const noop = () => null;
 
@@ -9,38 +12,77 @@ export default class ProfileComponent {
         parent = document.body,
         callback = noop
     }) {
-        this.callback = callback;
+        this.callback = function () {
+            callback();
+            this.onDestroy();
+        }.bind(this);
+
         this._parent = parent;
         this.elements = {};
         this.userInfo = {};
         this.insertElements = {};
         this.callbackForRender = this.callbackForRender.bind(this);
-        this.uploadInput = null;
-        this.file = null;
-        this._addFile = this._addFile.bind(this);
         this._errorDiv = null;
         this.submitEvent = this.submitEvent.bind(this);
         this._onSubmit = this._onSubmit.bind(this);
     }
 
-    _addFile (event) {
-        event.preventDefault();
+    addInfo () {
+        const srcPath = API_STATIC + this.userInfo.avatar;
 
-        this.file = this.uploadInput.files[0];
+        this.insertElements.img.src = srcPath;
+
+        this.insertElements.nickname.textContent = this.userInfo.name;
+        this.insertElements.email.textContent = this.userInfo.email;
+        this.insertElements.score.textContent = this.userInfo.score;
     }
 
-    addInfo () {
-        let srcPath = `http://localhost:8080/static/${this.userInfo.avatar}`;
+    changeRealTimeImage () {
+        const file = this.elements.upload.file;
+        console.log(file.type);
+        if (!/image\/(jpg|jpeg|png)/.test(file.type)) {
+            this._addFormError('Incorrect file format');
+            return;
+        }
 
-        this.insertElements.imgParent.src = srcPath;
-        this.insertElements.imgParent.innerHTML = `<img src="${srcPath}" alt="ava" class="profile-form__img">`;
+        const reader = new FileReader();
 
-        this.insertElements.nickname.innerText = this.userInfo.name;
-        this.insertElements.email.innerText = this.userInfo.email;
-        this.insertElements.score.innerText = this.userInfo.score;
+        reader.onloadend = () => {
+            this.insertElements.img.src = reader.result;
+        };
+
+        if (file) {
+            this._removeFormError();
+            reader.readAsDataURL(file);
+        } else {
+            this.insertElements.img.src = '';
+        }
+    }
+
+    _onFocus () {
+        if (this._errorDiv.display === 'block') {
+            this._removeFormError();
+        }
     }
 
     _renderAllComponents () {
+        const notificationParent = document.querySelector('[data-section="profile-notification"]');
+        const notification = new NotificationComponent({
+            parent: notificationParent
+        });
+        notification.render();
+        notification.display = 'none';
+        this.elements.notification = notification;
+
+        const uploadParent = document.querySelector('[data-section="change-button"]');
+        const uploadInput = new FileInputComponent({
+            parent: uploadParent,
+            title: 'Change'
+        });
+        uploadInput.render();
+        this.elements.upload = uploadInput;
+        uploadInput.onChange = this.changeRealTimeImage.bind(this);
+
         const emailParent = document.querySelector('[data-section="email"]');
         const emailInput = new InputComponent({
             name: 'email',
@@ -48,6 +90,7 @@ export default class ProfileComponent {
             placeholder: 'New Email',
             parent: emailParent
         });
+        emailInput.onFocus = this._onFocus.bind(this);
         emailInput.render();
         this.elements.email = emailInput;
 
@@ -59,6 +102,7 @@ export default class ProfileComponent {
             parent: passwordParent,
             isPassword: true
         });
+        passwordInput.onFocus = this._onFocus.bind(this);
         passwordInput.render();
         this.elements.password = passwordInput;
 
@@ -96,7 +140,7 @@ export default class ProfileComponent {
         this._parent.innerHTML = window.fest['components/Profile/Profile.tmpl']();
 
         this.insertElements = {
-            imgParent: document.querySelector('[data-section="img"]'),
+            img: document.querySelector('.profile-form__img'),
             nickname: document.querySelector('[data-section="nickname"]'),
             email: document.querySelector('[data-section="current-email"]'),
             score: document.querySelector('[data-section="max-score"]')
@@ -107,11 +151,22 @@ export default class ProfileComponent {
         this._errorDiv = document.querySelector('.profile-form__error');
         this._errorDiv.display = 'none';
         this._form = document.querySelector('form');
-        this.uploadInput = document.querySelector('.inputfile');
         this._form.addEventListener('submit', this.submitEvent);
-        this.uploadInput.addEventListener('change', this._addFile);
     }
 
+    onDestroy () {
+        Object.values(this.elements).forEach((item) => {
+            item.destroy();
+        });
+    }
+
+    showNotification () {
+        this.elements.notification.display = 'flex';
+    }
+
+    removeNotification () {
+        this.elements.notification.display = 'none';
+    }
     _addFormError (error) {
         this._errorDiv.textContent = error;
         this._errorDiv.dataset.section = 'error';
@@ -125,12 +180,14 @@ export default class ProfileComponent {
 
     _onSubmit (xhr) {
         if (xhr.status === 404) {
-            const errorMessage = 'Не верный Nickname и/или пароль';
+            const errorMessage = 'Incorrect Nickname and/or password';
             this._addFormError(errorMessage);
+            this.removeNotification();
             return;
         }
+        this.showNotification();
         this._form.elements.email.value = '';
-        this._form.elements.password.value  = '';
+        this._form.elements.password.value = '';
         this.file = null;
 
         AjaxModule.doGet({
@@ -144,13 +201,12 @@ export default class ProfileComponent {
                 this.addInfo();
             }
         });
-        // this.insertElements.email.innerText = (this.body.email ? this.body.email : this.insertElements.email.innerText);
     };
 
     sendFile () {
         AjaxModule.sendData({
             path: '/user/avatar',
-            file: this.file
+            file: this.elements.upload.file
         });
     }
 
@@ -161,20 +217,22 @@ export default class ProfileComponent {
         const password = this._form.elements.password.value.trim();
 
         const body = { email, password };
-        let errorExpression = !email && !password && !this.file;
+        let errorExpression = !email && !password && !this.elements.upload.file;
         let errorMsg = 'fill something to submit';
 
         if (errorExpression) {
             this._addFormError(errorMsg);
+            this.removeNotification();
             return;
         }
 
         if (password.length && password.length < 5) {
             this._addFormError('Password must be longer than 5 characters');
+            this.removeNotification();
             return;
         }
 
-        if (this.file) {
+        if (this.elements.upload.file) {
             this.sendFile();
         }
 

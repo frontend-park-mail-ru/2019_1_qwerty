@@ -28,7 +28,7 @@ export default class ProfileView extends View {
 
     addInfo () {
         this.insertElements.img.src = API_STATIC + this.userInfo.avatar;
-        this.insertElements.nickname.textContent = this.userInfo.name;
+        this.insertElements.nickname.textContent = this.userInfo.nickname;
         this.insertElements.email.textContent = this.userInfo.email;
         this.insertElements.score.textContent = this.userInfo.score;
     }

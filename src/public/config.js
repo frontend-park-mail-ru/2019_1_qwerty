@@ -7,3 +7,4 @@ export const CURRENT_USER = '/user';
 export const SEND_IMAGE = '/user/avatar';
 export const UPDATE_USER = '/user/update';
 export const GET_SCORE = '/score?offset=';
+export const LOG_OUT = '/user/logout';

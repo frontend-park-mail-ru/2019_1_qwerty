@@ -22,10 +22,13 @@ export default class Controller {
         return null;
     }
 
+    destroy() {
+        this.view.onDestroy();
+    }
     routeFunction (path) {
         return event => {
             event.preventDefault();
-            this.view.onDestroy();
+            this.destroy();
             router.go(path);
         };
     }

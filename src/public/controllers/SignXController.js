@@ -9,12 +9,29 @@ export default class SignXController extends Controller {
         this.contentFromNameField = '';
         this.contentFromPasswordField = '';
         this.contentFromEmailField = '';
+        this.model = data.model;
+        // this.SuccessSubmit = this.SuccessSubmit.bind(this);
+        // this.EventBus.on('signX:request', this.model.requestForSignupOrSignin);
+        // this.EventBus.on('signx-model:add-errors', this.view._addFormError.bind(this.view));
+        // this.EventBus.on('signx-model:after-success-submit',this.SuccessSubmit);
+    }
+
+    show () {
+        this.EventBus.on('signX:request', this.model.requestForSignupOrSignin);
         this.EventBus.on('signx-model:add-errors', this.view._addFormError.bind(this.view));
-        this.EventBus.on('signx-model:after-success-submit', function () {
-            this.view.onDestroy();
-            router.go('/');
-            // this.view.afterSuccessSubmit();
-        }.bind(this));
+        this.EventBus.on('signx-model:after-success-submit', this.SuccessSubmit);
+        super.show();
+    }
+
+    SuccessSubmit () {
+        router.go('/');
+    }
+
+    destroy() {
+        this.EventBus.off('signX:request', this.model.requestForSignupOrSignin);
+        this.EventBus.off('signx-model:add-errors', this.view._addFormError.bind(this.view));
+        this.EventBus.off('signx-model:after-success-submit',this.SuccessSubmit);
+        super.destroy();
     }
 
     getData () {

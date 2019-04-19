@@ -8,20 +8,42 @@ export default class ProfileController extends Controller {
         this.contentFromEmailField = '';
         this.contentFromImageField = '';
         this.contentFromPasswordField = '';
+        this.model = data.model;
         this.getData();
+        this.view = new ProfileView(this.data);
+    }
+
+    show () {
+        this.EventBus.on('profile:send-img', this.model.sendFile);
+        this.EventBus.on('profile:get-current-user', this.model.requestForCurrentUser);
+        this.EventBus.on('profile:send-user-data', this.model.sendUserInfo);
         this.EventBus.on('profile-model:get-current-user', this.createViewAndRender.bind(this));
         this.EventBus.emit('profile:get-current-user');
     }
 
     createViewAndRender (userInfo) {
         this.data.userInfo = userInfo;
-        this.view = new ProfileView(this.data);
+        this.view.infoAboutUser = userInfo;
+        // this.view = new ProfileView(this.data);
         this.EventBus.on('profile-model:clear-fields', this.clearFields.bind(this));
         this.EventBus.on('profile-model:add-info', this.addInfoForModel.bind(this));
         this.EventBus.on('profile-model:add-error', this.addFormError.bind(this));
         this.EventBus.on('profile-model:show-notification', this.showNotification.bind(this));
         this.EventBus.on('profile-model:remove-notification', this.removeNotification.bind(this));
-        this.show();
+        super.show();
+    }
+
+    destroy () {
+        this.EventBus.off('profile:send-img', this.model.sendFile);
+        this.EventBus.off('profile:get-current-user', this.model.requestForCurrentUser);
+        this.EventBus.off('profile:send-user-data', this.model.sendUserInfo);
+        this.EventBus.off('profile-model:get-current-user', this.createViewAndRender.bind(this));
+        this.EventBus.off('profile-model:clear-fields', this.clearFields.bind(this));
+        this.EventBus.off('profile-model:add-info', this.addInfoForModel.bind(this));
+        this.EventBus.off('profile-model:add-error', this.addFormError.bind(this));
+        this.EventBus.off('profile-model:show-notification', this.showNotification.bind(this));
+        this.EventBus.off('profile-model:remove-notification', this.removeNotification.bind(this));
+        super.destroy();
     }
 
     addFormError () {

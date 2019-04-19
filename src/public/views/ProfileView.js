@@ -11,7 +11,6 @@ export default class ProfileView extends View {
         callbacks = {},
         nameOfView = 'profile',
         parentView = null,
-        userInfo = {}
     }) {
         super({
             parent,
@@ -23,9 +22,10 @@ export default class ProfileView extends View {
         this.insertElements = {};
         this._errorDiv = null;
         this.path = UPDATE_USER;
+    }
+    set infoAboutUser (userInfo) {
         this.userInfo = userInfo;
     }
-
     addInfo () {
         this.insertElements.img.src = API_STATIC + this.userInfo.avatar;
         this.insertElements.nickname.textContent = this.userInfo.nickname;

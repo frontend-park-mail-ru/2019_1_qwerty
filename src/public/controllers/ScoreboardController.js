@@ -7,12 +7,24 @@ export default class ScoreboardController extends Controller {
         this.view = new ScoreboardView(this.getData());
         this.contentFromScoreTable = '';
         this.position = 0;
-
+        this.model = data.model;
         var urlParams = new URLSearchParams(window.location.search);
         this.position = Number(urlParams.get('offset'));
 
-        this.EventBus.on('scoreboard-model:update-score-data', this.updateScore.bind(this));
+        this.updateScore = this.updateScore.bind(this);
+    }
+
+    show() {
+        this.EventBus.on('scoreboard:get-score', this.model.getScore);
+        this.EventBus.on('scoreboard-model:update-score-data', this.updateScore);
         this.EventBus.emit('scoreboard:get-score', { position: this.position, offset: 0 });
+        super.show();
+    }
+
+    destroy() {
+        this.EventBus.off('scoreboard-model:update-score-data', this.updateScore);
+        this.EventBus.off('scoreboard:get-score', this.model.getScore);
+        super.destroy();
     }
 
     getData () {

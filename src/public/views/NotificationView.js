@@ -1,4 +1,5 @@
 import View from './View.js';
+import template from '../components/Notification/Notification.tmpl.xml';
 
 export default class NotificationView extends View {
     constructor ({
@@ -22,7 +23,8 @@ export default class NotificationView extends View {
     }
 
     render () {
-        this.parent.innerHTML = window.fest['components/Notification/Notification.tmpl']();
+        // this.parent.innerHTML = window.fest['components/Notification/Notification.tmpl']();
+        this.parent.innerHTML = template();
         this.elem = document.querySelector('[data-section="notification"]');
 
         this._exitIcon = document.querySelector('.notification__exit-icon');

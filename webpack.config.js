@@ -18,23 +18,24 @@ module.exports = (env, options) => {
             break;
     }
     return {
-        entry: [
-            './src/public/components/Notification/Notification.tmpl.js',
-            './src/public/components/FileInput/FileInput.tmpl.js',
-            './src/public/components/Profile/Profile.tmpl.js',
-            './src/public/components/Menu/Menu.tmpl.js',
-            './src/public/components/Header/Header.tmpl.js',
-            './src/public/components/Button/Button.tmpl.js',
-            './src/public/components/Input/Input.tmpl.js',
-            './src/public/components/SignX/SignX.tmpl.js',
-            './src/public/components/Score/Score.tmpl.js',
-            './src/public/components/Singleplayer/Singleplayer.tmpl.js',
-            './src/public/components/Canvas/Canvas.tmpl.js',
-            './src/public/components/404NotFound/Error404.tmpl.js',
-            './src/public/main.js'
-        ],
+        // entry: [
+        //     './src/public/components/Notification/Notification.tmpl.js',
+        //     './src/public/components/FileInput/FileInput.tmpl.js',
+        //     './src/public/components/Profile/Profile.tmpl.js',
+        //     './src/public/components/Menu/Menu.tmpl.js',
+        //     './src/public/components/Header/Header.tmpl.js',
+        //     './src/public/components/Button/Button.tmpl.js',
+        //     './src/public/components/Input/Input.tmpl.js',
+        //     './src/public/components/SignX/SignX.tmpl.js',
+        //     './src/public/components/Score/Score.tmpl.js',
+        //     './src/public/components/Singleplayer/Singleplayer.tmpl.js',
+        //     './src/public/components/Canvas/Canvas.tmpl.js',
+        //     './src/public/components/404NotFound/Error404.tmpl.js',
+        //     './src/public/main.js'
+        // ],
+        entry: './src/public/main.js',
         output: {
-            path: path.resolve(__dirname, 'src/public'),
+            path: path.resolve(__dirname, 'src/public/build'),
             filename: 'bundle.js'
         },
         watchOptions: {
@@ -60,6 +61,14 @@ module.exports = (env, options) => {
                             fallback: 'style-loader',
                             use: ['css-loader']
                         })
+                },
+                {
+                    test: /\.tmpl\.xml$/,
+                    use: [
+                        {
+                            loader: 'fest-webpack-loader'
+                        }
+                    ]
                 },
                 {
                     test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,

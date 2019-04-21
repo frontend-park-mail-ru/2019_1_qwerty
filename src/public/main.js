@@ -1,9 +1,8 @@
 'use strict';
 
-import AjaxModule from './modules/ajax.js';
+import './main.css';
 import SignXController from './controllers/SignXController.js';
 import SignXService from './services/SignXService.js';
-import EventBus from './modules/EventBus.js';
 import MenuService from './services/MenuService.js';
 import MenuController from './controllers/MenuController.js';
 import ProfileService from './services/ProfileService.js';
@@ -13,8 +12,6 @@ import ScoreboardController from './controllers/ScoreboardController.js';
 import ScoreboardService from './services/ScoreboardService.js';
 import SingleplayerController from './controllers/SingleplayerController.js';
 import router from './modules/Router.js';
-import './main.css';
-import { LOG_OUT } from './config.js';
 
 const application = document.getElementById('application');
 

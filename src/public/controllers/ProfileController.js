@@ -1,6 +1,5 @@
 import Controller from './Controller.js';
 import ProfileView from '../views/ProfileView.js';
-import router from '../modules/Router.js';
 
 export default class ProfileController extends Controller {
     constructor (data) {
@@ -22,6 +21,7 @@ export default class ProfileController extends Controller {
     }
 
     createViewAndRender (userInfo) {
+        console.log(userInfo);
         this.data.userInfo = userInfo;
         this.view.infoAboutUser = userInfo;
         // this.view = new ProfileView(this.data);
@@ -151,11 +151,16 @@ export default class ProfileController extends Controller {
             this.view.removeNotification();
             return;
         }
-
+        // function saveJsonData(data) {
+        //     this.EventBus.emit('profile:send-user-data', data);
+        // }
+        this.EventBus.emit('profile:send-user-data', body);
         if (upload) {
+            // this.EventBus.on('profile-service:image_uploaded', function () {
+            //     saveJsonData(body);
+            // });
             this.EventBus.emit('profile:send-img', upload);
         }
-        this.EventBus.emit('profile:send-user-data', body);
     }
 
     addInfoForModel (response) {

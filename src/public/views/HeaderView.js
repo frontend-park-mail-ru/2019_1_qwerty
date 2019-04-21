@@ -1,5 +1,6 @@
 import ButtonView from './ButtonView.js';
 import View from './View.js';
+import template from '../components/Header/Header.tmpl.xml';
 
 export default class HeaderView extends View {
     constructor ({
@@ -36,7 +37,8 @@ export default class HeaderView extends View {
 
     showHeader (namesAndTitles) {
         const names = Object.keys(namesAndTitles);
-        this.parent.innerHTML = window.fest['components/Header/Header.tmpl'](names);
+        // this.parent.innerHTML = window.fest['components/Header/Header.tmpl'](names);
+        this.parent.innerHTML = template(names);
         this.elem = document.querySelector('.header');
 
         Object.entries(namesAndTitles).forEach(([key, data]) => {

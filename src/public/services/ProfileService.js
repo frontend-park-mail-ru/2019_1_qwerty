@@ -3,7 +3,7 @@ import EventBus from '../modules/EventBus.js';
 import { SEND_IMAGE, CURRENT_USER, UPDATE_USER } from '../config.js';
 
 export default class ProfileService {
-    requestForCurrentUser () {
+    requestForCurrentUser (upload) {
         AjaxModule.doFetchGet({
             path: CURRENT_USER
         })
@@ -25,11 +25,26 @@ export default class ProfileService {
             });
     }
 
-    sendFile (file) {
-        AjaxModule.sendData({
+   sendFile (file) {
+        // const callback = (message) => {
+        //     EventBus.emit('profile-model:add-error', message);
+        //     EventBus.emit('profile-model:remove-notification');
+        // };
+       AjaxModule.sendData({
             file,
             path: SEND_IMAGE
-        });
+       });
+            // .then(response => {
+            //     console.log(response);
+            //     if (!response.ok) {
+            //         throw new Error('all bad');
+            //     }
+            //     callback(response)
+            // })
+            // .catch(error => {
+            //     EventBus.emit('profile-model:add-error', error.message);
+            //     EventBus.emit('profile-model:remove-notification');
+            // });
     }
 
     sendUserInfo (body) {

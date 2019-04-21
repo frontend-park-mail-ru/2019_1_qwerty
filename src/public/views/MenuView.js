@@ -1,6 +1,7 @@
 import View from './View.js';
 import ButtonView from './ButtonView.js';
 import HeaderView from './HeaderView.js';
+import template from '../components/Menu/Menu.tmpl.xml';
 
 export default class MenuView extends View {
     constructor ({
@@ -31,8 +32,8 @@ export default class MenuView extends View {
 
     render () {
         const elements = Object.keys(this.menuItems);
-        this.parent.innerHTML = window.fest['components/Menu/Menu.tmpl'](elements);
-
+        // this.parent.innerHTML = window.fest['components/Menu/Menu.tmpl'](elements);
+        this.parent.innerHTML = template(elements);
         this.elem = document.querySelector('.menu-main');
 
         const headerParent = document.querySelector('.menu-header__item_width_m');

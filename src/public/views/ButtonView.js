@@ -1,4 +1,5 @@
 import View from './View.js';
+import template from '../components/Button/Button.tmpl.xml';
 
 export default class ButtonView extends View {
     constructor ({
@@ -22,8 +23,8 @@ export default class ButtonView extends View {
     }
 
     render () {
-        this.parent.innerHTML = window.fest['components/Button/Button.tmpl'](this);
-
+        // this.parent.innerHTML = window.fest['components/Button/Button.tmpl'](this);
+        this.parent.innerHTML = template(this);
         this.elem = document.querySelector(`[name='${this.name}']`);
 
         this.setEvents();

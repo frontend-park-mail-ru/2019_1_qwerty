@@ -1,4 +1,5 @@
 import View from './View.js';
+import template from '../components/Input/Input.tmpl.xml';
 
 export default class Input extends View {
     constructor ({
@@ -25,8 +26,8 @@ export default class Input extends View {
     }
 
     render () {
-        this.parent.innerHTML = window.fest['components/Input/Input.tmpl'](this);
-
+        // this.parent.innerHTML = window.fest['components/Input/Input.tmpl'](this);
+        this.parent.innerHTML = template(this);
         this.elem = document.querySelector(`input[name='${this.name}']`);
         if (this.isPassword) {
             this._showIcon = document.querySelector('.input__icon');

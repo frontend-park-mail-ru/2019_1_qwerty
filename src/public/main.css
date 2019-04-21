@@ -35,7 +35,7 @@ body {
 }
 
 html {
-    background: url(./background.png) repeat 0 0;
+    background: url(images/background.png) repeat 0 0;
     background-size: cover;
     animation: slide 20s linear infinite;
     font-family: Pixel, serif;

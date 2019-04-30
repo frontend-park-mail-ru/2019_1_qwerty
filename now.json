@@ -11,5 +11,8 @@
       { "src": "/[^/]*$", "dest": "src/public/index.html" },
       { "src": "/fonts/(.*)", "dest": "src/public/fonts/$1" },
       { "src": "/build/(.+)", "dest":  "src/public/build/$1"}
-  ]
+  ],
+  "github": {
+    "enabled": false
+  }
 }

@@ -4,8 +4,7 @@
 
     justify-content: space-around;
     flex-flow:row;
-}
-
-.header__item {
-    flex-basis: 42%;
+    &__item {
+        flex-basis: 42%;
+    }
 }

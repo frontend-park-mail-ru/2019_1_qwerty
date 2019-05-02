@@ -1,15 +1,15 @@
-@import url("components/SignX/signx.css");
-@import url("components/Canvas/Canvas.css");
-@import url("components/Singleplayer/Singleplayer.css");
-@import url("components/Button/Button.css");
-@import url("components/Input/Input.css");
-@import url("components/Menu/Menu.css");
-@import url("components/Header/Header.css");
-@import url("components/Score/Score.css");
-@import url("components/Profile/Profile.css");
-@import url("components/FileInput/FileInput.css");
-@import url("components/Notification/Notification.css");
-@import url("components/404NotFound/Error404.css");
+@import "components/SignX/signx.scss";
+@import "components/Canvas/Canvas.scss";
+@import "components/Singleplayer/Singleplayer.scss";
+@import "components/Button/Button.scss";
+@import "components/Input/Input.scss";
+@import "components/Menu/Menu.scss";
+@import "components/Header/Header.scss";
+@import "components/Score/Score.scss";
+@import "components/Profile/Profile.scss";
+@import "components/FileInput/FileInput.scss";
+@import "components/Notification/Notification.scss";
+@import "components/404NotFound/Error404.scss";
 
 @font-face {
     font-family: Pixel;
@@ -52,12 +52,10 @@ a {
     opacity: 0.5;
     transition: 0.3s;
     cursor: pointer;
-}
-
-a:visited {
-    color: #D3D3D3;
-}
-
-a:hover {
-    opacity: 1;
+    &:visited {
+        color: #D3D3D3;
+    }
+    &:hover {
+        opacity: 1;
+    }
 }

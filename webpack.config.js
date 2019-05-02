@@ -37,13 +37,17 @@ module.exports = (env, options) => {
                     }
                 },
                 {
-                    test: /\.css$/,
+                    test: /\.scss$/,
                     use: ExtractTextPlugin.extract(
                         {
                             fallback: 'style-loader',
-                            use: ['css-loader']
+                            use: ['css-loader', 'postcss-loader', 'sass-loader']
                         })
                 },
+                // {
+                //     test: /\.scss$/,
+                //     loaders: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+                // },
                 {
                     test: /\.tmpl\.xml$/,
                     use: [

@@ -1,6 +1,6 @@
 'use strict';
 
-import './main.css';
+import './main.scss';
 import SignXController from './controllers/SignXController.js';
 import SignXService from './services/SignXService.js';
 import MenuService from './services/MenuService.js';

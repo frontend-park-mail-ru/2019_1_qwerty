@@ -3,6 +3,10 @@
     display:flex;
     justify-content: center;
     position: relative;
+    @media screen and (max-width: 425px) {
+        margin: 20% auto 0;
+        position: inherit;
+    }
     &__notification {
         position: absolute;
         top:7%;
@@ -12,6 +16,9 @@
         &_margin_m {
             margin-right: 20px;
         }
+        @media screen and (max-width: 425px) {
+            width:35%;
+        }
     }
     &-form {
         flex-basis: 35%;
@@ -19,6 +26,9 @@
         border-radius: 8pt;
         margin: 3% auto 0;
         padding: 1.5% 0;
+        @media screen and (max-width: 425px) {
+            flex-basis: 80%;
+        }
         &__img_border {
             box-sizing: border-box;
             padding: 4%;
@@ -54,6 +64,9 @@
             margin-top:10%;
             &_width_m {
                 flex-basis: 30%;
+                @media screen and (max-width: 425px) {
+                    flex-basis: 40%;
+                }
             }
         }
         &__table {
@@ -80,13 +93,12 @@
             font-size:0.8rem;
             text-align: center;
         }
-
+        &__header {
+            color: #7BD63B;
+        }
     }
 }
 
-.header {
-    color: #7BD63B;
-}
 
 
 

@@ -32,6 +32,9 @@ html, body, #application {
 
 body {
     overflow: hidden;
+    @media screen and (max-width: 425px) {
+        overflow: scroll;
+    }
 }
 
 html {

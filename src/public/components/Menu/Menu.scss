@@ -5,6 +5,22 @@
     margin-top:1%;
     &__item_width_m {
         flex-basis: 38%;
+        @media screen and (max-width: 425px) {
+            width:100%;
+            flex-basis: auto;
+        }
+    }
+    &_mobile {
+        display: none;
+        @media screen and (max-width: 425px) {
+            display: flex;
+            justify-content: space-between;
+            width: 70%;
+            flex-basis:60%;
+        }
+    }
+    @media screen and (max-width: 425px) {
+        display: none;
     }
 }
 
@@ -15,14 +31,25 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    @media screen and (max-width: 425px) {
+        height: 100%;
+    }
     &__header {
         font-size: 60px;
         text-align: center;
         margin-bottom: 20%;
+        @media screen and (max-width: 425px) {
+            margin-bottom: 10%;
+            margin-top:30%;
+            font-size:40px;
+        }
     }
     &__item {
         flex-basis: 60%;
         width: 30%;
+        @media screen and (max-width: 425px) {
+            width: 70%;
+        }
     }
 }
 

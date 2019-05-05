@@ -4,8 +4,14 @@ $path: "./components/SignX";
     border:2px solid white;
     border-radius: 8px;
     text-align: center;
+    @media screen and (max-width: 425px) {
+        width: 80%;
+    }
     &_center {
         margin:5% auto 0;
+        @media screen and (max-width: 425px) {
+            margin: 30% auto 0;
+        }
     }
     &__header {
         padding-top: 5%;

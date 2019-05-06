@@ -11,7 +11,7 @@
     opacity: 0.5;
     transition: 0.3s;
     cursor: pointer;
-    @media screen and (max-width: 425px) {
+    @media screen and (max-width: 768px) {
         font-size: 135%;
     }
     &:hover {

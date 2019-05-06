@@ -6,11 +6,11 @@
     flex-flow:row;
     &__item {
         flex-basis: 42%;
-        @media screen and (max-width: 425px) {
+        @media screen and (max-width: 768px) {
             flex-basis: 45%;
         }
     }
-    @media screen and (max-width: 425px) {
+    @media screen and (max-width: 768px) {
         justify-content: space-between;
     }
 }

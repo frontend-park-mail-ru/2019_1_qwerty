@@ -8,7 +8,7 @@ $path: "./components/Notification";
     animation: fadeInRight 0.7s linear;
     border: 2px solid white;
     border-radius: 8pt;
-    @media screen and (max-width: 425px) {
+    @media screen and (max-width: 768px) {
         font-size: 0.8em;
     }
     &:hover {

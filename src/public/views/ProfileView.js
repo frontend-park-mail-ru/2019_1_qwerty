@@ -30,14 +30,13 @@ export default class ProfileView extends View {
     }
     addInfo () {
         console.log(this.userInfo);
-        this.insertElements.img.src = this.userInfo.avatar ? (this.userInfo.avatar) : DEFAULT_AVATAR;
+        this.insertElements.img.src = this.userInfo.avatar || DEFAULT_AVATAR;
         this.insertElements.nickname.textContent = this.userInfo.nickname;
         this.insertElements.email.textContent = this.userInfo.email;
         this.insertElements.score.textContent = this.userInfo.score;
     }
 
     render () {
-        // this.parent.innerHTML = window.fest['components/Profile/Profile.tmpl']();
         this.parent.innerHTML = template();
 
         this.insertElements = {

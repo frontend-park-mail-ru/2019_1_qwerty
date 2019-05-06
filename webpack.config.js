@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const dev = require('./webpack/dev.js');
 const prod = require('./webpack/prod.js');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = (env, options) => {
     console.log(`This is the Webpack 4 'mode': ${options.mode}`);
     let conf = {};
@@ -44,10 +44,6 @@ module.exports = (env, options) => {
                             use: ['css-loader', 'postcss-loader', 'sass-loader']
                         })
                 },
-                // {
-                //     test: /\.scss$/,
-                //     loaders: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
-                // },
                 {
                     test: /\.tmpl\.xml$/,
                     use: [

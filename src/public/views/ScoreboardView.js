@@ -1,6 +1,6 @@
 import View from './View.js';
 import ButtonView from './ButtonView.js';
-
+import template from '../components/Score/Score.tmpl.xml';
 import { GET_SCORE } from '../config.js';
 
 export default class ScoreboardView extends View {
@@ -35,8 +35,8 @@ export default class ScoreboardView extends View {
     }
 
     render () {
-        this.parent.innerHTML = window.fest['components/Score/Score.tmpl'](this.scoreboard);
-
+        // this.parent.innerHTML = window.fest['components/Score/Score.tmpl'](this.scoreboard);
+        this.parent.innerHTML = template(this.scoreboard);
         let prevButtonParent = document.querySelector('[data-section="Prev"]');
         const prevButton = new ButtonView({
             name: 'prev',

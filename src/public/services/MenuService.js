@@ -1,7 +1,7 @@
 import AjaxModule from '../modules/ajax.js';
 import EventBus from '../modules/EventBus.js';
 
-import { USER_CHECK, LOG_OUT} from '../config.js';
+import { USER_CHECK, LOG_OUT } from '../config.js';
 
 export default class MenuService {
 

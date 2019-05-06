@@ -5,7 +5,7 @@ export default class Player extends DynamicObject {
         super(ctx);
 
         this.img = new Image();
-        this.img.src = 'ship.png';
+        this.img.src = './images/ship.png';
 
         this.body = this.img;
         this.width = 20;

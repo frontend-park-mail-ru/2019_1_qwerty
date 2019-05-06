@@ -1,3 +1,4 @@
+
 const CACHE_NAME = 'qwerty-cache';
 
 let urls = ['/', '/signin', '/signup', 'profile', '/score', '/singleplayer'];

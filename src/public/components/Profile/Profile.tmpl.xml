@@ -21,7 +21,7 @@
                 </div>
                 <div class="profile-form__content-item">
                     <div class="profile-form__table ">
-                        <div class="profile-form__item header">Nickname</div>
+                        <div class="profile-form__item profile-form__header">Nickname</div>
                         <fest:element name="div">
                             <fest:attributes>
                                 <fest:attribute name="class">profile-form__item</fest:attribute>
@@ -30,7 +30,7 @@
                         </fest:element>
                     </div>
                     <div class="profile-form__table">
-                        <div class="profile-form__item header">Email</div>
+                        <div class="profile-form__item profile-form__header">Email</div>
                         <fest:element name="div">
                             <fest:attributes>
                                 <fest:attribute name="class">profile-form__item</fest:attribute>

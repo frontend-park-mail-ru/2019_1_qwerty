@@ -8,15 +8,26 @@ export default class MenuController extends Controller {
         super(data);
         // this.pages = data.pages;
         this.path = USER_CHECK;
+        this.model = data.model;
+        // this.EventBus.on('menu:user-auth', this.model.requestForUserAuth);
         this.getData();
-        this.EventBus.on('model:user-auth-info', this.createViewAndRender.bind(this));
+        this.createViewAndRender = this.createViewAndRender.bind(this);
+        // this.EventBus.on('model:user-auth-info', this.createViewAndRender);
+        // this.EventBus.on('menu:log-out', this.model.logOut);
+        // this.EventBus.emit('menu:user-auth');
+    }
+
+    show () {
+        this.EventBus.on('menu:user-auth', this.model.requestForUserAuth);
+        this.EventBus.on('model:user-auth-info', this.createViewAndRender);
+        this.EventBus.on('menu:log-out', this.model.logOut);
         this.EventBus.emit('menu:user-auth');
     }
 
     createViewAndRender (namesAndTitles) {
         this.data.headerTitles = namesAndTitles;
         this.view = new MenuView(this.data);
-        this.show();
+        super.show();
     }
 
     getData () {
@@ -35,7 +46,8 @@ export default class MenuController extends Controller {
                     logout: {
                         click: event => {
                             event.preventDefault();
-                            router.go('/logout');
+                            this.EventBus.emit('menu:log-out');
+
                         }
                     }
                 },
@@ -48,12 +60,11 @@ export default class MenuController extends Controller {
             }
         };
     }
-    //
-    // routeFunction (path) {
-    //     return event => {
-    //         event.preventDefault();
-    //         this.view.onDestroy();
-    //         router.go(path);
-    //     };
-    // }
+
+    destroy() {
+        this.EventBus.off('model:user-auth-info', this.createViewAndRender);
+        this.EventBus.off('menu:user-auth', this.model.requestForUserAuth);
+        this.EventBus.off('menu:log-out', this.model.logOut);
+        super.destroy();
+    }
 }

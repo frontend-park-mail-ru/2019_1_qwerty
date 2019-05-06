@@ -1,6 +1,7 @@
 import View from './View.js';
 import InputView from './InputView.js';
-import ButtonComponent from '../components/Button/Button.js';
+import ButtonView from './ButtonView.js';
+import template from '../components/SignX/SignX.tmpl.xml';
 
 import { CREATE_USER, LOGIN_USER } from '../config.js';
 
@@ -47,7 +48,8 @@ export default class SignXView extends View {
     render () {
         const title = this.isSignup ? 'Sign Up' : 'Sign In';
 
-        this.parent.innerHTML = window.fest['components/SignX/SignX.tmpl'](this.isSignup);
+        // this.parent.innerHTML = window.fest['components/SignX/SignX.tmpl'](this.isSignup);
+        this.parent.innerHTML = template(this.isSignup);
         const nicknameParent = document.querySelector('div[data-section-name="nickname"]');
         const signXNickname = new InputView({
             name: 'nickname',
@@ -77,7 +79,7 @@ export default class SignXView extends View {
 
         const buttonParent = document.querySelector('div[data-section-name="button"]');
         const name = 'button';
-        const signXButton = new ButtonComponent({
+        const signXButton = new ButtonView({
             name,
             title,
             parent: buttonParent,

@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "name": "front",
+  "alias": ["frontend-qwerty"],
+  "builds": [
+
+      { "src": "src/public/**", "use": "@now/static" }
+  ],
+  "routes": [
+      { "src": "/images/(.+)", "dest": "src/public/images/$1" },
+      { "src": "/sw.js$", "dest":  "src/public/sw.js"},
+      { "src": "/[^/]*$", "dest": "src/public/index.html" },
+      { "src": "/fonts/(.*)", "dest": "src/public/fonts/$1" },
+      { "src": "/build/(.+)", "dest":  "src/public/build/$1"}
+  ],
+  "github": {
+    "enabled": false
+  }
+}

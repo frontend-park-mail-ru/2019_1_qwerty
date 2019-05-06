@@ -25,12 +25,27 @@ export default class ProfileService {
             });
     }
 
-    sendFile (file) {
-        AjaxModule.sendData({
-            file,
-            path: SEND_IMAGE
-        });
-    }
+   // sendFile (file) {
+   //      // const callback = (message) => {
+   //      //     EventBus.emit('profile-model:add-error', message);
+   //      //     EventBus.emit('profile-model:remove-notification');
+   //      // };
+   //     AjaxModule.sendData({
+   //          file,
+   //          path: SEND_IMAGE
+   //     });
+   //          // .then(response => {
+   //          //     console.log(response);
+   //          //     if (!response.ok) {
+   //          //         throw new Error('all bad');
+   //          //     }
+   //          //     callback(response)
+   //          // })
+   //          // .catch(error => {
+   //          //     EventBus.emit('profile-model:add-error', error.message);
+   //          //     EventBus.emit('profile-model:remove-notification');
+   //          // });
+   //  }
 
     sendUserInfo (body) {
         AjaxModule.doFetchPost({
@@ -42,6 +57,28 @@ export default class ProfileService {
                     let error = new Error('Incorrect user data');
                     error.response = response;
                     throw error;
+                }
+                if (body.upload) {
+                    console.log('stage in promise upload 1');
+                    return AjaxModule.sendData({
+                        path: SEND_IMAGE, file: body.upload
+                    });
+                }
+                return response;
+                // EventBus.emit('profile-model:show-notification');
+                // EventBus.emit('profile-model:clear-fields');
+                // return AjaxModule.doFetchGet({
+                //     path: CURRENT_USER
+                // });
+            })
+            .then(response => {
+                if (body.upload) {
+                    console.log(response);
+                    if (!response.ok) {
+                        let error = new Error('Incorrect image data');
+                        error.response = response;
+                        throw error;
+                    }
                 }
                 EventBus.emit('profile-model:show-notification');
                 EventBus.emit('profile-model:clear-fields');

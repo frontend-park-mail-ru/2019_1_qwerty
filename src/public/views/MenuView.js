@@ -1,6 +1,8 @@
 import View from './View.js';
 import ButtonView from './ButtonView.js';
 import HeaderView from './HeaderView.js';
+import template from '../components/Menu/Menu.tmpl.xml';
+import isMobile from '../utils/Mobile.js';
 
 export default class MenuView extends View {
     constructor ({
@@ -31,11 +33,12 @@ export default class MenuView extends View {
 
     render () {
         const elements = Object.keys(this.menuItems);
-        this.parent.innerHTML = window.fest['components/Menu/Menu.tmpl'](elements);
-
+        // this.parent.innerHTML = window.fest['components/Menu/Menu.tmpl'](elements);
+        this.parent.innerHTML = template(elements);
         this.elem = document.querySelector('.menu-main');
-
-        const headerParent = document.querySelector('.menu-header__item_width_m');
+        const headerClass = (isMobile()) ? '.menu-header_mobile' : '.menu-header';
+        console.log(headerClass);
+        const headerParent = document.querySelector(`${headerClass} .menu-header__item_width_m`);
         this.header = new HeaderView({
             callbacks: this.callbacksForView,
             parent: headerParent,

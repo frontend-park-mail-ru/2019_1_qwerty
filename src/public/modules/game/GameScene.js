@@ -10,6 +10,7 @@ export default class GameScene {
     constructor (canvas) {
         this.EventBus = EventBus;
         this.canvas = canvas;
+        console.log(canvas);
         this.ctx = canvas.getContext('2d');
         this.scene = new Scene(this.ctx);
         this.state = null;

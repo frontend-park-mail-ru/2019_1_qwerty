@@ -5,6 +5,7 @@ import GAME_MODES from '../modules/game/Modes.js';
 import ButtonView from './ButtonView.js';
 import upperFirstLetter from '../utils/UpperFirstLetter.js';
 import { Events } from '../modules/game/Events.js';
+import template from '../components/Singleplayer/Singleplayer.tmpl.xml';
 
 const noop = () => null;
 
@@ -71,7 +72,8 @@ export default class SingleplayerView extends View {
     }
 
     render () {
-        this.parent.innerHTML = window.fest['components/Singleplayer/Singleplayer.tmpl'](this);
+        // this.parent.innerHTML = window.fest['components/Singleplayer/Singleplayer.tmpl'](this);
+        this.parent.innerHTML = template(this);
         this.elem = document.querySelector('.singleplayer');
 
         let canvasParent = document.querySelector('[data-section-name="canvas"]');

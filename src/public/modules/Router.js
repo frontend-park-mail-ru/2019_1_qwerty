@@ -1,9 +1,9 @@
-const noop = () => null;
 
 class Router {
     constructor () {
         this.routes = {};
-        this.errorFunction = noop;
+        this.errorController = null;
+        this.current = null;
 
         window.addEventListener('popstate', event => {
             console.dir(event);
@@ -12,8 +12,8 @@ class Router {
         });
     }
 
-    register (path, func) {
-        this.routes[path] = func;
+    register (path, controller) {
+        this.routes[path] = controller;
     }
 
     go (path, params = '') {
@@ -28,15 +28,20 @@ class Router {
     }
 
     getPage (path) {
-        if (!this.routes.hasOwnProperty(path)) {
-            this.errorFunction();
-            return;
+        // if (!this.routes.hasOwnProperty(path)) {
+        //     this.errorFunction();
+        //     return;
+        // }
+        if (this.current) {
+            this.current.destroy();
         }
-        this.routes[path]();
+
+        this.current = this.routes[path] || this.errorController;
+        this.current.show();
     }
 
-    error (func) {
-        this.errorFunction = func;
+    error (controller) {
+        this.errorController = controller;
     }
 }
 

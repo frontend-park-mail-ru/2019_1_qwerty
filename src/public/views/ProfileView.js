@@ -1,17 +1,17 @@
 import View from './View.js';
-import { UPDATE_USER, API_STATIC } from '../config.js';
+import { UPDATE_USER, API_STATIC, DEFAULT_AVATAR } from '../config.js';
 import NotificationView from './NotificationView.js';
 import FileInputView from './FileInputView.js';
 import InputView from './InputView.js';
 import ButtonView from './ButtonView.js';
+import template from '../components/Profile/Profile.tmpl.xml';
 
 export default class ProfileView extends View {
     constructor ({
         parent = document.body,
         callbacks = {},
         nameOfView = 'profile',
-        parentView = null,
-        userInfo = {}
+        parentView = null
     }) {
         super({
             parent,
@@ -23,18 +23,21 @@ export default class ProfileView extends View {
         this.insertElements = {};
         this._errorDiv = null;
         this.path = UPDATE_USER;
+        this.userInfo = {};
+    }
+    set infoAboutUser (userInfo) {
         this.userInfo = userInfo;
     }
-
     addInfo () {
-        this.insertElements.img.src = API_STATIC + this.userInfo.avatar;
-        this.insertElements.nickname.textContent = this.userInfo.name;
+        console.log(this.userInfo);
+        this.insertElements.img.src = this.userInfo.avatar || DEFAULT_AVATAR;
+        this.insertElements.nickname.textContent = this.userInfo.nickname;
         this.insertElements.email.textContent = this.userInfo.email;
         this.insertElements.score.textContent = this.userInfo.score;
     }
 
     render () {
-        this.parent.innerHTML = window.fest['components/Profile/Profile.tmpl']();
+        this.parent.innerHTML = template();
 
         this.insertElements = {
             img: document.querySelector('.profile-form__img'),

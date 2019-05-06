@@ -1,0 +1,50 @@
+$path: "./components/SignX";
+.sign-x {
+    width:30%;
+    border:2px solid white;
+    border-radius: 8px;
+    text-align: center;
+    @media screen and (max-width: 768px) {
+        width: 80%;
+    }
+    &_center {
+        margin:5% auto 0;
+        @media screen and (max-width: 768px) {
+            margin: 30% auto 0;
+        }
+    }
+    &__header {
+        padding-top: 5%;
+        font-size:1.9rem;
+    }
+    &-form__icon {
+        content: url(#{$path}/show.svg);
+        position: absolute;
+        top:30%;
+        right:5%;
+    }
+    &-form__input_margin_m {
+        margin:8% auto 0;
+    }
+    &-form__input_width_m {
+        width:70%;
+    }
+    &-form__content {
+        position: relative;
+    }
+    &-form__button_width_m {
+        width:60%;
+    }
+    &-form__button_height_h {
+        height:30%;
+    }
+    &-form__button_margin_m {
+        margin:10% auto 7%;
+    }
+}
+.form__error {
+    color:red;
+    font-size:0.8rem;
+    text-align: center;
+}
+

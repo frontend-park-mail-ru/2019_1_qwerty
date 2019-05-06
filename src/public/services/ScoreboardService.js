@@ -25,6 +25,7 @@ export default class ScoreboardService {
                 EventBus.emit('scoreboard-model:update-score-data', { position: this.currentPosition, scoresheet: response });
             })
             .catch(e => {
+                console.log(`Err! ${e}`);
                 console.log(`Error: ${e.message}`);
             });
     }

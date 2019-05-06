@@ -16,6 +16,16 @@
        <div class="menu-main__item">
            <h1 class="menu-main__header">Galaxy Go</h1>
        </div>
+       <fest:element name="div">
+           <fest:attributes>
+               <fest:attribute name="class">menu-header_mobile</fest:attribute>
+           </fest:attributes>
+           <fest:element name="div">
+               <fest:attributes>
+                   <fest:attribute name="class">menu-header__item_width_m</fest:attribute>
+               </fest:attributes>
+           </fest:element>
+       </fest:element>
        <fest:for iterate="elements" index="i" value="v">
            <fest:element name="div">
                <fest:attributes>

@@ -1,0 +1,18 @@
+kind: pipeline
+name: default
+
+platform:
+  os: linux
+  arch: arm64
+  
+workspace:
+  base: /node
+  path: src/github.com/frontend-park-mail-ru/2019_1_qwerty
+  
+steps:
+- name: build
+  image: node:latest
+  commands:
+  - npm install
+  # - npm run lint
+  - npm run build

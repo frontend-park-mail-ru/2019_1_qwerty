@@ -16,3 +16,22 @@ steps:
   - npm i --quiet
   # - npm run lint
   - npm run build
+  
+- name: deploy
+  image: appleboy/drone-scp
+  settings:
+    key:
+      from_secret: ssh_key
+    host: 
+      from_secret: host
+    username:
+      from_secret: username
+    port: 
+      from_secret: port
+    command_timeout: 3m
+    target: ~/deploy
+    source:
+    - src/public/*
+#   when:
+#     branch:
+#     - master

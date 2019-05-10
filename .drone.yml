@@ -13,6 +13,6 @@ steps:
 - name: build
   image: node:latest
   commands:
-  - npm install
+  - npm i --quiet
   # - npm run lint
   - npm run build

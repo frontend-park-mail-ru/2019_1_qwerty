@@ -9,5 +9,5 @@
  Ментор:
  * [Юрий Байков](https://github.com/OkciD).
 
- ## [Деплой](https://front.kbobrovjr.now.sh/)
+ ## [Деплой](https://front.brbrroman.ru/)
  ## [Репозиторий бэкенда](https://github.com/go-park-mail-ru/2019_1_qwerty/)

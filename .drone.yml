@@ -1,0 +1,39 @@
+kind: pipeline
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+  
+workspace:
+  base: /node
+  path: src/github.com/frontend-park-mail-ru/2019_1_qwerty
+  
+steps:
+- name: build
+  image: node:latest
+  commands:
+  - npm i --quiet
+  # - npm run lint
+  - npm run build
+  
+- name: deploy
+  image: appleboy/drone-scp
+  settings:
+    key:
+      from_secret: ssh_key
+    host: 
+      from_secret: host
+    username:
+      from_secret: username
+    port: 
+      from_secret: port
+    command_timeout: 3m
+    target: ~/deploy
+    source:
+    - src/public/*
+  when:
+    branch:
+    - master
+    event:
+    - push

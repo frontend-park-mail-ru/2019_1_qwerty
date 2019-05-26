@@ -1,34 +1,24 @@
 import Scene from './Scene.js';
 import EventBus from '../EventBus.js';
 import { Events } from './Events.js';
-import Bullet from './Bullet.js';
 import Meteor from './Meteor.js';
 import Player from './Player.js';
 import Text from './Text.js';
 
 export default class GameScene {
     constructor (canvas) {
-        this.EventBus = EventBus;
         this.canvas = canvas;
         console.log(canvas);
         this.ctx = canvas.getContext('2d');
         this.scene = new Scene(this.ctx);
-        this.state = null;
-        this.requestFrameId = null;
-        this.lastFrameTime = 0;
-        this.field = [];
-        this.player = null;
+        this.EventBus = EventBus;
 
         this.renderScene = this.renderScene.bind(this);
         this.pushMeteorToScene = this.pushMeteorToScene.bind(this);
-        this.pushBulletToScene = this.pushBulletToScene.bind(this);
         this.pushPlayerToScene = this.pushPlayerToScene.bind(this);
         this.pause = this.pause.bind(this);
 
-        EventBus.on(Events.METEOR_CREATED, this.pushMeteorToScene);
-        EventBus.on(Events.BULLET_CREATED, this.pushBulletToScene);
-        EventBus.on(Events.PLAYER_CREATED, this.pushPlayerToScene);
-        EventBus.on(Events.FINISH_GAME, this.pause);
+        this.init(null);
     }
 
     pushPlayerToScene (state) {
@@ -39,6 +29,7 @@ export default class GameScene {
         state.player.id = this.scene.push(state.player);
         state.player.linearSpeed = 0.1;
         this.player = state.player;
+        console.log("PUSH PLAYER: ", state.player);
     }
 
     pushMeteorToScene (data) {
@@ -55,19 +46,6 @@ export default class GameScene {
         data.meteorits.push(m);
     }
 
-    pushBulletToScene (bullets) {
-        const ctx = this.ctx;
-        const b = new Bullet(ctx, {
-            x: this.player.x + this.player.width,
-            y: this.player.y + this.player.height / 2,
-            radius: 1,
-            linearSpeed: 0.1
-        });
-
-        bullets.push(b);
-        b.id = this.scene.push(b);
-    }
-
     pushTextToScene (text) {
         const ctx = this.ctx;
         const t = new Text(ctx, {
@@ -75,11 +53,20 @@ export default class GameScene {
             y: this.canvas.height / 2,
             text: text
         });
-        this.scene.push(t);
+        t.id = this.scene.push(t);
     }
 
     init (state) {
         this.state = state;
+        
+        this.requestFrameId = null;
+        this.lastFrameTime = 0;
+        this.field = [];
+        this.player = null;
+
+        EventBus.on(Events.METEOR_CREATED, this.pushMeteorToScene);
+        EventBus.on(Events.PLAYER_CREATED, this.pushPlayerToScene);
+        EventBus.on(Events.FINISH_GAME, this.pause);
     }
 
     setState (state) {
@@ -108,16 +95,6 @@ export default class GameScene {
             item.x -= delay * item.linearSpeed;
         });
 
-        this.state.bullets.forEach(function (item, i, arr) {
-            if (item.dead) {
-                scene.remove(item.id);
-                arr.splice(i, 1);
-                return;
-            }
-
-            item.x += delay * item.linearSpeed;
-        });
-
         scene.render();
         this.requestFrameId = requestAnimationFrame(this.renderScene);
     }
@@ -132,7 +109,7 @@ export default class GameScene {
         this.requestFrameId = null;
         this.scene.destroy();
 
-        this.pushTextToScene('Game over!');
+        this.pushTextToScene(`Game over!\n press N to restart`);
         this.scene.render();
     }
 
@@ -144,7 +121,6 @@ export default class GameScene {
 
         this.scene.destroy();
         EventBus.off(Events.METEOR_CREATED, this.pushMeteorToScene);
-        EventBus.off(Events.BULLET_CREATED, this.pushBulletToScene);
         EventBus.off(Events.PLAYER_CREATED, this.pushPlayerToScene);
         EventBus.off(Events.FINISH_GAME, this.pause);
     }

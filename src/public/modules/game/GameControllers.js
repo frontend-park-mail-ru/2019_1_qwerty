@@ -64,9 +64,10 @@ export default class GameControllers {
 
         const clicked = allkeys.reduce((res, key) => {
             res[key] = !this.previous[key] && this.keys[key] === 'down';
-            if (key === ' ') this.previous[key] = true;
+            if (key === 'n') this.previous[key] = true;
             if (this.keys[key] === 'up') {
-                if (key === ' ') this.previous[key] = false;
+                if (key === 'n') 
+                    this.previous[key] = false;
             }
             return res;
         }, {});

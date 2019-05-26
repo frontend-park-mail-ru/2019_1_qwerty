@@ -25,10 +25,8 @@ export default class SingleplayerView extends View {
         this.namesOfButtons = ['help', 'scoreboard', 'menu'];
 
         this.setScore = this.setScore.bind(this);
-        this.setLevel = this.setLevel.bind(this);
 
         this.EventBus.on(Events.UPDATED_SCORE, this.setScore);
-        this.EventBus.on(Events.CHANGED_LEVEL, this.setLevel);
     }
 
     get getScore () {
@@ -39,10 +37,6 @@ export default class SingleplayerView extends View {
         this.elements['score'].innerHTML = newScore;
     }
 
-    setLevel (newLevel) {
-        this.elements['level'].innerHTML = newLevel;
-    }
-
     onDestroy () {
         Object.values(this.elements).forEach((component) => {
             if (component.hasOwnProperty('onDestroy')) {
@@ -51,7 +45,6 @@ export default class SingleplayerView extends View {
         });
 
         this.EventBus.off(Events.UPDATED_SCORE, this.setScore);
-        this.EventBus.off(Events.CHANGED_LEVEL, this.setLevel);
 
         super.onDestroy();
         this.game.destroy();
@@ -72,7 +65,6 @@ export default class SingleplayerView extends View {
     }
 
     render () {
-        // this.parent.innerHTML = window.fest['components/Singleplayer/Singleplayer.tmpl'](this);
         this.parent.innerHTML = template(this);
         this.elem = document.querySelector('.singleplayer');
 
@@ -103,7 +95,6 @@ export default class SingleplayerView extends View {
 
         this.elements.username = document.querySelector('.username');
         this.elements.score = document.querySelector('.score');
-        this.elements.level = document.querySelector('[data-section-name="level"]');
 
         this.setEvents();
         this.create();

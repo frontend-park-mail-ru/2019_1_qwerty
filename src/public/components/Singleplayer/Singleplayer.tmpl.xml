@@ -9,12 +9,12 @@
         <div class="singleplayer-menu">
             <article class="singleplayer-menu__item singleplayer-menu__item_width_20">
                 <div class="info__label">
-                    <div class="info__item header">Level</div>
-                    <div class="info__item" data-section-name="level">0</div>
-                </div>
-                <div class="info__label">
                     <div class="info__item header">Score</div>
-                    <div class="info__item"><span class="username">User1</span> : <span class="score">0</span></div>
+                    <div class="info__item value">
+                        <span class="username">User1</span>
+                        <span>:&nbsp </span>
+                        <span class="score">0</span>
+                    </div>
                 </div>
             </article>
             <article class="singleplayer-menu__item singleplayer-menu__item_width_40">

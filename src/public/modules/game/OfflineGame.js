@@ -7,8 +7,13 @@ import Meteor from './Meteor.js';
 export default class OfflineGame extends Core {
     constructor (controller, scene) {
         super(controller, scene);
-        this.state = {};
+        this.canvasWidth = scene.canvas.width;
+        this.canvasHeight = scene.canvas.height;
         this.gameloop = this.gameloop.bind(this);
+    }
+
+    init() {
+        this.state = {};
         this.gameloopRequestId = null;
         this.lastFrame = 0;
         this.shitStep = 2.1;
@@ -16,24 +21,28 @@ export default class OfflineGame extends Core {
         this.timer = {};
         this.state = {
             player: {},
-            meteorits: [],
-            bullets: []
+            meteorits: []
         };
         this.gameStopped = false;
-        this.canvasWidth = scene.canvas.width;
-        this.canvasHeight = scene.canvas.height;
         this.score = 0;
-        this.level = 0;
     }
 
     start () {
         super.start();
-        EventBus.emit(Events.PLAYER_CREATED, this.state);
-
+        this.init();
+        
         this.timer.meteorTimer = 2000;
         this.timer.scoreTimer = 1000;
 
+        // EventBus.emit(Events.PLAYER_CREATED, this.state);
         EventBus.emit(Events.START_GAME, this.state);
+        console.log("start: ", this.state);
+    }
+
+    onGameRestarted (evt) {
+        cancelAnimationFrame(this.gameloopRequestId);
+        super.destroy();
+        this.start();
     }
 
     checkCollisions (obj, massive) {
@@ -60,10 +69,6 @@ export default class OfflineGame extends Core {
         this.timer.scoreTimer -= delay;
 
         let levelFactor = Math.trunc(this.score / this.nextLevelCondition);
-        if (this.level < levelFactor) {
-            this.level = levelFactor;
-            EventBus.emit(Events.CHANGED_LEVEL, this.level);
-        }
 
         if (this.timer.scoreTimer < 0) {
             this.score += 10;
@@ -76,7 +81,7 @@ export default class OfflineGame extends Core {
             let newMeteorit = new Meteor(null, {});
             let y = Rand(0, this.canvasHeight - newMeteorit.height);
             let x = this.canvasWidth;
-            newMeteorit.hp = 10 + this.level * 10;
+            newMeteorit.hp = 100;
             newMeteorit.x = x;
             newMeteorit.y = y;
 
@@ -107,18 +112,6 @@ export default class OfflineGame extends Core {
             this.gameStopped = true;
         }
 
-        // Коллизии пуль с метеоритами
-        this.state.bullets.forEach((bullet, bulletId, bullets) => {
-            if (bullet.x > this.canvasWidth) {
-                bullet.dead = true;
-            }
-
-            let obj = this.checkCollisions(bullet, this.state.meteorits);
-            if (obj) {
-                obj.reduceHealth(bullet.damage);
-                bullet.dead = true;
-            }
-        });
         EventBus.emit(Events.GAME_STATE_CHANGED, this.state);
         if (!this.gameStopped) {
             this.gameloopRequestId = requestAnimationFrame(this.gameloop);
@@ -146,14 +139,17 @@ export default class OfflineGame extends Core {
                 this.state.player.y += this.shitStep;
             }
         }
-        if (this._pressed('FIRE', evt)) {
-            EventBus.emit(Events.BULLET_CREATED, this.state.bullets);
+        if (this._pressed('RESTART', evt)) {
+            console.log("PRESSED RESTSRT");
+            EventBus.emit(Events.RESTART);
         }
     }
 
     onGameStarted (evt) {
+        console.log("game started");
         this.controller.start();
         this.scene.init(evt);
+        this.scene.pushPlayerToScene(this.state);
         this.scene.start();
         this.lastFrame = performance.now();
         this.gameloopRequestId = requestAnimationFrame(this.gameloop);

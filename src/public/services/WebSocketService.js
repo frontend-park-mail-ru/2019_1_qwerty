@@ -1,24 +1,20 @@
-import { API_WS_URL } from '../config.js';
-
-var cookie = require('cookie');
-
-// var ws = new WebSocket(
-//     'http://localhost/auth',
-//     [],
-    // {
-    //     'headers': {
-    //         'Cookie': cookie.serialize('id', '496E66DD')
-    //     }
-    // }
-// );
+import { API_WS_URL, WS_NICKNAME } from '../config.js';
 
 const noop = () => null;
 export default class WebSocketService {
-  constructor (path) {
+  constructor (path, nickname) {
+    this.path = path;
+    this.nickname = nickname;
     this.actions = {};
     this.addCallbacks = this.addCallbacks.bind(this);
+    this.init = this.init.bind(this);
+  }
+
+  init () {
+    let nickname = this.nickname;
+    let path = this.path;
     this.connection = new Promise(function (resolve, reject) {
-      const wsClient = new WebSocket("ws://178.62.211.77:8080/api/ws?nickname=ppp");
+      const wsClient = new WebSocket(`${API_WS_URL}${path}?nickname=${nickname}`);
       wsClient.onopen = () => {
         console.log('ws connected');
         resolve(wsClient);
@@ -35,13 +31,15 @@ export default class WebSocketService {
   }
 
   addCallbacks (wsClient) {
+    // Чтение входящих сообщений
     wsClient.onmessage = function (event) {
       const data = JSON.parse(event.data);
-      //console.log(data);
+      console.log("action: ", data.action, data);
+
       if (!this.actions.hasOwnProperty(data.action)) {
         throw new Error('Invalid action:' + data.action);
       }
-      this.actions[data.action](event.data);
+      this.actions[data.action](data);
     }.bind(this);
 
     wsClient.onclose = function (event) {

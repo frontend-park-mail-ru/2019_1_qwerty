@@ -3,12 +3,15 @@ import { Events } from './Events.js';
 import EventBus from '../EventBus.js';
 import Meteor from './Meteor.js';
 import WebSocketService from '../../services/WebSocketService.js';
+import AjaxModule from '../ajax.js';
+import { CURRENT_USER } from '../../config.js';
 
 export default class OnlineGame extends Core {
     constructor (controller, scene) {
         super(controller, scene);
         this.canvasWidth = scene.canvas.width;
         this.canvasHeight = scene.canvas.height;
+
         this.createPlayers = this.createPlayers.bind(this);
     }
 
@@ -25,24 +28,48 @@ export default class OnlineGame extends Core {
         };
         this.gameStopped = false;
         this.score = 0;
-        this.ws = new WebSocketService('/ws');
+        let nickname = '';
+        this.ws = null;
+
+        AjaxModule.doFetchGet({
+            path: CURRENT_USER
+        })
+            .then(response => {
+                if (!response.ok) {
+                    let error = new Error('Can not get user data, status code: ');
+                    error.response = response;
+                    throw error;
+                }
+                return response.json();
+            })
+            .then(data => {
+                nickname = data.nickname;
+                console.log('nickname: ', nickname);
+                this.ws = new WebSocketService('/ws', nickname);
+                this.ws.subscribe('CONNECTED', () => {});
+                this.ws.subscribe('GAME STARTED', this.createPlayers);
+                this.ws.init();
+                console.log("INSIDE MULTIPLAYER");
+                
+                EventBus.emit(Events.START_GAME, this.state);
+            })
+            .catch(e => {
+                alert('Error: ' + e.message);
+                console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
+            });
+
+        
     }
 
     createPlayers (data) {
-        console.log("online data: ", data);
         let state = this.state;
-        const info = JSON.parse(data);
-        EventBus.emit(Events.PLAYERS_CREATED_MULTI, {state, info});
+        // const info = JSON.parse(data);
+        EventBus.emit(Events.PLAYERS_CREATED_MULTI, {state, data});
     }
 
     start () {
         super.start();
         this.init();
-
-        this.ws.subscribe('init-data', this.createPlayers);
-        console.log("INSIDE MULTIPLAYER");
-        
-        EventBus.emit(Events.START_GAME, this.state);
     }
 
     onControllsPressed (evt) {
@@ -58,15 +85,11 @@ export default class OnlineGame extends Core {
         if (this._pressed('DOWN', evt)) {
             this.ws.send('send-data', { 'move': 'down' });
         }
-        // if (this._pressed('FIRE', evt)) {
-        //     EventBus.emit(Events.BULLET_CREATED, this.state.bullets);
-        // }
     }
 
     onGameStarted (evt) {
         this.controller.start();
         this.scene.init(evt);
-        this.scene.pushPlayerToScene(this.state);
         this.scene.start();
         this.lastFrame = performance.now();
         // this.gameloopRequestId = requestAnimationFrame(this.gameloop);

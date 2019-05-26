@@ -18,6 +18,23 @@ export default class GameScene {
         this.pause = this.pause.bind(this);
 
         this.init(null);
+        console.log("CTX: ", this.ctx);
+    }
+
+    pushPlayersToSceneMulti (data) {
+        const ctx = this.ctx;
+        data.state.player1 = new Player(ctx);
+        data.state.player1.y = data.content[0].y;
+        data.state.player1.x = data.content[0].x;
+        data.state.player1.id = this.scene.push(data.state.player1);
+        data.state.player1.name = data.content[0];
+
+        data.state.player2 = new Player(ctx);
+        data.state.player2.y = data.content[1].y;
+        data.state.player2.x = data.content[1].x;
+        data.state.player2.id = this.scene.push(data.state.player2);
+        data.state.player1.name = data.content[1];
+        console.log('added a two players: ', data.state.player1, data.state.player2);
     }
 
     pushPlayerToScene (state) {
@@ -65,6 +82,7 @@ export default class GameScene {
         EventBus.on(Events.METEOR_CREATED, this.pushMeteorToScene);
         EventBus.on(Events.PLAYER_CREATED, this.pushPlayerToScene);
         EventBus.on(Events.FINISH_GAME, this.pause);
+        EventBus.on(Events.PLAYERS_CREATED_MULTI, this.pushPlayersToSceneMulti);
     }
 
     setState (state) {
@@ -120,5 +138,6 @@ export default class GameScene {
         EventBus.off(Events.METEOR_CREATED, this.pushMeteorToScene);
         EventBus.off(Events.PLAYER_CREATED, this.pushPlayerToScene);
         EventBus.off(Events.FINISH_GAME, this.pause);
+        EventBus.off(Events.PLAYERS_CREATED_MULTI, this.pushPlayersToSceneMulti);
     }
 }

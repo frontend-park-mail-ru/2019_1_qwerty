@@ -38,12 +38,9 @@ export default class GameCore {
                 EventBus.emit(Events.CONTROLS_PRESSED, actions);
             }
         }, 20);
-        console.log("parent: ", this.controllersLoopIntervalId);
     }
 
     destroy () {
-        
-        console.log("DESTROYP PARENT: ", this.controllersLoopIntervalId);
         clearInterval(this.controllersLoopIntervalId);
         EventBus.emit(Events.DESTROY_GAME);
 

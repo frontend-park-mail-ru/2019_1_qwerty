@@ -20,7 +20,6 @@ export default class CanvasView extends View {
         // this.parent.innerHTML = window.fest['components/Canvas/Canvas.tmpl']();
         this.parent.innerHTML = template();
         this.elem = document.querySelector(`.canvas`);
-        console.log('size of canvas: ', this.elem.width, this.elem.height);
         this.setEvents();
     }
 }

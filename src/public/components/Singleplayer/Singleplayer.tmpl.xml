@@ -18,7 +18,6 @@
                 </div>
             </article>
             <article class="singleplayer-menu__item singleplayer-menu__item_width_40">
-                <div class="singleplayer-menu__button" data-section-name="help"></div>
                 <div class="singleplayer-menu__button" data-section-name="scoreboard"></div>
                 <div class="singleplayer-menu__button" data-section-name="menu"></div>
             </article>

@@ -13,7 +13,6 @@ export default class OfflineGame extends Core {
     }
 
     init() {
-        this.state = {};
         this.gameloopRequestId = null;
         this.lastFrame = 0;
         this.shitStep = 2.1;
@@ -34,9 +33,7 @@ export default class OfflineGame extends Core {
         this.timer.meteorTimer = 2000;
         this.timer.scoreTimer = 1000;
 
-        // EventBus.emit(Events.PLAYER_CREATED, this.state);
         EventBus.emit(Events.START_GAME, this.state);
-        console.log("start: ", this.state);
     }
 
     onGameRestarted (evt) {
@@ -140,13 +137,11 @@ export default class OfflineGame extends Core {
             }
         }
         if (this._pressed('RESTART', evt)) {
-            console.log("PRESSED RESTSRT");
             EventBus.emit(Events.RESTART);
         }
     }
 
     onGameStarted (evt) {
-        console.log("game started");
         this.controller.start();
         this.scene.init(evt);
         this.scene.pushPlayerToScene(this.state);

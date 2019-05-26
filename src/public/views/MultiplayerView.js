@@ -5,15 +5,15 @@ import GAME_MODES from '../modules/game/Modes.js';
 import ButtonView from './ButtonView.js';
 import upperFirstLetter from '../utils/UpperFirstLetter.js';
 import { Events } from '../modules/game/Events.js';
-import template from '../components/Singleplayer/Singleplayer.tmpl.xml';
+import template from '../components/Multiplayer/Multiplayer.tmpl.xml';
 
 const noop = () => null;
 
-export default class SingleplayerView extends View {
+export default class MultiplayerView extends View {
     constructor ({
         parent,
         callbacks,
-        nameOfView = 'singleplayer'
+        nameOfView = 'multiplayer'
     }) {
         super({
             parent,
@@ -22,11 +22,13 @@ export default class SingleplayerView extends View {
         });
         this.elements = {};
         this.canvas = {};
-        this.namesOfButtons = ['scoreboard', 'menu'];
+        this.namesOfButtons = ['help', 'scoreboard', 'menu'];
 
         this.setScore = this.setScore.bind(this);
+        this.setLevel = this.setLevel.bind(this);
 
         this.EventBus.on(Events.UPDATED_SCORE, this.setScore);
+        this.EventBus.on(Events.CHANGED_LEVEL, this.setLevel);
     }
 
     get getScore () {
@@ -37,6 +39,10 @@ export default class SingleplayerView extends View {
         this.elements['score'].innerHTML = newScore;
     }
 
+    setLevel (newLevel) {
+        this.elements['level'].innerHTML = newLevel;
+    }
+
     onDestroy () {
         Object.values(this.elements).forEach((component) => {
             if (component.hasOwnProperty('onDestroy')) {
@@ -45,6 +51,7 @@ export default class SingleplayerView extends View {
         });
 
         this.EventBus.off(Events.UPDATED_SCORE, this.setScore);
+        this.EventBus.off(Events.CHANGED_LEVEL, this.setLevel);
 
         super.onDestroy();
         this.game.destroy();
@@ -59,14 +66,14 @@ export default class SingleplayerView extends View {
     doGame () {
         let mode = '';
 
-        mode = GAME_MODES.OFFLINE;
+        mode = GAME_MODES.ONLINE;
         this.game = new Game(mode, this.canvas);
         this.game.start();
     }
 
     render () {
         this.parent.innerHTML = template(this);
-        this.elem = document.querySelector('.singleplayer');
+        this.elem = document.querySelector('.multiplayer');
 
         let canvasParent = document.querySelector('[data-section-name="canvas"]');
         const canvas = new CanvasView({
@@ -95,6 +102,7 @@ export default class SingleplayerView extends View {
 
         this.elements.username = document.querySelector('.username');
         this.elements.score = document.querySelector('.score');
+        this.elements.level = document.querySelector('[data-section-name="level"]');
 
         this.setEvents();
         this.create();

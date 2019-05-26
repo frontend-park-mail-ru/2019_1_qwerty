@@ -72,6 +72,5 @@ export default class Scene {
         this.backView.forEach(figure => this.remove(figure.id));
         this.frontView.forEach(figure => this.remove(figure.id));
         this.clear();
-        console.log("SCENE: ", this.frontView, this.backView);
     }
 };

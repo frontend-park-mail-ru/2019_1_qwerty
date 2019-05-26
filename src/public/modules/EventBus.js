@@ -11,7 +11,6 @@ class EventBus {
     }
 
     emit (event, data) {
-        // console.log(this.listeners);
         this.listeners[event].forEach(callback => {
             callback(data);
         });

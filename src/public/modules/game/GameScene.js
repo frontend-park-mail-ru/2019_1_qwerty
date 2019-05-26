@@ -8,7 +8,6 @@ import Text from './Text.js';
 export default class GameScene {
     constructor (canvas) {
         this.canvas = canvas;
-        console.log(canvas);
         this.ctx = canvas.getContext('2d');
         this.scene = new Scene(this.ctx);
         this.EventBus = EventBus;
@@ -29,7 +28,6 @@ export default class GameScene {
         state.player.id = this.scene.push(state.player);
         state.player.linearSpeed = 0.1;
         this.player = state.player;
-        console.log("PUSH PLAYER: ", state.player);
     }
 
     pushMeteorToScene (data) {
@@ -82,7 +80,6 @@ export default class GameScene {
     renderScene (now) {
         const scene = this.scene;
         const delay = now - this.lastFrameTime;
-        // console.log("fps: ", 1000 / delay);
         this.lastFrameTime = now;
 
         this.state.meteorits.forEach(function (item, i, arr) {

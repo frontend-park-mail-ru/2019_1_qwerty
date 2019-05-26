@@ -29,7 +29,6 @@ export default class ProfileView extends View {
         this.userInfo = userInfo;
     }
     addInfo () {
-        console.log(this.userInfo);
         this.insertElements.img.src = this.userInfo.avatar || DEFAULT_AVATAR;
         this.insertElements.nickname.textContent = this.userInfo.nickname;
         this.insertElements.email.textContent = this.userInfo.email;

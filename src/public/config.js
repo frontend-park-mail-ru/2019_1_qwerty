@@ -10,3 +10,4 @@ export const UPDATE_USER = '/user/update';
 export const GET_SCORE = '/score?offset=';
 export const LOG_OUT = '/user/logout';
 export const DEFAULT_AVATAR = '/images/default_ava.jpeg';
+export const API_WS_URL = 'ws://178.62.211.77:8080/api';

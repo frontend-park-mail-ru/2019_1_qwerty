@@ -10,9 +10,6 @@ export default class MultiplayerController extends Controller {
     getData () {
         this.data.callbacks = {
             multiplayer: {
-                help: {
-                    click: this.routeFunction('/help')
-                },
                 scoreboard: {
                     click: this.routeFunction('/score')
                 },

@@ -15,26 +15,29 @@ export default class GameScene {
         this.renderScene = this.renderScene.bind(this);
         this.pushMeteorToScene = this.pushMeteorToScene.bind(this);
         this.pushPlayerToScene = this.pushPlayerToScene.bind(this);
+        this.pushPlayersToSceneMulti = this.pushPlayersToSceneMulti.bind(this);
         this.pause = this.pause.bind(this);
 
         this.init(null);
-        console.log("CTX: ", this.ctx);
     }
 
     pushPlayersToSceneMulti (data) {
         const ctx = this.ctx;
-        data.state.player1 = new Player(ctx);
-        data.state.player1.y = data.content[0].y;
-        data.state.player1.x = data.content[0].x;
-        data.state.player1.id = this.scene.push(data.state.player1);
-        data.state.player1.name = data.content[0];
+        console.log('pushPlayersToSceneMulti data: ', data.data.content, data.state.player1, data.state.player2);
+        data.state.players.push(new Player(ctx));
+        data.state.players.push(new Player(ctx));
 
-        data.state.player2 = new Player(ctx);
-        data.state.player2.y = data.content[1].y;
-        data.state.player2.x = data.content[1].x;
+        data.state.player1.name = data.state.player1.ID;
+        data.state.player1.y = data.state.player1.y;
+        data.state.player1.x = data.state.player1.x;
+        data.state.player1.id = this.scene.push(data.state.player1);
+
+        data.state.player2.name = data.state.player2.ID;
+        data.state.player2.y = data.state.player2.y;
+        data.state.player2.x = data.state.player2.x;
         data.state.player2.id = this.scene.push(data.state.player2);
-        data.state.player1.name = data.content[1];
-        console.log('added a two players: ', data.state.player1, data.state.player2);
+        
+        console.log('added a two players!!!!: ', data.state.player1, data.state.player2);
     }
 
     pushPlayerToScene (state) {
@@ -77,7 +80,7 @@ export default class GameScene {
         this.requestFrameId = null;
         this.lastFrameTime = 0;
         this.field = [];
-        this.player = null;
+        this.players = null;
 
         EventBus.on(Events.METEOR_CREATED, this.pushMeteorToScene);
         EventBus.on(Events.PLAYER_CREATED, this.pushPlayerToScene);

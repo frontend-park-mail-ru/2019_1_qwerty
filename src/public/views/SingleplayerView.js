@@ -30,7 +30,7 @@ export default class SingleplayerView extends View {
     }
 
     get getScore () {
-        return this.elements['score'].innerHTML;
+        return this.elements.score.innerHTML;
     }
 
     setScore (newScore) {
@@ -92,7 +92,6 @@ export default class SingleplayerView extends View {
             button.render();
             this.elements[name] = button;
         });
-
         this.elements.username = document.querySelector('.username');
         this.elements.score = document.querySelector('.score');
 

@@ -9,16 +9,15 @@
         <div class="multiplayer-menu">
             <article class="multiplayer-menu__item multiplayer-menu__item_width_20">
                 <div class="info__label">
-                    <div class="info__item header">Level</div>
-                    <div class="info__item" data-section-name="level">0</div>
-                </div>
-                <div class="info__label">
                     <div class="info__item header">Score</div>
-                    <div class="info__item"><span class="username">User1</span> : <span class="score">0</span></div>
+                    <div class="info__item value">
+                        <span class="username">User1</span>
+                        <span>:&nbsp </span>
+                        <span class="score">0</span>
+                    </div>
                 </div>
             </article>
             <article class="multiplayer-menu__item multiplayer-menu__item_width_40">
-                <div class="multiplayer-menu__button" data-section-name="help"></div>
                 <div class="multiplayer-menu__button" data-section-name="scoreboard"></div>
                 <div class="multiplayer-menu__button" data-section-name="menu"></div>
             </article>

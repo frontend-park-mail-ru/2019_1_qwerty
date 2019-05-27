@@ -22,25 +22,16 @@ export default class MultiplayerView extends View {
         });
         this.elements = {};
         this.canvas = {};
-        this.namesOfButtons = ['help', 'scoreboard', 'menu'];
+        this.namesOfButtons = ['scoreboard', 'menu'];
 
-        this.setScore = this.setScore.bind(this);
-        this.setLevel = this.setLevel.bind(this);
-
-        this.EventBus.on(Events.UPDATED_SCORE, this.setScore);
-        this.EventBus.on(Events.CHANGED_LEVEL, this.setLevel);
     }
 
     get getScore () {
-        return this.elements['score'].innerHTML;
+        return this.elements.score.innerHTML;
     }
 
     setScore (newScore) {
-        this.elements['score'].innerHTML = newScore;
-    }
-
-    setLevel (newLevel) {
-        this.elements['level'].innerHTML = newLevel;
+        this.elements.score.innerHTML = newScore;
     }
 
     onDestroy () {
@@ -51,13 +42,15 @@ export default class MultiplayerView extends View {
         });
 
         this.EventBus.off(Events.UPDATED_SCORE, this.setScore);
-        this.EventBus.off(Events.CHANGED_LEVEL, this.setLevel);
 
         super.onDestroy();
         this.game.destroy();
     }
 
     create () {
+        this.setScore = this.setScore.bind(this);
+
+        this.EventBus.on(Events.UPDATED_SCORE, this.setScore);
         this.canvas = document.querySelector(name = 'canvas');
         this.ctx = this.canvas.getContext('2d');
         this.doGame();
@@ -102,7 +95,6 @@ export default class MultiplayerView extends View {
 
         this.elements.username = document.querySelector('.username');
         this.elements.score = document.querySelector('.score');
-        this.elements.level = document.querySelector('[data-section-name="level"]');
 
         this.setEvents();
         this.create();

@@ -24,15 +24,13 @@ export default class OfflineGame extends Core {
         };
         this.gameStopped = false;
         this.score = 0;
+        this.timer.meteorTimer = 2000;
+        this.timer.scoreTimer = 1000;
     }
 
     start () {
         super.start();
         this.init();
-        
-        this.timer.meteorTimer = 2000;
-        this.timer.scoreTimer = 1000;
-
         EventBus.emit(Events.START_GAME, this.state);
     }
 
@@ -108,7 +106,6 @@ export default class OfflineGame extends Core {
             EventBus.emit(Events.FINISH_GAME);
             this.gameStopped = true;
         }
-
         EventBus.emit(Events.GAME_STATE_CHANGED, this.state);
         if (!this.gameStopped) {
             this.gameloopRequestId = requestAnimationFrame(this.gameloop);

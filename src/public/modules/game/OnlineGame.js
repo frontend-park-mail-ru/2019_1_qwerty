@@ -63,7 +63,7 @@ export default class OnlineGame extends Core {
 
     createPlayers (data) {
         let state = this.state;
-        // const info = JSON.parse(data);
+        console.log("createPlayers");
         EventBus.emit(Events.PLAYERS_CREATED_MULTI, {state, data});
     }
 

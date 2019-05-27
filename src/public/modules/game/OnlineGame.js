@@ -11,11 +11,13 @@ export default class OnlineGame extends Core {
         super(controller, scene);
         this.canvasWidth = scene.canvas.width;
         this.canvasHeight = scene.canvas.height;
-
-        this.createPlayers = this.createPlayers.bind(this);
     }
 
     init() {
+        this.createPlayers = this.createPlayers.bind(this);
+        this.playersStateChange = this.playersStateChange.bind(this);
+        this.objectsStateChange = this.objectsStateChange.bind(this);
+
         this.gameloopRequestId = null;
         this.lastFrame = 0;
         this.shitStep = 2.1;
@@ -23,8 +25,7 @@ export default class OnlineGame extends Core {
         this.state = {
             player1: {},
             player2: {},
-            meteorits: [],
-            bullets: []
+            meteorits: []
         };
         this.gameStopped = false;
         this.score = 0;
@@ -46,8 +47,12 @@ export default class OnlineGame extends Core {
                 nickname = data.nickname;
                 console.log('nickname: ', nickname);
                 this.ws = new WebSocketService('/ws', nickname);
+
                 this.ws.subscribe('CONNECTED', () => {});
                 this.ws.subscribe('GAME STARTED', this.createPlayers);
+                this.ws.subscribe('STATE', this.playersStateChange);
+                this.ws.subscribe('OBJECTS', this.objectsStateChange);
+
                 this.ws.init();
                 console.log("INSIDE MULTIPLAYER");
                 
@@ -61,10 +66,47 @@ export default class OnlineGame extends Core {
         
     }
 
+    objectsStateChange(data) {
+        // console.log("OBJECTS:", data, this.state);
+        this.state.meteorits = [];
+        this.scene.destroyObjects();
+        for (let key in data.content) {
+            let meteorParams = {
+                new: {
+                    rotationSpeed: 0,
+                    linearSpeed: data.content[key].Speed,
+                    x: data.content[key].X,
+                    y: data.content[key].Y,
+                    hp: 100
+                },
+                meteorits: this.state.meteorits
+            }
+            EventBus.emit(Events.METEOR_CREATED, meteorParams);
+            // this.state.meteorits = meteorParams.meteorits;
+        };
+    }
+
+    playersStateChange(data) {
+        // console.log("PLAYERS STATE:", data, this.state);
+        // this.scene.destroyPlayers();
+        this.state["player1"].y = data.content["player1"].Y;
+        this.state["player1"].x = data.content["player1"].X;
+
+        this.state["player2"].y = data.content["player2"].Y;
+        this.state["player2"].x = data.content["player2"].X;
+        console.log("players state: ", data, this.state["player1"], this.state["player2"]);
+    }
+
     createPlayers (data) {
         let state = this.state;
-        console.log("createPlayers");
-        EventBus.emit(Events.PLAYERS_CREATED_MULTI, {state, data});
+        let paramData = {state, data};
+        // console.log("createPlayers");
+        EventBus.emit(Events.PLAYERS_CREATED_MULTI, paramData);
+        
+        this.state = paramData.state;
+        this.state.player1.type = "player";
+        this.state.player2.type = "player";
+        // console.log("out state: ", this.state);
     }
 
     start () {
@@ -74,16 +116,16 @@ export default class OnlineGame extends Core {
 
     onControllsPressed (evt) {
         if (this._pressed('LEFT', evt)) {
-            this.ws.send('send-data', { 'move': 'left' });
+            this.ws.send('action', { 'action': 'LEFT' });
         }
         if (this._pressed('RIGHT', evt)) {
-            this.ws.send('send-data', { 'move': 'right' });            
+            this.ws.send('action', { 'action': 'RIGHT' });            
         }
         if (this._pressed('UP', evt)) {
-            this.ws.send('send-data', { 'move': 'up' });
+            this.ws.send('action', { 'action': 'UP' });
         }
         if (this._pressed('DOWN', evt)) {
-            this.ws.send('send-data', { 'move': 'down' });
+            this.ws.send('action', { 'action': 'DOWN' });
         }
     }
 

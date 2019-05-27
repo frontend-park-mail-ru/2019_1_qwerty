@@ -17,6 +17,8 @@ export default class GameScene {
         this.pushPlayerToScene = this.pushPlayerToScene.bind(this);
         this.pushPlayersToSceneMulti = this.pushPlayersToSceneMulti.bind(this);
         this.pause = this.pause.bind(this);
+        // this.destroyObjects = this.destroyObjects.bind(this);
+        // this.destroyPlayers = this.destroyPlayers.bind(this);
 
         this.init(null);
     }
@@ -37,7 +39,15 @@ export default class GameScene {
         data.state["player2"].x = data.data.content["player2"].X;
         data.state["player2"].id = this.scene.push(data.state["player2"]);
         
-        console.log('added two players: ', data.state.player1, data.state.player2);
+        // console.log('added two players: ', data.state.player1, data.state.player2);
+    }
+
+    // destroyPlayers () {
+    //     this.scene.destroyPlayers();
+    // }
+
+    destroyObjects () {
+        this.scene.destroyObjects();
     }
 
     pushPlayerToScene (state) {
@@ -61,6 +71,7 @@ export default class GameScene {
         });
 
         m.id = this.scene.push(m);
+        m.type = "object";
         data.meteorits.push(m);
     }
 

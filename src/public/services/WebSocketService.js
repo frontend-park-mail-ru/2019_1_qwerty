@@ -34,7 +34,7 @@ export default class WebSocketService {
     // Чтение входящих сообщений
     wsClient.onmessage = function (event) {
       const data = JSON.parse(event.data);
-      console.log("action: ", data.action, data);
+      // console.log("action: ", data.action);
 
       if (!this.actions.hasOwnProperty(data.action)) {
         throw new Error('Invalid action:' + data.action);
@@ -63,7 +63,10 @@ export default class WebSocketService {
       .then((wsClient) => {
         wsClient.send(JSON.stringify(data));
         return wsClient;
-      });
+      })
+      .catch(e => {
+        console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
+    });
   }
 
   subscribe (action = '', callback = noop) {

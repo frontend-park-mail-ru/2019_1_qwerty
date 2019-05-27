@@ -66,7 +66,7 @@ export default class OnlineGame extends Core {
     }
 
     waitingForOthers() {
-        
+        EventBus.emit(Events.PUSH_TEXT_TO_SCENE, "Waiting\nother players");
     }
 
     gameOver() {

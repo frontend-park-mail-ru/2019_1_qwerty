@@ -18,6 +18,7 @@ export default class GameScene {
         this.pushPlayerToScene = this.pushPlayerToScene.bind(this);
         this.pushPlayersToSceneMulti = this.pushPlayersToSceneMulti.bind(this);
         this.pause = this.pause.bind(this);
+        this.pushTextToScene = this.pushTextToScene.bind(this);
         this.removeObjectById = this.removeObjectById.bind(this);
         // this.destroyObjects = this.destroyObjects.bind(this);
         // this.destroyPlayers = this.destroyPlayers.bind(this);
@@ -26,6 +27,7 @@ export default class GameScene {
     }
 
     pushPlayersToSceneMulti (data) {
+        this.scene.destroy ();
         const ctx = this.ctx;
         
         data.state["player1"] = new Player(ctx);
@@ -101,6 +103,7 @@ export default class GameScene {
         EventBus.on(Events.PLAYER_CREATED, this.pushPlayerToScene);
         EventBus.on(Events.FINISH_GAME, this.pause);
         EventBus.on(Events.PLAYERS_CREATED_MULTI, this.pushPlayersToSceneMulti);
+        EventBus.on(Events.PUSH_TEXT_TO_SCENE, this.pushTextToScene);
     }
 
     setState (state) {
@@ -144,6 +147,8 @@ export default class GameScene {
         this.requestFrameId = requestAnimationFrame(this.renderScene);
     }
 
+
+
     pause () {
         cancelAnimationFrame(this.requestFrameId);
         this.requestFrameId = null;
@@ -168,5 +173,6 @@ export default class GameScene {
         EventBus.off(Events.PLAYER_CREATED, this.pushPlayerToScene);
         EventBus.off(Events.FINISH_GAME, this.pause);
         EventBus.off(Events.PLAYERS_CREATED_MULTI, this.pushPlayersToSceneMulti);
+        EventBus.off(Events.PUSH_TEXT_TO_SCENE, this.pushTextToScene);
     }
 }

@@ -23,7 +23,7 @@ export default class Text extends DynamicObject {
 
     setup () {
         this.ctx.font = `${this.lineHeight}px Pixel`;
-        this.ctx.fillStyle = 'red';
+        this.ctx.fillStyle = '#CCCCCC';
         this.ctx.textAlign = 'center';
     }
 };

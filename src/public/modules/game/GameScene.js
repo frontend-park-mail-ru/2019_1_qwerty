@@ -149,7 +149,11 @@ export default class GameScene {
         this.requestFrameId = null;
         this.scene.destroy();
 
-        this.pushTextToScene(`Game over!\n press N to restart`);
+        if (!this.isOnline) {
+            this.pushTextToScene(`Game over!\n press N to restart`);
+        } else {
+            this.pushTextToScene(`Game over!`);
+        }
         this.scene.render();
     }
 

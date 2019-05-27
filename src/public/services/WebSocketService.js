@@ -56,7 +56,7 @@ export default class WebSocketService {
   send (data = {}) {    
     this.connection = this.connection
       .then((wsClient) => {
-        console.log("sending: ", JSON.stringify(data));
+        // console.log("sending: ", JSON.stringify(data));
         wsClient.send(JSON.stringify(data));
         return wsClient;
       })

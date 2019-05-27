@@ -6,17 +6,19 @@ import Player from './Player.js';
 import Text from './Text.js';
 
 export default class GameScene {
-    constructor (canvas) {
+    constructor (canvas, isOnline) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.scene = new Scene(this.ctx);
         this.EventBus = EventBus;
-
+        this.isOnline = isOnline;
+        console.log("isONline: ", this.isOnline);
         this.renderScene = this.renderScene.bind(this);
         this.pushMeteorToScene = this.pushMeteorToScene.bind(this);
         this.pushPlayerToScene = this.pushPlayerToScene.bind(this);
         this.pushPlayersToSceneMulti = this.pushPlayersToSceneMulti.bind(this);
         this.pause = this.pause.bind(this);
+        this.removeObjectById = this.removeObjectById.bind(this);
         // this.destroyObjects = this.destroyObjects.bind(this);
         // this.destroyPlayers = this.destroyPlayers.bind(this);
 
@@ -67,12 +69,14 @@ export default class GameScene {
             linearSpeed: data.new.linearSpeed,
             x: data.new.x,
             y: data.new.y,
-            hp: data.new.hp
+            hp: data.new.hp,
+            ID: data.new.ID
         });
 
         m.id = this.scene.push(m);
         m.type = "object";
         data.meteorits.push(m);
+        console.log("PUSH METEOR: ", m, data.meteorits)
     }
 
     pushTextToScene (text) {
@@ -109,20 +113,27 @@ export default class GameScene {
         state.player.y = 0;
     }
 
+    removeObjectById(id) {
+        this.scene.remove(id);
+    }
+
     renderScene (now) {
         const scene = this.scene;
         const delay = now - this.lastFrameTime;
         this.lastFrameTime = now;
 
-        this.state.meteorits.forEach(function (item, i, arr) {
-            if (item.dead) {
-                scene.remove(item.id);
-                arr.splice(i, 1);
-                return;
-            }
-
-            item.x -= delay * item.linearSpeed;
-        });
+        if (!this.isOnline) {
+            console.log("ok");
+            this.state.meteorits.forEach(function (item, i, arr) {
+                if (item.dead) {
+                    scene.remove(item.id);
+                    arr.splice(i, 1);
+                    return;
+                }
+    
+                item.x -= delay * item.linearSpeed;
+            });
+        }
 
         scene.render();
         this.requestFrameId = requestAnimationFrame(this.renderScene);

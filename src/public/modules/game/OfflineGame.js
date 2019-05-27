@@ -94,7 +94,7 @@ export default class OfflineGame extends Core {
                     y: newMeteorit.y,
                     hp: newMeteorit.hp
                 }
-            });
+            });    
 
             let startInterval = 100;
             let endInterval = 150 + 10000 / (this.score / 100 + 2);

@@ -67,22 +67,37 @@ export default class OnlineGame extends Core {
     }
 
     objectsStateChange(data) {
-        // console.log("OBJECTS:", data, this.state);
+        // console.log("_______________");
+        console.log("OBJECTS:", data.content.length, data, this.state.meteorits);
         this.state.meteorits = [];
         this.scene.destroyObjects();
         for (let key in data.content) {
-            let meteorParams = {
-                new: {
-                    rotationSpeed: 0,
-                    linearSpeed: data.content[key].Speed,
-                    x: data.content[key].X,
-                    y: data.content[key].Y,
-                    hp: 100
-                },
-                meteorits: this.state.meteorits
-            }
-            EventBus.emit(Events.METEOR_CREATED, meteorParams);
-            // this.state.meteorits = meteorParams.meteorits;
+            // this.state.meteorits = [];
+            // this.scene.destroyObjects();
+            // let isCreated = 0;
+            // for (let i = 0; i < this.state.meteorits.length; i++) {
+            //     if (key.ID === this.state.meteorits[i].ID) {                    
+            //         this.state.meteorits[i].x = data.content[key].X;
+            //         this.state.meteorits[i].y = data.content[key].Y;
+            //         // console.log("already exists: ", key, data.content[key].X, data.content[key].Y,  this.state.meteorits[i].x,  this.state.meteorits[i].y, this.state.meteorits[i]);
+            //         isCreated = 1;
+            //         break;
+            //     }
+            // }
+            // if (!isCreated) {
+                let meteorParams = {
+                    new: {
+                        rotationSpeed: 0,
+                        linearSpeed: data.content[key].Speed,
+                        x: data.content[key].X,
+                        y: data.content[key].Y,
+                        hp: 100,
+                        ID: data.content[key].ID
+                    },
+                    meteorits: this.state.meteorits
+                }
+                EventBus.emit(Events.METEOR_CREATED, meteorParams);
+            // }
         };
     }
 
@@ -93,7 +108,7 @@ export default class OnlineGame extends Core {
 
         this.state["player2"].y = data.content["player2"].Y;
         this.state["player2"].x = data.content["player2"].X;
-        console.log("players state: ", data, this.state["player1"], this.state["player2"]);
+        // console.log("players state: ", data, this.state["player1"], this.state["player2"]);
     }
 
     createPlayers (data) {

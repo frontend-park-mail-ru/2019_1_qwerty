@@ -56,11 +56,10 @@ export default class WebSocketService {
     throw new Error(error);
   }
 
-  send (action = '', data = {}) {
-    console.log("sending: ", JSON.stringify(data));
-    data.action = action;
+  send (data = {}) {    
     this.connection = this.connection
       .then((wsClient) => {
+        console.log("sending: ", JSON.stringify(data));
         wsClient.send(JSON.stringify(data));
         return wsClient;
       })

@@ -116,16 +116,16 @@ export default class OnlineGame extends Core {
 
     onControllsPressed (evt) {
         if (this._pressed('LEFT', evt)) {
-            this.ws.send('action', { 'action': 'LEFT' });
+            this.ws.send({ "action":"LEFT" });
         }
         if (this._pressed('RIGHT', evt)) {
-            this.ws.send('action', { 'action': 'RIGHT' });            
+            this.ws.send({ "action": "RIGHT" });            
         }
         if (this._pressed('UP', evt)) {
-            this.ws.send('action', { 'action': 'UP' });
+            this.ws.send({ "action": "UP" });
         }
         if (this._pressed('DOWN', evt)) {
-            this.ws.send('action', { 'action': 'DOWN' });
+            this.ws.send({ "action": "DOWN" });
         }
     }
 

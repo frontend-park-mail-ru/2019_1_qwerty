@@ -88,7 +88,6 @@ export default class OnlineGame extends Core {
 
     playersStateChange(data) {
         // console.log("PLAYERS STATE:", data, this.state);
-        // this.scene.destroyPlayers();
         this.state["player1"].y = data.content["player1"].Y;
         this.state["player1"].x = data.content["player1"].X;
 
@@ -100,13 +99,12 @@ export default class OnlineGame extends Core {
     createPlayers (data) {
         let state = this.state;
         let paramData = {state, data};
-        // console.log("createPlayers");
+        
         EventBus.emit(Events.PLAYERS_CREATED_MULTI, paramData);
         
         this.state = paramData.state;
         this.state.player1.type = "player";
         this.state.player2.type = "player";
-        // console.log("out state: ", this.state);
     }
 
     start () {

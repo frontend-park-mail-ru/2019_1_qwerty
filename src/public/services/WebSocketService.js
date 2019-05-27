@@ -31,11 +31,8 @@ export default class WebSocketService {
   }
 
   addCallbacks (wsClient) {
-    // Чтение входящих сообщений
     wsClient.onmessage = function (event) {
       const data = JSON.parse(event.data);
-      // console.log("action: ", data.action);
-
       if (!this.actions.hasOwnProperty(data.action)) {
         throw new Error('Invalid action:' + data.action);
       }
@@ -46,7 +43,7 @@ export default class WebSocketService {
       if (event.wasClean) {
         console.log('Соединение закрыто чисто');
       } else {
-        console.log('Обрыв соединения'); // например, "убит" процесс сервера
+        console.log('Обрыв соединения');
       }
       console.log('Код: ' + event.code + ' причина: ' + event.reason);
     };

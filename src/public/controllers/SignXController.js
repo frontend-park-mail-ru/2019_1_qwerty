@@ -8,7 +8,6 @@ export default class SignXController extends Controller {
         this.view = new SignXView(this.getData());
         this.contentFromNameField = '';
         this.contentFromPasswordField = '';
-        this.contentFromEmailField = '';
         this.model = data.model;
         // this.SuccessSubmit = this.SuccessSubmit.bind(this);
         // this.EventBus.on('signX:request', this.model.requestForSignupOrSignin);
@@ -41,10 +40,6 @@ export default class SignXController extends Controller {
                     focus: this.onFocus.bind(this),
                     change: this.getNickname.bind(this)
                 },
-                InputEmail: {
-                    focus: this.onFocus.bind(this),
-                    change: this.getEmail.bind(this)
-                },
                 InputPassword: {
                     focus: this.onFocus.bind(this),
                     change: this.getPassword.bind(this)
@@ -60,11 +55,6 @@ export default class SignXController extends Controller {
         if (this.view._errorDiv.display === 'block') {
             this.view._removeFormError();
         }
-    }
-
-    getEmail (event) {
-        event.preventDefault();
-        this.contentFromEmailField = this.view.elements.email.getContent().trim();
     }
 
     getNickname (event) {
@@ -86,13 +76,6 @@ export default class SignXController extends Controller {
         const body = { nickname, password };
         let errorExpression = !nickname || !password;
         let errorMsg = 'nickname or password is not filled';
-
-        if (this.view.isSignup) {
-            const email = this.contentFromEmailField;
-            body.email = email;
-            errorExpression = errorExpression || !email;
-            errorMsg = 'nickname or password or email is not filled';
-        }
 
         if (errorExpression) {
             this.view._addFormError(errorMsg);

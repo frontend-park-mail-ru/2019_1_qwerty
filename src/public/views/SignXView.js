@@ -93,21 +93,6 @@ export default class SignXView extends View {
         this._errorDiv.display = 'none';
 
         signXNickname.render();
-        if (this.isSignup) {
-            const emailParent = document.querySelector('div[data-section-name="email"]');
-            const signXEmail = new InputView({
-                name: 'email',
-                type: 'email',
-                placeholder: 'Email',
-                parent: emailParent,
-                nameOfView: 'InputEmail',
-                callbacks: this.callbacksForView,
-                parentView: this
-            });
-
-            signXEmail.render();
-            this.elements['email'] = signXEmail;
-        }
 
         signXPassword.render();
         signXButton.render();

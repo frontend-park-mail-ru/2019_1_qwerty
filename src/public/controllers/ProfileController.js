@@ -4,7 +4,6 @@ import ProfileView from '../views/ProfileView.js';
 export default class ProfileController extends Controller {
     constructor (data) {
         super(data);
-        this.contentFromEmailField = '';
         this.contentFromImageField = '';
         this.contentFromPasswordField = '';
         this.model = data.model;
@@ -67,10 +66,6 @@ export default class ProfileController extends Controller {
                 close: {
                     click: this.routeFunction('/')
                 },
-                email: {
-                    focus: this.onFocus.bind(this),
-                    change: this.getEmail.bind(this)
-                },
                 password: {
                     focus: this.onFocus.bind(this),
                     change: this.getPassword.bind(this)
@@ -81,11 +76,6 @@ export default class ProfileController extends Controller {
                 submit: this.submitEvent.bind(this)
             }
         };
-    }
-
-    getEmail (event) {
-        event.preventDefault();
-        this.contentFromEmailField = this.view.elements.email.getContent().trim();
     }
 
     addAndGetImage (event) {
@@ -132,12 +122,11 @@ export default class ProfileController extends Controller {
     submitEvent (event) {
         event.preventDefault();
 
-        const email = this.contentFromEmailField;
         const password = this.contentFromPasswordField;
         const upload = this.contentFromImageField;
 
-        const body = { email, password, upload };
-        let errorExpression = !email && !password && !upload;
+        const body = {password, upload };
+        let errorExpression = !password && !upload;
         let errorMsg = 'fill something to submit';
 
         if (errorExpression) {
@@ -169,11 +158,9 @@ export default class ProfileController extends Controller {
     }
 
     clearFields () {
-        this.view.elem.elements.email.value = '';
         this.view.elem.elements.password.value = '';
         this.view.elem.file = null;
         this.contentFromPasswordField = '';
-        this.contentFromEmailField = '';
         this.contentFromImageField = null;
     }
 }

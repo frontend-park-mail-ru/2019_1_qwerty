@@ -7,7 +7,7 @@
     "start": "node src/server.js",
     "tmpl": "./node_modules/.bin/fest-build --dir=src/public/",
     "lint": "eslint ./src",
-    "lint-fix": "eslint --fix",
+    "lint-fix": "eslint ./src --fix",
     "dev": "webpack --mode development",
     "build": "webpack --mode production"
   },

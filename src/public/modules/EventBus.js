@@ -7,7 +7,9 @@ class EventBus {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
-        this.listeners[event].push(callback);
+        if (!this.listeners[event].some(elem => elem === callback)) {
+            this.listeners[event].push(callback);
+        }
     }
 
     emit (event, data) {

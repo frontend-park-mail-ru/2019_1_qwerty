@@ -23,21 +23,21 @@ export default class GameScene {
 
     pushPlayersToSceneMulti (data) {
         const ctx = this.ctx;
-        console.log('pushPlayersToSceneMulti data: ', data.data.content, data.state.player1, data.state.player2);
-        data.state.players.push(new Player(ctx));
-        data.state.players.push(new Player(ctx));
-
-        data.state.player1.name = data.state.player1.ID;
-        data.state.player1.y = data.state.player1.y;
-        data.state.player1.x = data.state.player1.x;
-        data.state.player1.id = this.scene.push(data.state.player1);
-
-        data.state.player2.name = data.state.player2.ID;
-        data.state.player2.y = data.state.player2.y;
-        data.state.player2.x = data.state.player2.x;
-        data.state.player2.id = this.scene.push(data.state.player2);
         
-        console.log('added a two players!!!!: ', data.state.player1, data.state.player2);
+        data.state["player1"] = new Player(ctx);
+        data.state["player2"] = new Player(ctx);
+        
+        data.state["player1"].name = data.data.content["player1"].ID;
+        data.state["player1"].y = data.data.content["player1"].Y;
+        data.state["player1"].x = data.data.content["player1"].X;
+        data.state["player1"].id = this.scene.push(data.state["player1"]);
+
+        data.state["player2"].name = data.data.content["player2"].ID;
+        data.state["player2"].y = data.data.content["player2"].Y;
+        data.state["player2"].x = data.data.content["player2"].X;
+        data.state["player2"].id = this.scene.push(data.state["player2"]);
+        
+        console.log('added two players: ', data.state.player1, data.state.player2);
     }
 
     pushPlayerToScene (state) {

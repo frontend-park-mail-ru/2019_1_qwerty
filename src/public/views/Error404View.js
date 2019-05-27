@@ -23,7 +23,6 @@ export default class Error404View extends View {
     }
 
     render () {
-        // this.parent.innerHTML = window.fest['components/404NotFound/Error404.tmpl']();
         this.parent.innerHTML = template();
         const buttonParent = document.querySelector('.error__button');
         const button = new ButtonView({

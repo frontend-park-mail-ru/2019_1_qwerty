@@ -13,7 +13,6 @@ export default class ProfileController extends Controller {
     }
 
     show () {
-        // this.EventBus.on('profile:send-img', this.model.sendFile);
         this.EventBus.on('profile:get-current-user', this.model.requestForCurrentUser);
         this.EventBus.on('profile:send-user-data', this.model.sendUserInfo);
         this.EventBus.on('profile-model:get-current-user', this.createViewAndRender.bind(this));
@@ -24,7 +23,6 @@ export default class ProfileController extends Controller {
         console.log(userInfo);
         this.data.userInfo = userInfo;
         this.view.infoAboutUser = userInfo;
-        // this.view = new ProfileView(this.data);
         this.EventBus.on('profile-model:clear-fields', this.clearFields.bind(this));
         this.EventBus.on('profile-model:add-info', this.addInfoForModel.bind(this));
         this.EventBus.on('profile-model:add-error', this.addFormError.bind(this));
@@ -34,7 +32,6 @@ export default class ProfileController extends Controller {
     }
 
     destroy () {
-        // this.EventBus.off('profile:send-img', this.model.sendFile);
         this.EventBus.off('profile:get-current-user', this.model.requestForCurrentUser);
         this.EventBus.off('profile:send-user-data', this.model.sendUserInfo);
         this.EventBus.off('profile-model:get-current-user', this.createViewAndRender.bind(this));
@@ -122,13 +119,6 @@ export default class ProfileController extends Controller {
         }
     }
 
-    // changeCallbackToEventListener (event) {
-    //     event.preventDefault();
-    //     // this.data.afterSubmit();
-    //     this.view.onDestroy();
-    //     router.go('/');
-    // }
-
     submitEvent (event) {
         event.preventDefault();
 
@@ -151,16 +141,7 @@ export default class ProfileController extends Controller {
             this.view.removeNotification();
             return;
         }
-        // function saveJsonData(data) {
-        //     this.EventBus.emit('profile:send-user-data', data);
-        // }
         this.EventBus.emit('profile:send-user-data', body);
-        // if (upload) {
-        //     // this.EventBus.on('profile-service:image_uploaded', function () {
-        //     //     saveJsonData(body);
-        //     // });
-        //     this.EventBus.emit('profile:send-img', upload);
-        // }
     }
 
     addInfoForModel (response) {

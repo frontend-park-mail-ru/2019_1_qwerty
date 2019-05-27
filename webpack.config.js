@@ -1,3 +1,5 @@
+
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
@@ -23,10 +25,6 @@ module.exports = (env, options) => {
             path: path.resolve(__dirname, 'src/public/build'),
             filename: 'bundle.js'
         },
-        plugins: [
-            new ExtractTextPlugin({ filename: 'bundle.css' }),
-            new webpack.DefinePlugin(conf)
-        ],
         module: {
             rules: [
                 {
@@ -57,6 +55,13 @@ module.exports = (env, options) => {
                     use: 'url-loader?limit=100000'
                 }
             ]
-        }
+        },
+        plugins: [
+            new ServiceWorkerWebpackPlugin({
+                entry: path.resolve(__dirname, 'src/public/sw.js')
+            }),
+            new ExtractTextPlugin({ filename: 'bundle.css' }),
+            new webpack.DefinePlugin(conf)
+        ]
     };
 };

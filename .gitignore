@@ -86,3 +86,5 @@ typings/
 bundle.*
 
 .DS_Store
+
+build/

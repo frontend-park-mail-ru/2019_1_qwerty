@@ -58,20 +58,9 @@ export default class MenuView extends View {
     render () {
         addEventListener('resize', this.resize);
         const elements = Object.keys(this.menuItems);
-        // this.parent.innerHTML = window.fest['components/Menu/Menu.tmpl'](elements);
         this.parent.innerHTML = template(elements);
         this.elem = document.querySelector('.menu-main');
         this.renderHeader();
-        // const headerClass = (isMobile()) ? '.menu-header_mobile' : '.menu-header';
-        // console.log(headerClass);
-        // const headerParent = document.querySelector(`${headerClass} .menu-header__item_width_m`);
-        // this.header = new HeaderView({
-        //     callbacks: this.callbacksForView,
-        //     parent: headerParent,
-        //     pages: this.pages,
-        //     headerTitles: this.headerTitles
-        // });
-        // this.header.render();
 
         Object.entries(this.menuItems).forEach(([key, title]) => {
             const parent = document.querySelector(`[data-section="${key}"]`);

@@ -23,7 +23,6 @@ export default class ButtonView extends View {
     }
 
     render () {
-        // this.parent.innerHTML = window.fest['components/Button/Button.tmpl'](this);
         this.parent.innerHTML = template(this);
         this.elem = document.querySelector(`[name='${this.name}']`);
 

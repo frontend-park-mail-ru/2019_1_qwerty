@@ -29,28 +29,6 @@ export default class ProfileService {
             });
     }
 
-   // sendFile (file) {
-   //      // const callback = (message) => {
-   //      //     EventBus.emit('profile-model:add-error', message);
-   //      //     EventBus.emit('profile-model:remove-notification');
-   //      // };
-   //     AjaxModule.sendData({
-   //          file,
-   //          path: SEND_IMAGE
-   //     });
-   //          // .then(response => {
-   //          //     console.log(response);
-   //          //     if (!response.ok) {
-   //          //         throw new Error('all bad');
-   //          //     }
-   //          //     callback(response)
-   //          // })
-   //          // .catch(error => {
-   //          //     EventBus.emit('profile-model:add-error', error.message);
-   //          //     EventBus.emit('profile-model:remove-notification');
-   //          // });
-   //  }
-
     sendUserInfo (body) {
         AjaxModule.doFetchPost({
             path: UPDATE_USER,

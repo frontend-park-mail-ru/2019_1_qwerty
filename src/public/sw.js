@@ -1,8 +1,19 @@
 
 const CACHE_NAME = 'qwerty-cache';
 
-let urls = ['/', '/signin', '/signup', 'profile', '/score', '/singleplayer'];
-this.addEventListener('fetch', function (event) {
+let urls = ['/', '/signin/', '/signup/', '/profile/', '/score/', '/singleplayer/'];
+
+self.addEventListener('install', event => {
+    event.waitUntil(() => {
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.addAll([...global.serviceWorkerOption.assets,
+                '/profile/'
+            ]);
+        });
+    });
+});
+
+self.addEventListener('fetch', function (event) {
     event.respondWith(
         caches.match(event.request)
             .then(response => {

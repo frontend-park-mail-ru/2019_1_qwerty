@@ -72,7 +72,6 @@ export default class SingleplayerView extends View {
     }
 
     render () {
-        // this.parent.innerHTML = window.fest['components/Singleplayer/Singleplayer.tmpl'](this);
         this.parent.innerHTML = template(this);
         this.elem = document.querySelector('.singleplayer');
 

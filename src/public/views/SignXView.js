@@ -47,8 +47,6 @@ export default class SignXView extends View {
 
     render () {
         const title = this.isSignup ? 'Sign Up' : 'Sign In';
-
-        // this.parent.innerHTML = window.fest['components/SignX/SignX.tmpl'](this.isSignup);
         this.parent.innerHTML = template(this.isSignup);
         const nicknameParent = document.querySelector('div[data-section-name="nickname"]');
         const signXNickname = new InputView({

@@ -4,7 +4,6 @@ import EventBus from '../modules/EventBus.js';
 import { USER_CHECK, LOG_OUT } from '../config.js';
 
 export default class MenuService {
-
     requestForUserAuth () {
         if (!window.navigator.onLine) {
             EventBus.emit('model:user-auth-info',{

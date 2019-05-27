@@ -6,7 +6,7 @@ export default class Text extends DynamicObject {
         this.text = data.text;
         this.x = data.x;
         this.y = data.y;
-
+        this.lineHeight = 20;
         this.draw = this.draw.bind(this);
     }
 
@@ -15,12 +15,15 @@ export default class Text extends DynamicObject {
      */
     draw () {
         this.setup();
-        this.ctx.fillText(this.text, this.x, this.y);
+        let lines = this.text.split('\n');
+        for (var i = 0; i < lines.length; i++) {
+            this.ctx.fillText(lines[i], this.x, this.y + (i * this.lineHeight));
+        }
     }
 
     setup () {
-        this.ctx.font = '25px Pixel';
-        this.ctx.fillStyle = 'red';
+        this.ctx.font = `${this.lineHeight}px Pixel`;
+        this.ctx.fillStyle = '#CCCCCC';
         this.ctx.textAlign = 'center';
     }
 };

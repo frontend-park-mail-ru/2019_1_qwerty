@@ -32,7 +32,6 @@ export default class ProfileComponent {
         this.insertElements.img.src = srcPath;
 
         this.insertElements.nickname.textContent = this.userInfo.name;
-        this.insertElements.email.textContent = this.userInfo.email;
         this.insertElements.score.textContent = this.userInfo.score;
     }
 
@@ -81,17 +80,6 @@ export default class ProfileComponent {
         uploadInput.render();
         this.elements.upload = uploadInput;
         uploadInput.onChange = this.changeRealTimeImage.bind(this);
-
-        const emailParent = document.querySelector('[data-section="email"]');
-        const emailInput = new InputComponent({
-            name: 'email',
-            type: 'email',
-            placeholder: 'New Email',
-            parent: emailParent
-        });
-        emailInput.onFocus = this._onFocus.bind(this);
-        emailInput.render();
-        this.elements.email = emailInput;
 
         const passwordParent = document.querySelector('[data-section="password"]');
         const passwordInput = new InputComponent({
@@ -162,11 +150,10 @@ export default class ProfileComponent {
     submitEvent (event) {
         event.preventDefault();
 
-        const email = this._form.elements.email.value.trim();
         const password = this._form.elements.password.value.trim();
 
-        const body = { email, password };
-        let errorExpression = !email && !password && !this.elements.upload.file;
+        const body = { password };
+        let errorExpression = !password && !this.elements.upload.file;
         let errorMsg = 'fill something to submit';
 
         if (errorExpression) {
@@ -198,7 +185,6 @@ export default class ProfileComponent {
                     throw error;
                 }
                 this.showNotification();
-                this._form.elements.email.value = '';
                 this._form.elements.password.value = '';
                 this.file = null;
 
@@ -244,7 +230,6 @@ export default class ProfileComponent {
                 this.insertElements = {
                     img: document.querySelector('.profile-form__img'),
                     nickname: document.querySelector('[data-section="nickname"]'),
-                    email: document.querySelector('[data-section="current-email"]'),
                     score: document.querySelector('[data-section="max-score"]')
                 };
 

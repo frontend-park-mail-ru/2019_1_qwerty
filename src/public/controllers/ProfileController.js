@@ -4,7 +4,6 @@ import ProfileView from '../views/ProfileView.js';
 export default class ProfileController extends Controller {
     constructor (data) {
         super(data);
-        this.contentFromEmailField = '';
         this.contentFromImageField = '';
         this.contentFromPasswordField = '';
         this.model = data.model;
@@ -13,7 +12,6 @@ export default class ProfileController extends Controller {
     }
 
     show () {
-        // this.EventBus.on('profile:send-img', this.model.sendFile);
         this.EventBus.on('profile:get-current-user', this.model.requestForCurrentUser);
         this.EventBus.on('profile:send-user-data', this.model.sendUserInfo);
         this.EventBus.on('profile-model:get-current-user', this.createViewAndRender.bind(this));
@@ -24,7 +22,6 @@ export default class ProfileController extends Controller {
         console.log(userInfo);
         this.data.userInfo = userInfo;
         this.view.infoAboutUser = userInfo;
-        // this.view = new ProfileView(this.data);
         this.EventBus.on('profile-model:clear-fields', this.clearFields.bind(this));
         this.EventBus.on('profile-model:add-info', this.addInfoForModel.bind(this));
         this.EventBus.on('profile-model:add-error', this.addFormError.bind(this));
@@ -34,7 +31,6 @@ export default class ProfileController extends Controller {
     }
 
     destroy () {
-        // this.EventBus.off('profile:send-img', this.model.sendFile);
         this.EventBus.off('profile:get-current-user', this.model.requestForCurrentUser);
         this.EventBus.off('profile:send-user-data', this.model.sendUserInfo);
         this.EventBus.off('profile-model:get-current-user', this.createViewAndRender.bind(this));
@@ -67,10 +63,6 @@ export default class ProfileController extends Controller {
                 close: {
                     click: this.routeFunction('/')
                 },
-                email: {
-                    focus: this.onFocus.bind(this),
-                    change: this.getEmail.bind(this)
-                },
                 password: {
                     focus: this.onFocus.bind(this),
                     change: this.getPassword.bind(this)
@@ -81,11 +73,6 @@ export default class ProfileController extends Controller {
                 submit: this.submitEvent.bind(this)
             }
         };
-    }
-
-    getEmail (event) {
-        event.preventDefault();
-        this.contentFromEmailField = this.view.elements.email.getContent().trim();
     }
 
     addAndGetImage (event) {
@@ -122,22 +109,14 @@ export default class ProfileController extends Controller {
         }
     }
 
-    // changeCallbackToEventListener (event) {
-    //     event.preventDefault();
-    //     // this.data.afterSubmit();
-    //     this.view.onDestroy();
-    //     router.go('/');
-    // }
-
     submitEvent (event) {
         event.preventDefault();
 
-        const email = this.contentFromEmailField;
         const password = this.contentFromPasswordField;
         const upload = this.contentFromImageField;
 
-        const body = { email, password, upload };
-        let errorExpression = !email && !password && !upload;
+        const body = {password, upload };
+        let errorExpression = !password && !upload;
         let errorMsg = 'fill something to submit';
 
         if (errorExpression) {
@@ -151,16 +130,7 @@ export default class ProfileController extends Controller {
             this.view.removeNotification();
             return;
         }
-        // function saveJsonData(data) {
-        //     this.EventBus.emit('profile:send-user-data', data);
-        // }
         this.EventBus.emit('profile:send-user-data', body);
-        // if (upload) {
-        //     // this.EventBus.on('profile-service:image_uploaded', function () {
-        //     //     saveJsonData(body);
-        //     // });
-        //     this.EventBus.emit('profile:send-img', upload);
-        // }
     }
 
     addInfoForModel (response) {
@@ -169,11 +139,9 @@ export default class ProfileController extends Controller {
     }
 
     clearFields () {
-        this.view.elem.elements.email.value = '';
         this.view.elem.elements.password.value = '';
         this.view.elem.file = null;
         this.contentFromPasswordField = '';
-        this.contentFromEmailField = '';
         this.contentFromImageField = null;
     }
 }

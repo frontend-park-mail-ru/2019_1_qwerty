@@ -7,7 +7,7 @@
     "start": "node src/server.js",
     "tmpl": "./node_modules/.bin/fest-build --dir=src/public/",
     "lint": "eslint ./src",
-    "lint-fix": "eslint --fix",
+    "lint-fix": "eslint ./src --fix",
     "dev": "webpack --mode development",
     "build": "webpack --mode production"
   },
@@ -47,6 +47,7 @@
     "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
+    "serviceworker-webpack-plugin": "^1.0.1",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.30.0",

@@ -35,7 +35,6 @@ export default class ScoreboardView extends View {
     }
 
     render () {
-        // this.parent.innerHTML = window.fest['components/Score/Score.tmpl'](this.scoreboard);
         this.parent.innerHTML = template(this.scoreboard);
         let prevButtonParent = document.querySelector('[data-section="Prev"]');
         const prevButton = new ButtonView({

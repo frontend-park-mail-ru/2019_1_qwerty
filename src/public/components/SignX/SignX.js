@@ -61,13 +61,6 @@ export default class SignXComponent {
         let errorExpression = !nickname || !password;
         let errorMsg = 'nickname or password is not filled';
 
-        if (this._isSignup) {
-            const email = this._form.elements.email.value.trim();
-            body.email = email;
-            errorExpression = errorExpression || !email;
-            errorMsg = 'nickname or password or email is not filled';
-        }
-
         if (errorExpression) {
             this._addFormError(errorMsg);
             return;
@@ -138,18 +131,6 @@ export default class SignXComponent {
         this._errorDiv.display = 'none';
 
         signXNickname.render();
-        if (this._isSignup) {
-            const emailParent = document.querySelector('div[data-section-name="email"]');
-            const signXEmail = new InputComponent({
-                name: 'email',
-                type: 'email',
-                placeholder: 'Email',
-                parent: emailParent
-            });
-            signXEmail.onFocus = this._onFocus.bind(this);
-            signXEmail.render();
-            this._elements.push(signXEmail);
-        }
 
         signXPassword.render();
         signXButton.render();

@@ -37,7 +37,6 @@ export default class HeaderView extends View {
 
     showHeader (namesAndTitles) {
         const names = Object.keys(namesAndTitles);
-        // this.parent.innerHTML = window.fest['components/Header/Header.tmpl'](names);
         this.parent.innerHTML = template(names);
         this.elem = document.querySelector('.header');
 

@@ -1,15 +1,15 @@
 import Controller from './Controller.js';
-import SingleplayerView from '../views/SingleplayerView.js';
+import MultiplayerView from '../views/MultiplayerView.js';
 
-export default class SingleplayerController extends Controller {
+export default class MultiplayerController extends Controller {
     constructor (data) {
         super(data);
-        this.view = new SingleplayerView(this.getData());
+        this.view = new MultiplayerView(this.getData());
     }
 
     getData () {
         this.data.callbacks = {
-            singleplayer: {
+            multiplayer: {
                 scoreboard: {
                     click: this.routeFunction('/score')
                 },

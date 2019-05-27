@@ -19,7 +19,6 @@ export default class FileInputView extends View {
     }
 
     render () {
-        // this.parent.innerHTML = window.fest['components/FileInput/FileInput.tmpl'](this.title);
         this.parent.innerHTML = template(this.title);
         this.elem = document.querySelector('.inputfile');
 

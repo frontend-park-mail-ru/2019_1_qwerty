@@ -23,7 +23,6 @@ export default class NotificationView extends View {
     }
 
     render () {
-        // this.parent.innerHTML = window.fest['components/Notification/Notification.tmpl']();
         this.parent.innerHTML = template();
         this.elem = document.querySelector('[data-section="notification"]');
 

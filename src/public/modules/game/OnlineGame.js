@@ -45,7 +45,7 @@ export default class OnlineGame extends Core {
             })
             .then(data => {
                 nickname = data.nickname;
-                console.log('nickname: ', nickname);
+                // console.log('nickname: ', nickname);
                 this.ws = new WebSocketService('/ws', nickname);
 
                 this.ws.subscribe('CONNECTED', this.waitingForOthers);
@@ -55,7 +55,6 @@ export default class OnlineGame extends Core {
                 this.ws.subscribe('GAME ENDED', this.gameOver);
 
                 this.ws.init();
-                console.log("INSIDE MULTIPLAYER");
                 
                 EventBus.emit(Events.START_GAME, this.state);
             })
@@ -75,7 +74,7 @@ export default class OnlineGame extends Core {
 
     objectsStateChange(data) {
         // console.log("_______________");
-        console.log("OBJECTS:", data.content.length, data, this.state.meteorits);
+        // console.log("OBJECTS:", data.content.length, data, this.state.meteorits);
         this.state.meteorits = [];
         this.scene.destroyObjects();
         for (let key in data.content) {

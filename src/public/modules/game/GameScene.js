@@ -12,7 +12,6 @@ export default class GameScene {
         this.scene = new Scene(this.ctx);
         this.EventBus = EventBus;
         this.isOnline = isOnline;
-        console.log("isONline: ", this.isOnline);
         this.renderScene = this.renderScene.bind(this);
         this.pushMeteorToScene = this.pushMeteorToScene.bind(this);
         this.pushPlayerToScene = this.pushPlayerToScene.bind(this);
@@ -20,8 +19,6 @@ export default class GameScene {
         this.pause = this.pause.bind(this);
         this.pushTextToScene = this.pushTextToScene.bind(this);
         this.removeObjectById = this.removeObjectById.bind(this);
-        // this.destroyObjects = this.destroyObjects.bind(this);
-        // this.destroyPlayers = this.destroyPlayers.bind(this);
 
         this.init(null);
     }
@@ -78,7 +75,7 @@ export default class GameScene {
         m.id = this.scene.push(m);
         m.type = "object";
         data.meteorits.push(m);
-        console.log("PUSH METEOR: ", m, data.meteorits)
+        // console.log("PUSH METEOR: ", m, data.meteorits)
     }
 
     pushTextToScene (text) {
@@ -126,7 +123,6 @@ export default class GameScene {
         this.lastFrameTime = now;
 
         if (!this.isOnline) {
-            console.log("ok");
             this.state.meteorits.forEach(function (item, i, arr) {
                 if (item.dead) {
                     scene.remove(item.id);

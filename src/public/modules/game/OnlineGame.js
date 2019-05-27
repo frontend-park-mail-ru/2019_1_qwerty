@@ -52,6 +52,7 @@ export default class OnlineGame extends Core {
                 this.ws.subscribe('GAME STARTED', this.createPlayers);
                 this.ws.subscribe('STATE', this.playersStateChange);
                 this.ws.subscribe('OBJECTS', this.objectsStateChange);
+                this.ws.subscribe('GAME ENDED', this.gameOver);
 
                 this.ws.init();
                 console.log("INSIDE MULTIPLAYER");
@@ -62,8 +63,10 @@ export default class OnlineGame extends Core {
                 alert('Error: ' + e.message);
                 console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
             });
+    }
 
-        
+    gameOver() {
+        EventBus.emit(Events.FINISH_GAME);
     }
 
     objectsStateChange(data) {

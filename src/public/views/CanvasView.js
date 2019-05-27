@@ -17,7 +17,6 @@ export default class CanvasView extends View {
     }
 
     render () {
-        // this.parent.innerHTML = window.fest['components/Canvas/Canvas.tmpl']();
         this.parent.innerHTML = template();
         this.elem = document.querySelector(`.canvas`);
         this.setEvents();

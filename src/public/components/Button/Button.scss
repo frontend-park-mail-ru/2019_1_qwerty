@@ -2,7 +2,7 @@
 .button{
     width:100%;
     box-sizing: border-box;
-    font-size:160%;
+    font-size:110%;
     padding: 4%;
     font-family: Pixel, serif;
     background-color: rgba(0, 0, 0, 0);
@@ -11,9 +11,6 @@
     opacity: 0.5;
     transition: 0.3s;
     cursor: pointer;
-    @media screen and (max-width: 768px) {
-        font-size: 135%;
-    }
     &:hover {
         opacity: 1;
     }

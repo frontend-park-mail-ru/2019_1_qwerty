@@ -1,9 +1,13 @@
 import AjaxModule from '../modules/ajax.js';
 import EventBus from '../modules/EventBus.js';
 import { SEND_IMAGE, CURRENT_USER, UPDATE_USER } from '../config.js';
+import Router from '../modules/Router.js';
 
 export default class ProfileService {
     requestForCurrentUser () {
+        if (!navigator.onLine) {
+            Router.go('/');
+        }
         AjaxModule.doFetchGet({
             path: CURRENT_USER
         })

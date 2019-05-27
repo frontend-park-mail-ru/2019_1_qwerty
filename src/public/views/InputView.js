@@ -26,7 +26,6 @@ export default class Input extends View {
     }
 
     render () {
-        // this.parent.innerHTML = window.fest['components/Input/Input.tmpl'](this);
         this.parent.innerHTML = template(this);
         this.elem = document.querySelector(`input[name='${this.name}']`);
         if (this.isPassword) {

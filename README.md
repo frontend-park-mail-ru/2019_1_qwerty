@@ -1,3 +1,5 @@
+[![Build Status](https://cloud.drone.io/api/badges/frontend-park-mail-ru/2019_1_qwerty/status.svg)](https://cloud.drone.io/frontend-park-mail-ru/2019_1_qwerty)
+
 # 2019_1_qwerty
 
 ## Состав команды
@@ -9,5 +11,5 @@
  Ментор:
  * [Юрий Байков](https://github.com/OkciD).
 
- ## [Деплой](https://front.brbrroman.ru/)
+ ## [Деплой](https://front.brbrroman.ru)
  ## [Репозиторий бэкенда](https://github.com/go-park-mail-ru/2019_1_qwerty/)

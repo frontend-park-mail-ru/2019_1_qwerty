@@ -9,10 +9,6 @@ export default class SignXController extends Controller {
         this.contentFromNameField = '';
         this.contentFromPasswordField = '';
         this.model = data.model;
-        // this.SuccessSubmit = this.SuccessSubmit.bind(this);
-        // this.EventBus.on('signX:request', this.model.requestForSignupOrSignin);
-        // this.EventBus.on('signx-model:add-errors', this.view._addFormError.bind(this.view));
-        // this.EventBus.on('signx-model:after-success-submit',this.SuccessSubmit);
     }
 
     show () {

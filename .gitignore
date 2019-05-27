@@ -84,3 +84,7 @@ typings/
 
 #webpack files
 bundle.*
+
+.DS_Store
+
+build/

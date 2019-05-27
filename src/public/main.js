@@ -13,9 +13,14 @@ import ScoreboardController from './controllers/ScoreboardController.js';
 import ScoreboardService from './services/ScoreboardService.js';
 import SingleplayerController from './controllers/SingleplayerController.js';
 import router from './modules/Router.js';
+import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 
 const application = document.getElementById('application');
-
+if ('serviceWorker' in navigator) {
+    console.log(runtime);
+    const register = runtime.register();
+    console.log(register);
+}
 // if ('serviceWorker' in navigator) {
 //     navigator.serviceWorker.register('sw.js')
 //         .then(function (reg) {
@@ -55,7 +60,6 @@ function createSignin () {
         afterSuccessSubmit: createMenu,
         model
     });
-
 }
 
 function createProfile () {
@@ -73,8 +77,8 @@ function createProfile () {
 function createSignup () {
     application.innerHTML = '';
     const model = new SignXService();
-    
-   return new SignXController({
+
+    return new SignXController({
         parent: application,
         isSignup: true,
         afterSuccessSubmit: createMenu,
@@ -125,5 +129,5 @@ router.register('/multiplayer', Multiplayer());
 router.error(create404Page());
 
 var url = new URL(window.location.href);
-console.log("href: ", window.location.href, url.pathname);
+console.log('href:', window.location.href, url.pathname);
 router.go(url.pathname, url.searchParams.toString());

@@ -1,5 +1,6 @@
 import AjaxModule from '../modules/ajax.js';
 import EventBus from '../modules/EventBus.js';
+import { WS_NICKNAME } from '../config.js';
 
 export default class SignXService {
     requestForSignupOrSignin ({ path, body }) {
@@ -13,6 +14,7 @@ export default class SignXService {
                     error.response = response;
                     throw error;
                 }
+                global.WS_NICKNAME = response.nickname;
                 EventBus.emit('signx-model:after-success-submit');
             })
             .catch(e => {

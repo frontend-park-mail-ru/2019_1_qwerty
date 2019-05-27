@@ -41,7 +41,6 @@ export default class ProfileService {
                     throw error;
                 }
                 if (body.upload) {
-                    console.log('stage in promise upload 1');
                     return AjaxModule.sendData({
                         path: SEND_IMAGE, file: body.upload
                     });

@@ -19,7 +19,6 @@ export default class CanvasView extends View {
     render () {
         this.parent.innerHTML = template();
         this.elem = document.querySelector(`.canvas`);
-        console.log('size of canvas: ', this.elem.width, this.elem.height);
         this.setEvents();
     }
 }

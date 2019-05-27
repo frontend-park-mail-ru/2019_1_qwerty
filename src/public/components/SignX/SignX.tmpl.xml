@@ -18,14 +18,6 @@
                     <fest:attribute name="data-section-name">nickname</fest:attribute>
                 </fest:attributes>
             </fest:element>
-            <fest:if test="isSignup">
-                <fest:element name="div">
-                    <fest:attributes>
-                        <fest:attribute name="class">sign-x-form__input_width_m sign-x-form__input_margin_m sign-x-form__input_height_h</fest:attribute>
-                        <fest:attribute name="data-section-name">email</fest:attribute>
-                    </fest:attributes>
-                </fest:element>
-            </fest:if>
             <fest:element name="div">
                 <fest:attributes>
                     <fest:attribute name="class">sign-x-form__input_width_m sign-x-form__input_margin_m sign-x-form__input_height_h sign-x-form__content</fest:attribute>

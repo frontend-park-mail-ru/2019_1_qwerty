@@ -20,6 +20,7 @@
         <div class="singleplayer-menu">
             <article class="singleplayer-menu__item singleplayer-menu__item_width_20">
                 <div class="info__label">
+
                     <div class="info__item header__mobile">Level</div>
                     <div class="info__item mobile__level" data-section-name="level" >0</div>
                 </div>
@@ -35,6 +36,7 @@
                     <code>A</code>  - влвео<br/>
                     <code>D</code>  - вправо<br/>
                     <code>Space</code>  - стрельба<br/>
+
                 </div>
             </article>
             <article class="singleplayer-menu__item singleplayer-menu__item_width_40">

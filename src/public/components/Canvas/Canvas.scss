@@ -1,5 +1,7 @@
 .canvas {
     width: 100%;
-    background-color: black;
+    background: url(images/background.png) repeat-x;
+    background-size: cover;
+    animation: slide 20s linear infinite;
     height: 100%;
 }

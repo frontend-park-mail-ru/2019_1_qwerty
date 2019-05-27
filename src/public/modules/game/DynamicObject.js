@@ -1,7 +1,6 @@
 export default class DynamicObject {
     constructor (ctx) {
         this.ctx = ctx;
-        // console.log("ctx inside asteroid: ", this.ctx);
         this.x = 0;
         this.y = 0;
     }

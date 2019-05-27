@@ -5,6 +5,7 @@ import SignXController from './controllers/SignXController.js';
 import SignXService from './services/SignXService.js';
 import MenuService from './services/MenuService.js';
 import MenuController from './controllers/MenuController.js';
+import MultiplayerController from './controllers/MultiplayerController.js';
 import ProfileService from './services/ProfileService.js';
 import ProfileController from './controllers/ProfileController.js';
 import Error404Controller from './controllers/Error404Controller.js';
@@ -53,7 +54,6 @@ function createSignin () {
     application.innerHTML = '';
     const model = new SignXService();
 
-    // EventBus.on('signX:request', model.requestForSignupOrSignin);
     return new SignXController({
         parent: application,
         isSignup: false,
@@ -77,6 +77,7 @@ function createProfile () {
 function createSignup () {
     application.innerHTML = '';
     const model = new SignXService();
+
     return new SignXController({
         parent: application,
         isSignup: true,
@@ -110,12 +111,21 @@ function Singleplayer () {
     });
 }
 
+function Multiplayer () {
+    application.innerHTML = '';
+
+    return new MultiplayerController({
+        parent: application
+    });
+}
+
 router.register('/signin', createSignin());
 router.register('/', createMenu());
 router.register('/signup', createSignup());
 router.register('/profile', createProfile());
 router.register('/score', Scoreboard());
 router.register('/singleplayer', Singleplayer());
+router.register('/multiplayer', Multiplayer());
 router.error(create404Page());
 
 var url = new URL(window.location.href);

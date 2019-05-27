@@ -29,10 +29,8 @@ export default class ProfileView extends View {
         this.userInfo = userInfo;
     }
     addInfo () {
-        console.log(this.userInfo);
         this.insertElements.img.src = this.userInfo.avatar || DEFAULT_AVATAR;
         this.insertElements.nickname.textContent = this.userInfo.nickname;
-        this.insertElements.email.textContent = this.userInfo.email;
         this.insertElements.score.textContent = this.userInfo.score;
     }
 
@@ -42,7 +40,6 @@ export default class ProfileView extends View {
         this.insertElements = {
             img: document.querySelector('.profile-form__img'),
             nickname: document.querySelector('[data-section="nickname"]'),
-            email: document.querySelector('[data-section="current-email"]'),
             score: document.querySelector('[data-section="max-score"]')
         };
 
@@ -90,20 +87,6 @@ export default class ProfileView extends View {
         });
         uploadInput.render();
         this.elements.upload = uploadInput;
-
-        const emailParent = document.querySelector('[data-section="email"]');
-        const emailInput = new InputView({
-            name: 'email',
-            type: 'email',
-            placeholder: 'New Email',
-            isPassword: false,
-            parent: emailParent,
-            callbacks: this.callbacksForView,
-            nameOfView: 'email',
-            parentView: this
-        });
-        emailInput.render();
-        this.elements.email = emailInput;
 
         const passwordParent = document.querySelector('[data-section="password"]');
         const passwordInput = new InputView({

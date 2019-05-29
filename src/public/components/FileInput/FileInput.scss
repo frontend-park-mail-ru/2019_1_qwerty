@@ -22,6 +22,9 @@
         @media screen and (max-width: 768px) {
             font-size:120%;
         }
+        @media screen and (max-width: 381px) {
+            font-size: 90%;
+        }
     }
     &:focus + &__label:hover,
     &__label:hover{

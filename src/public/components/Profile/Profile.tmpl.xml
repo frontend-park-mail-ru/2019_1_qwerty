@@ -29,7 +29,8 @@
                             </fest:attributes>
                         </fest:element>
                     </div>
-                    <div class="profile-form__content profile-form__content_space_between">
+                    <div class="profile-form__table profile-form__content_space_between">
+                        <div class="profile-form__item profile-form__header">Score</div>
                         <fest:element name="div">
                             <fest:attributes>
                                 <fest:attribute name="class">profile-form__item</fest:attribute>

@@ -22,19 +22,57 @@ export default class SingleplayerView extends View {
         });
         this.elements = {};
         this.canvas = {};
+        this.htmlElements = [];
         this.namesOfButtons = ['scoreboard', 'menu'];
 
         this.setScore = this.setScore.bind(this);
 
         this.EventBus.on(Events.UPDATED_SCORE, this.setScore);
+        this.changeOrientation = this.changeOrientation.bind(this);
+    }
+
+    changeOrientation (event) {
+        console.log(screen.orientation.type);
+        if (screen.orientation.type === 'landscape-primary') {
+            let a = document.querySelector('.singleplayer__container');
+            this.launchIntoFullscreen(a);
+            return;
+        }
+        if (document.fullscreenElement && screen.orientation.type === 'portrait-primary') {
+            this.closeFullscreen();
+        }
+    }
+
+    launchIntoFullscreen (element) {
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        }
+    }
+
+    closeFullscreen () {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { /* Firefox */
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE/Edge */
+            document.msExitFullscreen();
+        }
     }
 
     get getScore () {
-        return this.elements.score.innerHTML;
+        return this.htmlElements.score.innerHTML;
     }
 
     setScore (newScore) {
-        this.elements['score'].innerHTML = newScore;
+        this.htmlElements.score.innerHTML = newScore;
     }
 
     onDestroy () {
@@ -43,7 +81,7 @@ export default class SingleplayerView extends View {
                 component.onDestroy();
             }
         });
-
+        window.removeEventListener('orientationchange', this.changeOrientation);
         this.EventBus.off(Events.UPDATED_SCORE, this.setScore);
 
         super.onDestroy();
@@ -51,7 +89,7 @@ export default class SingleplayerView extends View {
     }
 
     create () {
-        this.canvas = document.querySelector(name = 'canvas');
+        this.canvas = document.querySelector('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.doGame();
     }
@@ -92,10 +130,11 @@ export default class SingleplayerView extends View {
             button.render();
             this.elements[name] = button;
         });
-        this.elements.username = document.querySelector('.username');
-        this.elements.score = document.querySelector('.score');
+        this.htmlElements.username = document.querySelector('.username');
+        this.htmlElements.score = document.querySelector('.score');
 
         this.setEvents();
+        window.addEventListener('orientationchange', this.changeOrientation);
         this.create();
     }
 }

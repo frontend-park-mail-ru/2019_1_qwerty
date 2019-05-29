@@ -6,6 +6,13 @@ $path: "./images";
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    &__container {
+        height: 100%;
+        width: 100%;
+    }
+    @media screen and (max-width: 768px) and (orientation: portrait) {
+        background-color: transparent;
+    }
     &__canvas {
         border: 2px solid white;
         border-radius: 8px;
@@ -149,18 +156,6 @@ $path: "./images";
             grid-column: 3/4;
             grid-row:2/3;
             transform: rotate(180deg);
-        }
-        &-circle {
-            display: none;
-            @media screen and (max-width: 1024px) and (orientation: landscape) {
-                display:block;
-                border: 20px solid green;
-                border-radius: 50%;
-                position: absolute;
-                right: 2.5%;
-                bottom: 2.5%;
-                height: 0;
-            }
         }
     }
     &__score {

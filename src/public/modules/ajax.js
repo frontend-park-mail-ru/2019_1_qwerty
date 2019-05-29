@@ -28,7 +28,7 @@ export default class AjaxModule {
 
         return fetch(API_URL + path, {
             method: 'POST',
-            headers: { 'Content-Type': 'multipart/form-data' },
+
             mode: 'cors',
             credentials: 'include',
             body: formData

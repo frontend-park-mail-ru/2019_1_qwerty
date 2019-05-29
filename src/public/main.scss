@@ -32,10 +32,8 @@ html, body, #application {
 }
 
 body {
+    margin:0;
     overflow: hidden;
-    @media screen and (max-width: 768px) {
-        overflow: scroll;
-    }
 }
 
 html {

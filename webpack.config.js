@@ -9,12 +9,15 @@ const prod = require('./webpack/prod.js');
 module.exports = (env, options) => {
     console.log(`This is the Webpack 4 'mode': ${options.mode}`);
     let conf = {};
+    let devtool;
     switch (options.mode) {
         case 'production':
             conf = prod;
+            devtool = '';
             break;
         case 'development':
             conf = dev;
+            devtool = 'cheap-module-source-map';
             break;
         default:
             break;
@@ -25,6 +28,7 @@ module.exports = (env, options) => {
             path: path.resolve(__dirname, 'src/public/build'),
             filename: 'bundle.js'
         },
+        devtool,
         module: {
             rules: [
                 {

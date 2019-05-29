@@ -24,12 +24,20 @@
                     <fest:attribute name="data-section-name">password</fest:attribute>
                 </fest:attributes>
             </fest:element>
-            <fest:element name="div">
-                <fest:attributes>
-                    <fest:attribute name="class">sign-x-form__button_margin_m sign-x-form__button_width_m sign-x-form__button_height_h</fest:attribute>
-                    <fest:attribute name="data-section-name">button</fest:attribute>
-                </fest:attributes>
-            </fest:element>
+            <div class="sign-x-form__buttons sign-x-form__buttons_margin_m sign-x-form__buttons_width_m sign-x-form__buttons_height_m">
+                <fest:element name="div">
+                    <fest:attributes>
+                        <fest:attribute name="class">sign-x-form__button</fest:attribute>
+                        <fest:attribute name="data-section-name">button</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+                <fest:element name="div">
+                    <fest:attributes>
+                        <fest:attribute name="class">sign-x-form__button</fest:attribute>
+                        <fest:attribute name="data-section-name">back-button</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+            </div>
         </form>
     </section>
 </fest:template>

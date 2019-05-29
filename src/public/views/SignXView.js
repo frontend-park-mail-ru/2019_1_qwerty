@@ -84,6 +84,17 @@ export default class SignXView extends View {
             type: 'submit',
             callbacks: this.callbacksForView
         });
+        const menuButtonParent = document.querySelector('div[data-section-name="back-button"]');
+        const menuButton = new ButtonView({
+            name: 'menu-button',
+            title: 'Menu',
+            parent: menuButtonParent,
+            type: 'button',
+            callbacks: this.callbacksForView,
+            nameOfView: 'MenuButton',
+            parentView: this
+        });
+        this.elements['menu-button'] = menuButton;
 
         this.elem = document.querySelector('.sign-x-form');
         this._errorDiv = document.querySelector('.form__error');
@@ -94,6 +105,7 @@ export default class SignXView extends View {
 
         signXPassword.render();
         signXButton.render();
+        menuButton.render();
 
         this.setEvents();
     }

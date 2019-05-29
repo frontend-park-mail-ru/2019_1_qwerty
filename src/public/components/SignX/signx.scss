@@ -32,14 +32,21 @@ $path: "./components/SignX";
     &-form__content {
         position: relative;
     }
-    &-form__button_width_m {
-        width:60%;
+    &-form__buttons {
+        display: flex;
+        justify-content: space-between;
     }
-    &-form__button_height_h {
+    &-form__button {
+        flex-basis: 40%;
+    }
+    &-form__buttons_width_m {
+        width:70%;
+    }
+    &-form__buttons_height_h {
         height:30%;
     }
-    &-form__button_margin_m {
-        margin:10% auto 7%;
+    &-form__buttons_margin_m {
+        margin:8% auto 7%;
     }
 }
 .form__error {

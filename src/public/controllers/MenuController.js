@@ -1,7 +1,8 @@
 import Controller from './Controller.js';
 import { USER_CHECK } from '../config.js';
 import MenuView from '../views/MenuView.js';
-import router from '../modules/Router.js';
+
+const noop = () => {};
 
 export default class MenuController extends Controller {
     constructor (data) {
@@ -10,7 +11,7 @@ export default class MenuController extends Controller {
         this.path = USER_CHECK;
         this.model = data.model;
         // this.EventBus.on('menu:user-auth', this.model.requestForUserAuth);
-        this.getData();
+       // this.getData();
         this.createViewAndRender = this.createViewAndRender.bind(this);
         // this.EventBus.on('model:user-auth-info', this.createViewAndRender);
         // this.EventBus.on('menu:log-out', this.model.logOut);
@@ -24,8 +25,16 @@ export default class MenuController extends Controller {
         this.EventBus.emit('menu:user-auth');
     }
 
-    createViewAndRender (namesAndTitles) {
-        this.data.headerTitles = namesAndTitles;
+    createViewAndRender (isAuthorized) {
+        this.data.isAuthorized = isAuthorized;
+        this.data.headerTitles = (isAuthorized) ? {
+            profile: 'My Profile',
+            logout: 'Log Out'
+        } : {
+            signin: 'Sign In',
+            signup: 'Sign Up'
+        };
+        this.getData();
         this.view = new MenuView(this.data);
         super.show();
     }
@@ -47,7 +56,6 @@ export default class MenuController extends Controller {
                         click: event => {
                             event.preventDefault();
                             this.EventBus.emit('menu:log-out');
-
                         }
                     }
                 },
@@ -58,13 +66,20 @@ export default class MenuController extends Controller {
                     click: this.routeFunction('/singleplayer')
                 },
                 multiplayer: {
-                    click: this.routeFunction('/multiplayer')
+                    click: this.multiplayerClickEvent()
                 }
             }
         };
     }
 
-    destroy() {
+    multiplayerClickEvent () {
+        if (!this.data.isAuthorized) {
+            return noop;
+        }
+        return this.routeFunction('/multiplayer');
+    }
+
+    destroy () {
         this.EventBus.off('model:user-auth-info', this.createViewAndRender);
         this.EventBus.off('menu:user-auth', this.model.requestForUserAuth);
         this.EventBus.off('menu:log-out', this.model.logOut);

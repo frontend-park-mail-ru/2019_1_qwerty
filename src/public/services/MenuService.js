@@ -6,27 +6,19 @@ import { USER_CHECK, LOG_OUT } from '../config.js';
 export default class MenuService {
     requestForUserAuth () {
         if (!window.navigator.onLine) {
-            EventBus.emit('model:user-auth-info',{
-                signin: 'Sign In',
-                signup: 'Sign Up'
-            });
+            EventBus.emit('model:user-auth-info', false);
             return;
         }
         AjaxModule.doFetchGet({
             path: USER_CHECK
         })
-            .then(response => (response.ok) ? {
-                profile: 'My Profile',
-                logout: 'Log Out'
-            } : {
-                signin: 'Sign In',
-                signup: 'Sign Up'
-            })
-            .then(res => {
-                EventBus.emit('model:user-auth-info', res);
+            .then(response => response.ok)
+            .then(isAuthorized => {
+                EventBus.emit('model:user-auth-info', isAuthorized);
             })
             .catch(e => {
                 console.log(`Error: ${e.message}`);
+                EventBus.emit('model:user-auth-info', false);
             });
     }
 

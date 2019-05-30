@@ -17,9 +17,7 @@ import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 
 const application = document.getElementById('application');
 if ('serviceWorker' in navigator) {
-    console.log(runtime);
-    const register = runtime.register();
-    console.log(register);
+    runtime.register();
 }
 // if ('serviceWorker' in navigator) {
 //     navigator.serviceWorker.register('sw.js')

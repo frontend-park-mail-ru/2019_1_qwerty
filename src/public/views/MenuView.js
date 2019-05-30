@@ -45,7 +45,6 @@ export default class MenuView extends View {
 
     renderHeader () {
         const headerClass = (isMobile()) ? '.menu-header_mobile' : '.menu-header';
-        console.log(headerClass);
         const headerParent = document.querySelector(`${headerClass} .menu-header__item_width_m`);
         this.header = new HeaderView({
             callbacks: this.callbacksForView,

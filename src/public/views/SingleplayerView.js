@@ -59,7 +59,7 @@ export default class SingleplayerView extends View {
 
     fullScreen (event) {
         if (!isMobile()) {
-            this.launchIntoFullscreen(this.elements.canvas.elem);
+            this.launchIntoFullscreen( this.elementClick);
         }
     }
 
@@ -70,7 +70,7 @@ export default class SingleplayerView extends View {
             }
         });
         this.area.removeEventListener('touchstart', this.touchEvent);
-        this.elements.canvas.elem.removeEventListener('click', this.fullScreen);
+        this.elementClick.removeEventListener('click', this.fullScreen);
         this.EventBus.off(Events.UPDATED_SCORE, this.setScore);
 
         super.onDestroy();
@@ -94,7 +94,8 @@ export default class SingleplayerView extends View {
     render () {
         this.parent.innerHTML = template(this);
         this.elem = document.querySelector('.singleplayer');
-        this.area = document.querySelector('.singleplayer__canvas-container');
+        this.area = document.querySelector('.singleplayer__container');
+        this.elementClick = document.querySelector('.singleplayer__canvas-container');
 
         let canvasParent = document.querySelector('[data-section-name="canvas"]');
         const canvas = new CanvasView({
@@ -150,7 +151,7 @@ export default class SingleplayerView extends View {
 
         this.setEvents();
         this.area.addEventListener('touchstart', this.touchEvent);
-        this.elements.canvas.elem.addEventListener('click', this.fullScreen);
+        this.elementClick.addEventListener('click', this.fullScreen);
         this.create();
     }
 }

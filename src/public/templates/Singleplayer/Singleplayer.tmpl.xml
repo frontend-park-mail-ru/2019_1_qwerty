@@ -7,7 +7,7 @@
         <section class="singleplayer">
             <div class="singleplayer__canvas-container">
                 <div class="game__buttons">
-                    <div class="game__text">Ooops! You are lose 😭😭</div>
+                    <div class="game__text">Ooops! You have lost 😭😭</div>
                     <div class="game__button" data-section-name="game_menu"></div>
                     <div class="game__button" data-section-name="retry"></div>
                 </div>

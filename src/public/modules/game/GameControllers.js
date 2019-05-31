@@ -1,12 +1,18 @@
+import { Events } from './Events.js';
+import EventBus from '../EventBus.js';
+
 export default class GameControllers {
     constructor (root) {
         this.root = root;
         this.previous = {};
         this.keys = {};
-
+        
         // this._onKeyPress = this._keyHandler.bind(this, 'press');
-        this._onKeyDown = this._keyHandler.bind(this, 'down');
-        this._onKeyUp = this._keyHandler.bind(this, 'up');
+        this._onKeyDown = this._keyHandler.bind(this, {type: 'down', touchKey: null});
+        this._onKeyUp = this._keyHandler.bind(this, {type: 'up', touchKey: null});
+        // this._onTouchStartUp = this._keyHandler.bind(this);
+
+        EventBus.on(Events.TOUCH_STARTED, this._keyHandler.bind(this));
     }
 
     /**
@@ -16,6 +22,7 @@ export default class GameControllers {
         document.addEventListener('keydown', this._onKeyDown);
         // document.addEventListener('keypress', this._onKeyPress);
         document.addEventListener('keyup', this._onKeyUp);
+        // document.addEventListener("touchstart", handleStart, false);
     }
 
     /**
@@ -25,6 +32,7 @@ export default class GameControllers {
         document.removeEventListener('keydown', this._onKeyDown);
         // document.removeEventListener('keypress', this._onKeyPress);
         document.removeEventListener('keyup', this._onKeyUp);
+        this.EventBus.off(Events.TOUCH_STARTED, this._onTouchStartUp);
     }
 
     /**
@@ -41,11 +49,12 @@ export default class GameControllers {
      * @param  {string} type
      * @param  {MouseEvent} event
      */
-    _keyHandler (type, event) {
-        // this.keys[event.key.toLowerCase()] = type === 'down';
-        // this.keys[event.key.toLowerCase()] = type === 'press';
-        // this.keys[event.key.toLowerCase()] = type === 'up';
-        this.keys[event.key.toLowerCase()] = type;
+    _keyHandler (data, event) {
+        if (data.touchKey === null) {
+            this.keys[event.key.toLowerCase()] = data.type;
+        } else {
+            this.keys[data.touchKey.toLowerCase()] = data.type;
+        }
     }
 
     /**

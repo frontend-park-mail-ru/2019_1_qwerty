@@ -70,7 +70,25 @@ export default class SingleplayerView extends View {
             }
         });
         this.area.removeEventListener('touchstart', this.touchEvent);
+
         this.elementClick.removeEventListener('click', this.fullScreen);
+
+        this.mobileButtonUp.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, 'down')});
+
+        this.mobileButtonUp.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'w'})});
+        this.mobileButtonUp.removeEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'w'})});
+        
+        this.mobileButtonDown.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 's'})});
+        this.mobileButtonDown.removeEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 's'})});
+
+        this.mobileButtonLeft.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'a'})});
+        this.mobileButtonLeft.removeEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'a'})});
+
+        this.mobileButtonRight.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'd'})});
+        this.mobileButtonRight.removeEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'd'})});
+
+        this.elements.canvas.elem.removeEventListener('click', this.fullScreen);
+
         this.EventBus.off(Events.UPDATED_SCORE, this.setScore);
 
         super.onDestroy();
@@ -96,6 +114,23 @@ export default class SingleplayerView extends View {
         this.elem = document.querySelector('.singleplayer');
         this.area = document.querySelector('.singleplayer__container');
         this.elementClick = document.querySelector('.singleplayer__canvas-container');
+
+        this.mobileButtonUp = document.querySelector('.mobile__button-up');
+        this.mobileButtonUp.addEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'w'})});
+        this.mobileButtonUp.addEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'w'})});
+        
+        this.mobileButtonDown = document.querySelector('.mobile__button-down');
+        this.mobileButtonDown.addEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 's'})});
+        this.mobileButtonDown.addEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 's'})});
+
+        this.mobileButtonLeft = document.querySelector('.mobile__button-left');
+        this.mobileButtonLeft.addEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'a'})});
+        this.mobileButtonLeft.addEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'a'})});
+
+        this.mobileButtonRight = document.querySelector('.mobile__button-right');
+        this.mobileButtonRight.addEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'd'})});
+        this.mobileButtonRight.addEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'd'})});
+
 
         let canvasParent = document.querySelector('[data-section-name="canvas"]');
         const canvas = new CanvasView({

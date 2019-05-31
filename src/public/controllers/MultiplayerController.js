@@ -15,6 +15,9 @@ export default class MultiplayerController extends Controller {
                 },
                 menu: {
                     click: this.routeFunction('/')
+                },
+                game_menu: {
+                    click: this.routeFunction('/')
                 }
             }
         };

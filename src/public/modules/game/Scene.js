@@ -51,9 +51,9 @@ export default class Scene {
         });
 
         delete this.figures[id];
-        if (Object.keys(this.figures).length === 0) {
-            console.info('Scene is empty!');
-        }
+        // if (Object.keys(this.figures).length === 0) {
+        //     console.info('Scene is empty!');
+        // }
     }
 
     render () {

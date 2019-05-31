@@ -126,6 +126,6 @@ router.register('/singleplayer', Singleplayer());
 router.register('/multiplayer', Multiplayer());
 router.error(create404Page());
 
-var url = new URL(window.location.href);
-console.log('href:', window.location.href, url.pathname);
+let url = new URL(window.location.href);
+// console.log('href:', window.location.href, url.pathname);
 router.go(url.pathname, url.searchParams.toString());

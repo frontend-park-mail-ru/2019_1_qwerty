@@ -19,7 +19,7 @@ export default class ProfileController extends Controller {
     }
 
     createViewAndRender (userInfo) {
-        console.log(userInfo);
+        // console.log(userInfo);
         this.data.userInfo = userInfo;
         this.view.infoAboutUser = userInfo;
         this.EventBus.on('profile-model:clear-fields', this.clearFields.bind(this));

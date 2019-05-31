@@ -31,7 +31,6 @@ export default class ScoreboardService {
             })
             .catch(e => {
                 console.log(`Err! ${e}`);
-                console.log(`Error: ${e.message}`);
             });
     }
 }

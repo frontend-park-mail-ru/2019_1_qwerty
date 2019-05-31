@@ -8,7 +8,7 @@ export default class ScoreboardController extends Controller {
         this.contentFromScoreTable = '';
         this.position = 0;
         this.model = data.model;
-        var urlParams = new URLSearchParams(window.location.search);
+        let urlParams = new URLSearchParams(window.location.search);
         this.position = Number(urlParams.get('offset'));
 
         this.updateScore = this.updateScore.bind(this);

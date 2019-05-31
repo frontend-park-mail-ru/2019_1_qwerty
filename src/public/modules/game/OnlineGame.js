@@ -45,7 +45,6 @@ export default class OnlineGame extends Core {
             })
             .then(data => {
                 nickname = data.nickname;
-                // console.log('nickname: ', nickname);
                 this.ws = new WebSocketService('/ws', nickname);
 
                 this.ws.subscribe('CONNECTED', this.waitingForOthers);
@@ -59,7 +58,6 @@ export default class OnlineGame extends Core {
                 EventBus.emit(Events.START_GAME, this.state);
             })
             .catch(e => {
-                alert('Error: ' + e.message);
                 console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
             });
     }
@@ -73,24 +71,9 @@ export default class OnlineGame extends Core {
     }
 
     objectsStateChange(data) {
-        // console.log("_______________");
-        // console.log("OBJECTS:", data.content.length, data, this.state.meteorits);
         this.state.meteorits = [];
         this.scene.destroyObjects();
         for (let key in data.content) {
-            // this.state.meteorits = [];
-            // this.scene.destroyObjects();
-            // let isCreated = 0;
-            // for (let i = 0; i < this.state.meteorits.length; i++) {
-            //     if (key.ID === this.state.meteorits[i].ID) {                    
-            //         this.state.meteorits[i].x = data.content[key].X;
-            //         this.state.meteorits[i].y = data.content[key].Y;
-            //         // console.log("already exists: ", key, data.content[key].X, data.content[key].Y,  this.state.meteorits[i].x,  this.state.meteorits[i].y, this.state.meteorits[i]);
-            //         isCreated = 1;
-            //         break;
-            //     }
-            // }
-            // if (!isCreated) {
                 let meteorParams = {
                     new: {
                         rotationSpeed: 0,
@@ -103,18 +86,15 @@ export default class OnlineGame extends Core {
                     meteorits: this.state.meteorits
                 }
                 EventBus.emit(Events.METEOR_CREATED, meteorParams);
-            // }
         };
     }
 
     playersStateChange(data) {
-        // console.log("PLAYERS STATE:", data, this.state);
         this.state["player1"].y = data.content["player1"].Y;
         this.state["player1"].x = data.content["player1"].X;
 
         this.state["player2"].y = data.content["player2"].Y;
         this.state["player2"].x = data.content["player2"].X;
-        // console.log("players state: ", data, this.state["player1"], this.state["player2"]);
     }
 
     createPlayers (data) {
@@ -153,7 +133,6 @@ export default class OnlineGame extends Core {
         this.scene.init(evt);
         this.scene.start();
         this.lastFrame = performance.now();
-        // this.gameloopRequestId = requestAnimationFrame(this.gameloop);
     }
 
     onGameFinished (evt) {

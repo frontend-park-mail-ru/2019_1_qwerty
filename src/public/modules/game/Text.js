@@ -16,7 +16,7 @@ export default class Text extends DynamicObject {
     draw () {
         this.setup();
         let lines = this.text.split('\n');
-        for (var i = 0; i < lines.length; i++) {
+        for (let i = 0; i < lines.length; i++) {
             this.ctx.fillText(lines[i], this.x, this.y + (i * this.lineHeight));
         }
     }

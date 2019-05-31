@@ -7,10 +7,8 @@ export default class GameControllers {
         this.previous = {};
         this.keys = {};
         
-        // this._onKeyPress = this._keyHandler.bind(this, 'press');
         this._onKeyDown = this._keyHandler.bind(this, {type: 'down', touchKey: null});
         this._onKeyUp = this._keyHandler.bind(this, {type: 'up', touchKey: null});
-        // this._onTouchStartUp = this._keyHandler.bind(this);
 
         EventBus.on(Events.TOUCH_STARTED, this._keyHandler.bind(this));
     }
@@ -20,9 +18,7 @@ export default class GameControllers {
      */
     start () {
         document.addEventListener('keydown', this._onKeyDown);
-        // document.addEventListener('keypress', this._onKeyPress);
         document.addEventListener('keyup', this._onKeyUp);
-        // document.addEventListener("touchstart", handleStart, false);
     }
 
     /**
@@ -30,7 +26,6 @@ export default class GameControllers {
      */
     destroy () {
         document.removeEventListener('keydown', this._onKeyDown);
-        // document.removeEventListener('keypress', this._onKeyPress);
         document.removeEventListener('keyup', this._onKeyUp);
         EventBus.off(Events.TOUCH_STARTED, this._keyHandler.bind(this));
     }

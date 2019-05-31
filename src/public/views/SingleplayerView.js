@@ -73,7 +73,7 @@ export default class SingleplayerView extends View {
 
         this.elementClick.removeEventListener('click', this.fullScreen);
 
-        this.mobileButtonUp.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, 'down')});
+        this.retryButton.removeEventListener('touchend', () => {this.EventBus.emit(Events.RESTART)});
 
         this.mobileButtonUp.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'w'})});
         this.mobileButtonUp.removeEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'w'})});
@@ -114,6 +114,12 @@ export default class SingleplayerView extends View {
         this.elem = document.querySelector('.singleplayer');
         this.area = document.querySelector('.singleplayer__container');
         this.elementClick = document.querySelector('.singleplayer__canvas-container');
+
+        this.retryButton = document.querySelector(`[data-section-name="retry"]`);
+        this.retryButton.addEventListener('touchend', () => {
+            document.querySelector('.game__buttons').style.display = 'none';
+            this.EventBus.emit(Events.RESTART)
+        });
 
         this.mobileButtonUp = document.querySelector('.mobile__button-up');
         this.mobileButtonUp.addEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'w'})});

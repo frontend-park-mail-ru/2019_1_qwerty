@@ -1,7 +1,7 @@
 import View from './View.js';
 import InputView from './InputView.js';
 import ButtonView from './ButtonView.js';
-import template from '../components/SignX/SignX.tmpl.xml';
+import template from '../templates/SignX/SignX.tmpl.xml';
 
 import { CREATE_USER, LOGIN_USER } from '../config.js';
 

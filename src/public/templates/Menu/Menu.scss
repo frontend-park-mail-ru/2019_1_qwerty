@@ -5,6 +5,12 @@
         overflow: scroll;
     }
 }
+.menu__error {
+    margin: 2% auto;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
 .menu-header {
     display: flex;
     justify-content: flex-end;

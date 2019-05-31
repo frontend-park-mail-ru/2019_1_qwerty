@@ -5,7 +5,7 @@ import GAME_MODES from '../modules/game/Modes.js';
 import ButtonView from './ButtonView.js';
 import upperFirstLetter from '../utils/UpperFirstLetter.js';
 import { Events } from '../modules/game/Events.js';
-import template from '../components/Multiplayer/Multiplayer.tmpl.xml';
+import template from '../templates/Multiplayer/Multiplayer.tmpl.xml';
 
 const noop = () => null;
 

@@ -9,24 +9,30 @@ $path: "./images";
     &__container {
         height: 100%;
         width: 100%;
+        position: relative;
     }
     @media screen and (max-width: 768px) and (orientation: portrait) {
         background-color: transparent;
     }
     &__canvas {
+        &-container {
+            margin: 1.5%;
+            flex-basis: 75%;
+            position: relative;
+            @media screen and (max-width: 768px) and (orientation: portrait)  {
+                display: none;
+            }
+            @media screen and (max-width: 1024px) and (orientation: landscape) {
+                flex-basis: 100%;
+                margin: 0;
+                border-radius: 0;
+                border: none;
+            }
+        }
         border: 2px solid white;
         border-radius: 8px;
-        margin: 1.5%;
-        flex-basis: 75%;
-        @media screen and (max-width: 768px) and (orientation: portrait)  {
-            display: none;
-        }
-        @media screen and (max-width: 1024px) and (orientation: landscape) {
-            flex-basis: 100%;
-            margin: 0;
-            border-radius: 0;
-            border: none;
-        }
+        width:100%;
+        height: 100%;
     }
     &-menu {
         @media screen and (max-width: 768px)  {
@@ -187,3 +193,33 @@ $path: "./images";
         display: none !important;
     }
 }
+
+.game__buttons {
+    padding: 2%;
+    border: 2px solid white;
+    border-radius: 8px;
+    display: none;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    position: absolute;
+    background-color: black;
+    top: 50%;
+    left:50%;
+    width: 40%;
+    height: 30%;
+    align-items: center;
+    transform: translate(-50%, -50%);
+}
+.game__text {
+    grid-column: 1/3;
+    grid-row: 1/2;
+    text-align: center;
+    color: blue;
+  font-weight: bold;
+}
+
+.game__button {
+    grid-row: 2/3;
+}
+

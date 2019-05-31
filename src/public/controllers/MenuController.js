@@ -74,7 +74,12 @@ export default class MenuController extends Controller {
 
     multiplayerClickEvent () {
         if (!this.data.isAuthorized) {
-            return noop;
+            return (event) => {
+                document.querySelector('.menu__error').innerHTML = 'Please, sign in or sign up';
+                setTimeout(() => {
+                    document.querySelector('.menu__error').innerHTML = '';
+                }, 2000);
+            };
         }
         return this.routeFunction('/multiplayer');
     }

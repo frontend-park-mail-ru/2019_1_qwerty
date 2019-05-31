@@ -4,7 +4,7 @@ import NotificationView from './NotificationView.js';
 import FileInputView from './FileInputView.js';
 import InputView from './InputView.js';
 import ButtonView from './ButtonView.js';
-import template from '../components/Profile/Profile.tmpl.xml';
+import template from '../templates/Profile/Profile.tmpl.xml';
 
 export default class ProfileView extends View {
     constructor ({

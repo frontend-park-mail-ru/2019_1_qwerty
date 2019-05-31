@@ -15,6 +15,14 @@ export default class SingleplayerController extends Controller {
                 },
                 menu: {
                     click: this.routeFunction('/')
+                },
+                game_menu: {
+                    click: this.routeFunction('/')
+                },
+                retry: {
+                    click: (event) => {
+                        return;
+                    }
                 }
             }
         };

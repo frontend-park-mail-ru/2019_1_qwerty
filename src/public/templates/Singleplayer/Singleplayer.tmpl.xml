@@ -5,12 +5,20 @@
             <div class="mobile-orientation__item"><img src="../../images/turn.jpg" class="mobile-orientation__img"/></div>
         </div>
         <section class="singleplayer">
-            <fest:element name="div">
-                <fest:attributes>
-                     <fest:attribute name="class">singleplayer__canvas</fest:attribute>
-                    <fest:attribute name="data-section-name">canvas</fest:attribute>
-                 </fest:attributes>
-            </fest:element>
+            <div class="singleplayer__canvas-container">
+                <div class="game__buttons">
+                    <div class="game__text">Ooops! You are lose 😭😭</div>
+                    <div class="game__button" data-section-name="game_menu"></div>
+                    <div class="game__button" data-section-name="retry"></div>
+                </div>
+                <fest:element name="div">
+                    <fest:attributes>
+                        <fest:attribute name="class">singleplayer__canvas</fest:attribute>
+                        <fest:attribute name="data-section-name">canvas</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+            </div>
+
             <div class="mobile__container">
                 <img class="mobile__button-up" src="../../images/arrow.svg"/>
                 <img class="mobile__button-down" src="../../images/arrow.svg"/>

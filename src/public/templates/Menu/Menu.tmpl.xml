@@ -10,6 +10,7 @@
                 </fest:attributes>
             </fest:element>
         </fest:element>
+        <div class="menu__error"></div>
        <fest:element name="section">
            <fest:attributes>
                <fest:attribute name="class">menu-main</fest:attribute>

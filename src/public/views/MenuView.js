@@ -1,7 +1,7 @@
 import View from './View.js';
 import ButtonView from './ButtonView.js';
 import HeaderView from './HeaderView.js';
-import template from '../components/Menu/Menu.tmpl.xml';
+import template from '../templates/Menu/Menu.tmpl.xml';
 import isMobile from '../utils/Mobile.js';
 
 export default class MenuView extends View {

@@ -5,7 +5,7 @@ import GAME_MODES from '../modules/game/Modes.js';
 import ButtonView from './ButtonView.js';
 import upperFirstLetter from '../utils/UpperFirstLetter.js';
 import { Events } from '../modules/game/Events.js';
-import template from '../components/Singleplayer/Singleplayer.tmpl.xml';
+import template from '../templates/Singleplayer/Singleplayer.tmpl.xml';
 import isMobile from '../utils/Mobile2.js';
 
 const noop = () => null;
@@ -25,7 +25,6 @@ export default class SingleplayerView extends View {
         this.canvas = {};
         this.htmlElements = [];
         this.namesOfButtons = ['scoreboard', 'menu'];
-
         this.setScore = this.setScore.bind(this);
         this.area = '';
         this.EventBus.on(Events.UPDATED_SCORE, this.setScore);
@@ -95,7 +94,7 @@ export default class SingleplayerView extends View {
     render () {
         this.parent.innerHTML = template(this);
         this.elem = document.querySelector('.singleplayer');
-        this.area = document.querySelector('.singleplayer__container');
+        this.area = document.querySelector('.singleplayer__canvas-container');
 
         let canvasParent = document.querySelector('[data-section-name="canvas"]');
         const canvas = new CanvasView({
@@ -121,6 +120,31 @@ export default class SingleplayerView extends View {
             button.render();
             this.elements[name] = button;
         });
+
+        const gameMenuButton = new ButtonView({
+            name: 'game_menu',
+            title: upperFirstLetter('menu'),
+            parent: document.querySelector(`[data-section-name="game_menu"]`),
+            callbacks: this.callbacksForView,
+            nameOfView: 'game_menu',
+            parentView: this
+        });
+
+        gameMenuButton.render();
+        this.elements['game_menu'] = gameMenuButton;
+
+        const gameRetryButton = new ButtonView({
+            name: 'retry',
+            title: upperFirstLetter('retry'),
+            parent: document.querySelector(`[data-section-name="retry"]`),
+            callbacks: this.callbacksForView,
+            nameOfView: 'retry',
+            parentView: this
+        });
+
+        gameRetryButton.render();
+        this.elements['retry'] = gameRetryButton;
+
         this.htmlElements.username = document.querySelector('.username');
         this.htmlElements.score = document.querySelector('.score');
 

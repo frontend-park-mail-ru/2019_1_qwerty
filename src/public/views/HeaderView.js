@@ -1,6 +1,6 @@
 import ButtonView from './ButtonView.js';
 import View from './View.js';
-import template from '../components/Header/Header.tmpl.xml';
+import template from '../templates/Header/Header.tmpl.xml';
 
 export default class HeaderView extends View {
     constructor ({

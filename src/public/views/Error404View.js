@@ -1,6 +1,6 @@
 import View from './View.js';
 import ButtonView from './ButtonView.js';
-import template from '../components/404NotFound/Error404.tmpl.xml';
+import template from '../templates/404NotFound/Error404.tmpl.xml';
 
 export default class Error404View extends View {
     constructor ({

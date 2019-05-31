@@ -32,7 +32,7 @@ export default class GameControllers {
         document.removeEventListener('keydown', this._onKeyDown);
         // document.removeEventListener('keypress', this._onKeyPress);
         document.removeEventListener('keyup', this._onKeyUp);
-        this.EventBus.off(Events.TOUCH_STARTED, this._onTouchStartUp);
+        EventBus.off(Events.TOUCH_STARTED, this._keyHandler.bind(this));
     }
 
     /**

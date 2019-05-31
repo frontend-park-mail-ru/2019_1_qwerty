@@ -14,10 +14,12 @@ export default class SingleplayerController extends Controller {
                     click: this.routeFunction('/score')
                 },
                 menu: {
-                    click: this.routeFunction('/')
+                    click: this.routeFunction('/'),
+                    touchend: this.routeFunction('/')
                 },
                 game_menu: {
-                    click: this.routeFunction('/')
+                    click: this.routeFunction('/'),
+                    touchend: this.routeFunction('/')
                 }
             }
         };

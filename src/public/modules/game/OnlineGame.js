@@ -65,8 +65,8 @@ export default class OnlineGame extends Core {
         EventBus.emit(Events.PUSH_TEXT_TO_SCENE, "Waiting\nother players");
     }
 
-    gameOver() {
-        EventBus.emit(Events.FINISH_GAME);
+    gameOver(data) {
+        EventBus.emit(Events.FINISH_GAME, data.content);
     }
 
     objectsStateChange(data) {
@@ -97,7 +97,6 @@ export default class OnlineGame extends Core {
     }
 
     createPlayers (data) {
-        console.log("createPlayers data: ", data);
         let state = this.state;
         let paramData = {state, data};
         

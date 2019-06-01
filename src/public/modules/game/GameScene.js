@@ -148,7 +148,7 @@ export default class GameScene {
         this.requestFrameId = requestAnimationFrame(this.renderScene);
     }
 
-    endGame() {
+    endGame(content) {
         cancelAnimationFrame(this.requestFrameId);
         this.requestFrameId = null;
         this.scene.destroy();
@@ -156,7 +156,11 @@ export default class GameScene {
         if (!this.isOnline) {
             document.querySelector('.game__buttons').style.display = 'grid';
         } else {
-            this.pushTextToScene(`Game over!`);
+            if (content == "WON") {
+                this.pushTextToScene(`You won!`);
+            } else {
+                this.pushTextToScene(`You lose!`);
+            }
         }
         this.scene.render();
     }

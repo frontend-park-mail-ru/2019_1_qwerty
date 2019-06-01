@@ -38,7 +38,7 @@ steps:
     event:
     - push
     
-- name: deploy
+- name: deploy_dev
   image: appleboy/drone-scp
   settings:
     key:

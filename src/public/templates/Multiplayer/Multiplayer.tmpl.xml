@@ -8,8 +8,7 @@
             <div class="multiplayer__canvas-container">
                 <div class="game__buttons">
                     <div class="game__text">Ooops! You have lost 😭😭</div>
-                    <div class="game__button" data-section-name="game_menu"></div>
-                    <div class="game__button" data-section-name="retry"></div>
+                    <div class="game__button game__button-single" data-section-name="game_menu"></div>
                 </div>
                 <fest:element name="div">
                     <fest:attributes>

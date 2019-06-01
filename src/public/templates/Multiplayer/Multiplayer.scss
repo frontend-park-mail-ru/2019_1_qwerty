@@ -217,9 +217,13 @@ $path: "./images";
     text-align: center;
     color: green;
     font-weight: bold;
-    font-size:  30px;
 }
 
 .game__button {
     grid-row: 2/3;
+}
+
+.game__button-single {
+    grid-column-start: 1;
+    grid-column-end: 3;
 }

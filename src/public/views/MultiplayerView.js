@@ -28,6 +28,11 @@ export default class MultiplayerView extends View {
         this.area = '';
         this.touchEvent = this.touchEvent.bind(this);
         this.fullScreen = this.fullScreen.bind(this);
+        this.setEnemyNickname = this.setEnemyNickname.bind(this);
+    }
+
+    setEnemyNickname(enemyNickname) {
+        this.htmlElements.enemy.innerHTML = enemyNickname;
     }
 
     touchEvent (event) {
@@ -90,6 +95,7 @@ export default class MultiplayerView extends View {
         this.elements.canvas.elem.removeEventListener('click', this.fullScreen);
 
         this.EventBus.off(Events.UPDATED_SCORE, this.setScore);
+        this.EventBus.off(Events.SET_ENEMY_NICKNAME, this.setEnemyNickname);
 
         super.onDestroy();
         this.game.destroy();
@@ -97,6 +103,7 @@ export default class MultiplayerView extends View {
 
     create () {
         this.EventBus.on(Events.UPDATED_SCORE, this.setScore);
+        this.EventBus.on(Events.SET_ENEMY_NICKNAME, this.setEnemyNickname);
         this.canvas = document.querySelector(name = 'canvas');
         this.ctx = this.canvas.getContext('2d');
         this.doGame();
@@ -169,7 +176,8 @@ export default class MultiplayerView extends View {
         gameMenuButton.render();
         this.elements['game_menu'] = gameMenuButton;
 
-        this.htmlElements.username = document.querySelector('.username');
+        this.htmlElements.enemy = document.querySelector('.enemy');
+        console.log('enemy: ', this.htmlElements.enemy);
         this.htmlElements.score = document.querySelector('.score');
 
         this.setEvents();

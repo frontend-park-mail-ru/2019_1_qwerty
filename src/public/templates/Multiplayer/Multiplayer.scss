@@ -175,6 +175,17 @@ $path: "./images";
             }
         }
     }
+    &__enemy {
+        color: red;
+        @media screen  and (max-width: 1024px) and (orientation: landscape) {
+            position: absolute;
+            top: 5%;
+            left:40%;
+            &::before {
+                content: "Nickname: ";
+            }
+        }
+    }
     &__level {
         color:red;
         @media screen  and (max-width: 1024px) and (orientation: landscape) {

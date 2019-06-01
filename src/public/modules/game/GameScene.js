@@ -30,9 +30,11 @@ export default class GameScene {
         if (data.data.content["player1"].ID === global.WS_NICKNAME) {
             data.state["player1"] = new Player(ctx);
             data.state["player2"] = new Player(ctx, './images/shipEnemy.png');
+            EventBus.emit(Events.SET_ENEMY_NICKNAME, data.data.content["player2"].ID);
         } else {
             data.state["player1"] = new Player(ctx, './images/shipEnemy.png');
             data.state["player2"] = new Player(ctx);
+            EventBus.emit(Events.SET_ENEMY_NICKNAME, data.data.content["player1"].ID);
         }
         
         data.state["player1"].name = data.data.content["player1"].ID;

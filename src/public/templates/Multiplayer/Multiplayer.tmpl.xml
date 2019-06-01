@@ -30,6 +30,10 @@
                         <div class="info__item header__mobile">Score</div>
                         <div class="info__item mobile__score"><span class="score">0</span></div>
                     </div>
+                    <div class="info__label">
+                        <div class="info__item header__mobile">Enemy</div>
+                        <div class="info__item mobile__enemy"><span class="enemy"></span></div>
+                    </div>
                 </article>
                 <article class="multiplayer-menu__item multiplayer-menu__item_color_green rules" >
                     <div>

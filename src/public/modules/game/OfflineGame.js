@@ -17,7 +17,7 @@ export default class OfflineGame extends Core {
         this.gameloopRequestId = null;
         this.lastFrame = 0;
         this.shitStep = 2.1;
-        this.nextLevelCondition = 50;
+        this.nextLevelCondition = 30;
         this.timer = {};
         this.state = {
             player: {},
@@ -94,15 +94,15 @@ export default class OfflineGame extends Core {
             newMeteorit.y = y;
 
             // Метеориты не накладываются друг на друга
-            while (this.checkCollisions(newMeteorit, this.state.meteorits)) {
+            // while (this.checkCollisions(newMeteorit, this.state.meteorits)) {
                 newMeteorit.y = Rand(0, this.canvasHeight - newMeteorit.height);
-            }
+            // }
 
             EventBus.emit(Events.METEOR_CREATED, {
                 meteorits: this.state.meteorits,
                 new: {
                     rotationSpeed: 0,
-                    linearSpeed: 0.1 + levelFactor / 100,
+                    linearSpeed: 0.2 + Math.pow(levelFactor, 1.5) / 100,
                     x: newMeteorit.x,
                     y: newMeteorit.y,
                     hp: newMeteorit.hp
@@ -110,7 +110,7 @@ export default class OfflineGame extends Core {
             });    
 
             let startInterval = 100;
-            let endInterval = 150 + 10000 / (this.score / 100 + 2);
+            let endInterval = 150 + 10000/4 / (this.score / 100 + 2);
             this.timer.meteorTimer = Rand(startInterval, endInterval);
         }
 

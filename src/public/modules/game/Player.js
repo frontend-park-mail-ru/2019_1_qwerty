@@ -1,11 +1,11 @@
 import DynamicObject from './DynamicObject.js';
 
 export default class Player extends DynamicObject {
-    constructor (ctx) {
+    constructor (ctx, imageSrc = './images/ship.png') {
         super(ctx);
 
         this.img = new Image();
-        this.img.src = './images/ship.png';
+        this.img.src = imageSrc;
 
         this.body = this.img;
         this.width = 20;

@@ -27,8 +27,13 @@ export default class GameScene {
         this.scene.destroy ();
         const ctx = this.ctx;
         
-        data.state["player1"] = new Player(ctx);
-        data.state["player2"] = new Player(ctx);
+        if (data.data.content["player1"].ID === global.WS_NICKNAME) {
+            data.state["player1"] = new Player(ctx);
+            data.state["player2"] = new Player(ctx, './images/shipEnemy.png');
+        } else {
+            data.state["player1"] = new Player(ctx, './images/shipEnemy.png');
+            data.state["player2"] = new Player(ctx);
+        }
         
         data.state["player1"].name = data.data.content["player1"].ID;
         data.state["player1"].y = data.data.content["player1"].Y;

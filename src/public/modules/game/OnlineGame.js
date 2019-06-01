@@ -29,7 +29,6 @@ export default class OnlineGame extends Core {
         };
         this.gameStopped = false;
         this.score = 0;
-        let nickname = '';
         this.ws = null;
 
         AjaxModule.doFetchGet({
@@ -44,8 +43,8 @@ export default class OnlineGame extends Core {
                 return response.json();
             })
             .then(data => {
-                nickname = data.nickname;
-                this.ws = new WebSocketService('/ws', nickname);
+                global.WS_NICKNAME = data.nickname;
+                this.ws = new WebSocketService('/ws', global.WS_NICKNAME);
 
                 this.ws.subscribe('CONNECTED', this.waitingForOthers);
                 this.ws.subscribe('GAME STARTED', this.createPlayers);
@@ -98,6 +97,7 @@ export default class OnlineGame extends Core {
     }
 
     createPlayers (data) {
+        console.log("createPlayers data: ", data);
         let state = this.state;
         let paramData = {state, data};
         

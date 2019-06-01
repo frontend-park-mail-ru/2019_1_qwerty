@@ -6,6 +6,7 @@ import ButtonView from './ButtonView.js';
 import upperFirstLetter from '../utils/UpperFirstLetter.js';
 import { Events } from '../modules/game/Events.js';
 import template from '../templates/Multiplayer/Multiplayer.tmpl.xml';
+import isMobile from '../utils/Mobile2.js';
 
 const noop = () => null;
 
@@ -59,7 +60,7 @@ export default class MultiplayerView extends View {
 
     fullScreen (event) {
         if (!isMobile()) {
-            this.launchIntoFullscreen( this.elementClick);
+            this.launchIntoFullscreen( this.elem);
         }
     }
 
@@ -104,8 +105,6 @@ export default class MultiplayerView extends View {
     }
 
     create () {
-        this.setScore = this.setScore.bind(this);
-
         this.EventBus.on(Events.UPDATED_SCORE, this.setScore);
         this.canvas = document.querySelector(name = 'canvas');
         this.ctx = this.canvas.getContext('2d');
@@ -201,12 +200,12 @@ export default class MultiplayerView extends View {
         gameRetryButton.render();
         this.elements['retry'] = gameRetryButton;
 
-        this.elements.username = document.querySelector('.username');
-        this.elements.score = document.querySelector('.score');
+        this.htmlElements.username = document.querySelector('.username');
+        this.htmlElements.score = document.querySelector('.score');
 
         this.setEvents();
         this.area.addEventListener('touchstart', this.touchEvent);
-        this.elementClick.addEventListener('click', this.fullScreen);
+        this.elem.addEventListener('click', this.fullScreen);
         this.create();
     }
 }

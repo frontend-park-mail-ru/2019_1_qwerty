@@ -11,13 +11,16 @@ export default class MultiplayerController extends Controller {
         this.data.callbacks = {
             multiplayer: {
                 scoreboard: {
-                    click: this.routeFunction('/score')
+                    click: this.routeFunction('/score'),
+                    touchend: this.routeFunction('/')
                 },
                 menu: {
-                    click: this.routeFunction('/')
+                    click: this.routeFunction('/'),
+                    touchend: this.routeFunction('/')
                 },
                 game_menu: {
-                    click: this.routeFunction('/')
+                    click: this.routeFunction('/'),
+                    touchend: this.routeFunction('/')
                 }
             }
         };

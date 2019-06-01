@@ -24,7 +24,7 @@ export default class OfflineGame extends Core {
         };
         this.gameStopped = false;
         this.score = 0;
-        this.timer.meteorTimer = 2000;
+        this.timer.meteorTimer = 1000;
         this.timer.scoreTimer = 1000;
     }
 

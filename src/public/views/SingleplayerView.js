@@ -61,7 +61,7 @@ export default class SingleplayerView extends View {
 
     fullScreen (event) {
         if (!isMobile()) {
-            this.launchIntoFullscreen( this.elementClick);
+            this.launchIntoFullscreen( this.elem);
         }
     }
 
@@ -205,7 +205,7 @@ export default class SingleplayerView extends View {
 
         this.setEvents();
         this.area.addEventListener('touchstart', this.touchEvent);
-        this.elementClick.addEventListener('click', this.fullScreen);
+        this.elem.addEventListener('click', this.fullScreen);
         this.create();
     }
 }

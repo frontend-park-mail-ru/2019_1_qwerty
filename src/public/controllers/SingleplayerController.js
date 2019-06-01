@@ -11,7 +11,8 @@ export default class SingleplayerController extends Controller {
         this.data.callbacks = {
             singleplayer: {
                 scoreboard: {
-                    click: this.routeFunction('/score')
+                    click: this.routeFunction('/score'),
+                    touchend: this.routeFunction('/')
                 },
                 menu: {
                     click: this.routeFunction('/'),

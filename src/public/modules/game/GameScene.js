@@ -153,13 +153,14 @@ export default class GameScene {
         this.requestFrameId = null;
         this.scene.destroy();
 
-        if (!this.isOnline) {
-            document.querySelector('.game__buttons').style.display = 'grid';
-        } else {
+        document.querySelector('.game__buttons').style.display = 'grid';
+        if (this.isOnline) {
             if (content == "WON") {
-                this.pushTextToScene(`You won!`);
+                console.log("won");
+                document.querySelector('.game__text').innerHTML = 'Win! 😀';
             } else {
-                this.pushTextToScene(`You lose!`);
+                console.log("lose");
+                document.querySelector('.game__text').innerHTML = 'Ooops! You have lost...😭';
             }
         }
         this.scene.render();

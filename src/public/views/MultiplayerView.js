@@ -75,15 +75,6 @@ export default class MultiplayerView extends View {
 
         this.elementClick.removeEventListener('click', this.fullScreen);
 
-        this.retryButton.removeEventListener('touchend', () => {
-            document.querySelector('.game__buttons').style.display = 'none';
-            this.EventBus.emit(Events.RESTART)
-        });
-        this.retryButton.removeEventListener('click', () => {
-            document.querySelector('.game__buttons').style.display = 'none';
-            this.EventBus.emit(Events.RESTART)
-        });
-
         this.mobileButtonUp.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'w'})});
         this.mobileButtonUp.removeEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'w'})});
         
@@ -124,16 +115,6 @@ export default class MultiplayerView extends View {
         this.elem = document.querySelector('.multiplayer');
         this.area = document.querySelector('.multiplayer__container');
         this.elementClick = document.querySelector('.multiplayer__canvas-container');
-
-        this.retryButton = document.querySelector(`[data-section-name="retry"]`);
-        this.retryButton.addEventListener('touchend', () => {
-            document.querySelector('.game__buttons').style.display = 'none';
-            this.EventBus.emit(Events.RESTART)
-        });
-        this.retryButton.addEventListener('click', () => {
-            document.querySelector('.game__buttons').style.display = 'none';
-            this.EventBus.emit(Events.RESTART)
-        });
 
         this.mobileButtonUp = document.querySelector('.mobile__button-up');
         this.mobileButtonUp.addEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'w'})});
@@ -187,18 +168,6 @@ export default class MultiplayerView extends View {
 
         gameMenuButton.render();
         this.elements['game_menu'] = gameMenuButton;
-
-        const gameRetryButton = new ButtonView({
-            name: 'retry',
-            title: upperFirstLetter('retry'),
-            parent: document.querySelector(`[data-section-name="retry"]`),
-            callbacks: this.callbacksForView,
-            nameOfView: 'retry',
-            parentView: this
-        });
-
-        gameRetryButton.render();
-        this.elements['retry'] = gameRetryButton;
 
         this.htmlElements.username = document.querySelector('.username');
         this.htmlElements.score = document.querySelector('.score');

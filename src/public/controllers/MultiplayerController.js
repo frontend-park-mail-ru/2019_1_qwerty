@@ -15,6 +15,10 @@ export default class MultiplayerController extends Controller {
                 menu: {
                     click: (event) => { EventBus.emit(Events.CLOSE_SOCKET); (this.routeFunction('/'))(event);},
                     touchend: (event) => { EventBus.emit(Events.CLOSE_SOCKET); (this.routeFunction('/'))(event);}
+                },
+                game_menu: {
+                    click: (event) => { EventBus.emit(Events.CLOSE_SOCKET); (this.routeFunction('/'))(event);},
+                    touchend: (event) => { EventBus.emit(Events.CLOSE_SOCKET); (this.routeFunction('/'))(event);}
                 }
             }
         };

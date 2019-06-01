@@ -60,7 +60,7 @@ $path: "./images";
         }
         &__item {
             display: flex;
-            flex-direction: column;
+            flex-direction: column-reverse;
             justify-content: space-between;
             &_color_green {
                 color: green;

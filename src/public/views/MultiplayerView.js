@@ -24,7 +24,7 @@ export default class MultiplayerView extends View {
         this.elements = {};
         this.canvas = {};
         this.htmlElements = [];
-        this.namesOfButtons = ['scoreboard', 'menu'];
+        this.namesOfButtons = ['menu'];
         this.area = '';
         this.touchEvent = this.touchEvent.bind(this);
         this.fullScreen = this.fullScreen.bind(this);

@@ -1,4 +1,6 @@
 import { API_WS_URL, WS_NICKNAME } from '../config.js';
+import EventBus from '../modules/EventBus.js';
+import { Events } from '../modules/game/Events.js';
 
 const noop = () => null;
 export default class WebSocketService {
@@ -8,6 +10,9 @@ export default class WebSocketService {
     this.actions = {};
     this.addCallbacks = this.addCallbacks.bind(this);
     this.init = this.init.bind(this);
+    this.closeConnection = this.closeConnection.bind(this);
+
+    EventBus.on(Events.CLOSE_SOCKET, this.closeConnection);
   }
 
   init () {
@@ -40,6 +45,8 @@ export default class WebSocketService {
     }.bind(this);
 
     wsClient.onclose = function (event) {
+      console.log("closed");
+      EventBus.off(Events.CLOSE_SOCKET, this.closeConnection);
       if (event.wasClean) {
         console.log('Соединение закрыто чисто');
       } else {
@@ -51,6 +58,15 @@ export default class WebSocketService {
 
   reject (error) {
     throw new Error(error);
+  }
+
+  closeConnection() {
+    this.connection = this.connection
+      .then((wsClient) => {
+        if (wsClient.readyState !== 'undefined' && wsClient.readyState === WebSocket.OPEN) {
+          wsClient.close();
+        }
+    });
   }
 
   send (data = {}) {    

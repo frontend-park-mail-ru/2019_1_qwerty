@@ -41,8 +41,6 @@
                     </div>
                 </article>
                 <article class="multiplayer-menu__item multiplayer-menu__item_width_40">
-                    <div class="multiplayer-menu__button" data-section-name="help"></div>
-                    <div class="multiplayer-menu__button" data-section-name="scoreboard"></div>
                     <div class="multiplayer-menu__button" data-section-name="menu"></div>
                 </article>
             </div>

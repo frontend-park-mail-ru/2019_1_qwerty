@@ -152,7 +152,6 @@ export default class GameScene {
 
         if (!this.isOnline) {
             document.querySelector('.game__buttons').style.display = 'grid';
-            // this.pushTextToScene(`Game over!\n press N to restart`);
         } else {
             this.pushTextToScene(`Game over!`);
         }

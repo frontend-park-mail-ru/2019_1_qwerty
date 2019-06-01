@@ -64,7 +64,7 @@ export default class OfflineGame extends Core {
     }
 
     gameloop () {
-        if (window.matchMedia("(max-width: 768px)").matches) {
+        if (window.matchMedia("(max-width: 768px)").matches && window.matchMedia("(orientation: portrait)").matches) {
             cancelAnimationFrame(this.gameloopRequestId);
             this.scene.pause(this.startGameloop);
             return ;

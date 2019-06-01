@@ -9,6 +9,7 @@ export default class OfflineGame extends Core {
         super(controller, scene);
         this.canvasWidth = scene.canvas.width;
         this.canvasHeight = scene.canvas.height;
+        this.startGameloop = this.startGameloop.bind(this);
         this.gameloop = this.gameloop.bind(this);
     }
 
@@ -57,7 +58,19 @@ export default class OfflineGame extends Core {
         return index;
     }
 
-    gameloop (now) {
+    startGameloop() {
+        this.lastFrame = performance.now();
+        this.gameloopRequestId = requestAnimationFrame(this.gameloop);
+    }
+
+    gameloop () {
+        if (window.matchMedia("(max-width: 768px)").matches) {
+            cancelAnimationFrame(this.gameloopRequestId);
+            this.scene.pause(this.startGameloop);
+            return ;
+        }
+        
+        const now = performance.now();
         const delay = now - this.lastFrame;
         this.lastFrame = now;
         this.timer.meteorTimer -= delay;
@@ -143,8 +156,7 @@ export default class OfflineGame extends Core {
         this.scene.init(evt);
         this.scene.pushPlayerToScene(this.state);
         this.scene.start();
-        this.lastFrame = performance.now();
-        this.gameloopRequestId = requestAnimationFrame(this.gameloop);
+        this.startGameloop();
     }
 
     onGameFinished (evt) {

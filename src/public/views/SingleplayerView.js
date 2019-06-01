@@ -32,14 +32,12 @@ export default class SingleplayerView extends View {
         this.fullScreen = this.fullScreen.bind(this);
     }
     touchEvent (event) {
-        event.preventDefault();
         if (screen.orientation.type === 'landscape-primary' && !document.fullscreenElement) {
             this.launchIntoFullscreen(this.area);
         }
     }
 
     launchIntoFullscreen (element) {
-        event.preventDefault();
         if (element.requestFullscreen) {
             element.requestFullscreen();
         } else if (element.mozRequestFullScreen) {

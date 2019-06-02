@@ -1,5 +1,5 @@
 import View from './View.js';
-import template from '../components/Button/Button.tmpl.xml';
+import template from '../templates/Button/Button.tmpl.xml';
 
 export default class ButtonView extends View {
     constructor ({

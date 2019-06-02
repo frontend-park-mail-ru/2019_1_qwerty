@@ -1,5 +1,5 @@
 import View from './View.js';
-import template from '../components/Notification/Notification.tmpl.xml';
+import template from '../templates/Notification/Notification.tmpl.xml';
 
 export default class NotificationView extends View {
     constructor ({

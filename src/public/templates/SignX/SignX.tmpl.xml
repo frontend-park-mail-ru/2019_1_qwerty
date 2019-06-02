@@ -1,0 +1,43 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="isSignup">
+    <fest:script>
+        var pageName = isSignup ? 'Sign up' : 'Sign In';
+    </fest:script>
+    <section class="sign-x sign-x_center sign-x_text_center">
+        <h1 class="sign-x__header">
+            <fest:value>pageName</fest:value>
+        </h1>
+        <form action="" method="post" class="sign-x-form">
+            <fest:element name="div">
+                <fest:attributes>
+                    <fest:attribute name="class">form__error</fest:attribute>
+                </fest:attributes>
+            </fest:element>
+            <fest:element name="div">
+                <fest:attributes>
+                    <fest:attribute name="class">sign-x-form__input_width_m sign-x-form__input_margin_m sign-x-form__input_height_h</fest:attribute>
+                    <fest:attribute name="data-section-name">nickname</fest:attribute>
+                </fest:attributes>
+            </fest:element>
+            <fest:element name="div">
+                <fest:attributes>
+                    <fest:attribute name="class">sign-x-form__input_width_m sign-x-form__input_margin_m sign-x-form__input_height_h sign-x-form__content</fest:attribute>
+                    <fest:attribute name="data-section-name">password</fest:attribute>
+                </fest:attributes>
+            </fest:element>
+            <div class="sign-x-form__buttons sign-x-form__buttons_margin_m sign-x-form__buttons_width_m sign-x-form__buttons_height_m">
+                <fest:element name="div">
+                    <fest:attributes>
+                        <fest:attribute name="class">sign-x-form__button</fest:attribute>
+                        <fest:attribute name="data-section-name">button</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+                <fest:element name="div">
+                    <fest:attributes>
+                        <fest:attribute name="class">sign-x-form__button</fest:attribute>
+                        <fest:attribute name="data-section-name">back-button</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+            </div>
+        </form>
+    </section>
+</fest:template>

@@ -40,7 +40,10 @@ export default class SignXController extends Controller {
                     focus: this.onFocus.bind(this),
                     change: this.getPassword.bind(this)
                 },
-                submit: this.submitEvent.bind(this)
+                submit: this.submitEvent.bind(this),
+                MenuButton: {
+                    click: this.routeFunction('/')
+                }
             }
         };
         return this.data;

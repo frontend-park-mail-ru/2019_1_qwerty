@@ -1,5 +1,5 @@
 import View from './View.js';
-import template from '../components/Canvas/Canvas.tmpl.xml';
+import template from '../templates/Canvas/Canvas.tmpl.xml';
 
 export default class CanvasView extends View {
     constructor ({

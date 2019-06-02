@@ -1,0 +1,26 @@
+$path: "./templates/Input";
+.input{
+    height: 37px;
+    box-sizing: border-box;
+    width:100%;
+    display: block;
+    border-radius: 8px;
+    border:1px solid grey;
+    padding: 2%;
+    font-family: Pixel, serif;
+    outline:none;
+    font-size:95%;
+    &:focus {
+        border:2px solid yellow;
+    }
+    &:invalid{
+        border:2px solid red;
+    }
+    &__icon {
+        content: url("#{$path}/show.svg");
+        position: absolute;
+        top:30%;
+        right:5%;
+    }
+}
+

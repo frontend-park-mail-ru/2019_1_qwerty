@@ -24,8 +24,7 @@ export default class ProfileService {
                 EventBus.emit('profile-model:get-current-user', data);
             })
             .catch(e => {
-                alert('Error: ' + e.message);
-                console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
+                console.log(`Error:  ${e.message}`);
             });
     }
 
@@ -46,15 +45,9 @@ export default class ProfileService {
                     });
                 }
                 return response;
-                // EventBus.emit('profile-model:show-notification');
-                // EventBus.emit('profile-model:clear-fields');
-                // return AjaxModule.doFetchGet({
-                //     path: CURRENT_USER
-                // });
             })
             .then(response => {
                 if (body.upload) {
-                    console.log(response);
                     if (!response.ok) {
                         let error = new Error('Incorrect image data');
                         error.response = response;
@@ -74,7 +67,6 @@ export default class ProfileService {
                 return response.json();
             })
             .then(response => {
-                console.log(response);
                 EventBus.emit('profile-model:add-info', response);
             })
             .catch(e => {

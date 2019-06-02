@@ -1,3 +1,3 @@
 module.exports = {
-    __URL__: JSON.stringify('http://localhost:8080')
+    __URL__: JSON.stringify('https://back.brbrroman.ru')
 };

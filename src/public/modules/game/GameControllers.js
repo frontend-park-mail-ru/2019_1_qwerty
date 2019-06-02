@@ -1,12 +1,16 @@
+import { Events } from './Events.js';
+import EventBus from '../EventBus.js';
+
 export default class GameControllers {
     constructor (root) {
         this.root = root;
         this.previous = {};
         this.keys = {};
+        
+        this._onKeyDown = this._keyHandler.bind(this, {type: 'down', touchKey: null});
+        this._onKeyUp = this._keyHandler.bind(this, {type: 'up', touchKey: null});
 
-        // this._onKeyPress = this._keyHandler.bind(this, 'press');
-        this._onKeyDown = this._keyHandler.bind(this, 'down');
-        this._onKeyUp = this._keyHandler.bind(this, 'up');
+        EventBus.on(Events.TOUCH_STARTED, this._keyHandler.bind(this));
     }
 
     /**
@@ -14,7 +18,6 @@ export default class GameControllers {
      */
     start () {
         document.addEventListener('keydown', this._onKeyDown);
-        // document.addEventListener('keypress', this._onKeyPress);
         document.addEventListener('keyup', this._onKeyUp);
     }
 
@@ -23,8 +26,8 @@ export default class GameControllers {
      */
     destroy () {
         document.removeEventListener('keydown', this._onKeyDown);
-        // document.removeEventListener('keypress', this._onKeyPress);
         document.removeEventListener('keyup', this._onKeyUp);
+        EventBus.off(Events.TOUCH_STARTED, this._keyHandler.bind(this));
     }
 
     /**
@@ -41,11 +44,12 @@ export default class GameControllers {
      * @param  {string} type
      * @param  {MouseEvent} event
      */
-    _keyHandler (type, event) {
-        // this.keys[event.key.toLowerCase()] = type === 'down';
-        // this.keys[event.key.toLowerCase()] = type === 'press';
-        // this.keys[event.key.toLowerCase()] = type === 'up';
-        this.keys[event.key.toLowerCase()] = type;
+    _keyHandler (data, event) {
+        if (data.touchKey === null) {
+            this.keys[event.key.toLowerCase()] = data.type;
+        } else {
+            this.keys[data.touchKey.toLowerCase()] = data.type;
+        }
     }
 
     /**

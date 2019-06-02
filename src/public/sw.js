@@ -11,7 +11,7 @@ self.addEventListener('install', event => {
                 '/images/meteor.png',
                 '/images/arrow.svg',
                 '/images/turn.jpg',
-                '/fonts/silkscreen/slkscr.ttf'
+                '/fonts/16596.ttf'
             ]);
         });
     });

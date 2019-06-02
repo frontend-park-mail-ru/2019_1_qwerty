@@ -37,3 +37,24 @@ steps:
     - master
     event:
     - push
+    
+- name: deploy_dev
+  image: appleboy/drone-scp
+  settings:
+    key:
+      from_secret: ssh_key
+    host: 
+      from_secret: host
+    username:
+      from_secret: username
+    port: 
+      from_secret: port
+    command_timeout: 3m
+    target: ~/dev
+    source:
+    - src/public/*
+  when:
+    branch:
+    - dev
+    event:
+    - push

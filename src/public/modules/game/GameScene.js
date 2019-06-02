@@ -16,7 +16,7 @@ export default class GameScene {
         this.pushMeteorToScene = this.pushMeteorToScene.bind(this);
         this.pushPlayerToScene = this.pushPlayerToScene.bind(this);
         this.pushPlayersToSceneMulti = this.pushPlayersToSceneMulti.bind(this);
-        this.pause = this.pause.bind(this);
+        this.endGame = this.endGame.bind(this);
         this.pushTextToScene = this.pushTextToScene.bind(this);
         this.removeObjectById = this.removeObjectById.bind(this);
 
@@ -27,8 +27,15 @@ export default class GameScene {
         this.scene.destroy ();
         const ctx = this.ctx;
         
-        data.state["player1"] = new Player(ctx);
-        data.state["player2"] = new Player(ctx);
+        if (data.data.content["player1"].ID === global.WS_NICKNAME) {
+            data.state["player1"] = new Player(ctx);
+            data.state["player2"] = new Player(ctx, './images/shipEnemy.png');
+            EventBus.emit(Events.SET_ENEMY_NICKNAME, data.data.content["player2"].ID);
+        } else {
+            data.state["player1"] = new Player(ctx, './images/shipEnemy.png');
+            data.state["player2"] = new Player(ctx);
+            EventBus.emit(Events.SET_ENEMY_NICKNAME, data.data.content["player1"].ID);
+        }
         
         data.state["player1"].name = data.data.content["player1"].ID;
         data.state["player1"].y = data.data.content["player1"].Y;
@@ -39,13 +46,7 @@ export default class GameScene {
         data.state["player2"].y = data.data.content["player2"].Y;
         data.state["player2"].x = data.data.content["player2"].X;
         data.state["player2"].id = this.scene.push(data.state["player2"]);
-        
-        // console.log('added two players: ', data.state.player1, data.state.player2);
     }
-
-    // destroyPlayers () {
-    //     this.scene.destroyPlayers();
-    // }
 
     destroyObjects () {
         this.scene.destroyObjects();
@@ -75,7 +76,6 @@ export default class GameScene {
         m.id = this.scene.push(m);
         m.type = "object";
         data.meteorits.push(m);
-        // console.log("PUSH METEOR: ", m, data.meteorits)
     }
 
     pushTextToScene (text) {
@@ -98,7 +98,7 @@ export default class GameScene {
 
         EventBus.on(Events.METEOR_CREATED, this.pushMeteorToScene);
         EventBus.on(Events.PLAYER_CREATED, this.pushPlayerToScene);
-        EventBus.on(Events.FINISH_GAME, this.pause);
+        EventBus.on(Events.FINISH_GAME, this.endGame);
         EventBus.on(Events.PLAYERS_CREATED_MULTI, this.pushPlayersToSceneMulti);
         EventBus.on(Events.PUSH_TEXT_TO_SCENE, this.pushTextToScene);
     }
@@ -143,19 +143,37 @@ export default class GameScene {
         this.requestFrameId = requestAnimationFrame(this.renderScene);
     }
 
-
-
-    pause () {
+    endGame(content) {
         cancelAnimationFrame(this.requestFrameId);
         this.requestFrameId = null;
         this.scene.destroy();
 
-        if (!this.isOnline) {
-            this.pushTextToScene(`Game over!\n press N to restart`);
-        } else {
-            this.pushTextToScene(`Game over!`);
+        document.querySelector('.game__buttons').style.display = 'grid';
+        if (this.isOnline) {
+            if (content == "WON") {
+                document.querySelector('.game__text').innerHTML = 'Win! 😀';
+            } else {
+                document.querySelector('.game__text').innerHTML = 'Ooops! You have lost...😭';
+            }
         }
         this.scene.render();
+    }
+
+    pause (startGameloopFunction) {
+        this.pauseloopRequestId = null;
+        this.pauseloop(startGameloopFunction);
+    }
+
+    pauseloop(startGameloopFunction) {
+        cancelAnimationFrame(this.requestFrameId);
+        this.requestFrameId = null;
+        if (window.matchMedia("(max-width: 768px)").matches) {
+            this.pauseloopRequestId = requestAnimationFrame(() => {this.pauseloop(startGameloopFunction);});
+        } else {
+            this.start();
+            startGameloopFunction();
+            cancelAnimationFrame(this.pauseloopRequestId);
+        }
     }
 
     stop () {
@@ -167,7 +185,7 @@ export default class GameScene {
         this.scene.destroy();
         EventBus.off(Events.METEOR_CREATED, this.pushMeteorToScene);
         EventBus.off(Events.PLAYER_CREATED, this.pushPlayerToScene);
-        EventBus.off(Events.FINISH_GAME, this.pause);
+        EventBus.off(Events.FINISH_GAME, this.endGame);
         EventBus.off(Events.PLAYERS_CREATED_MULTI, this.pushPlayersToSceneMulti);
         EventBus.off(Events.PUSH_TEXT_TO_SCENE, this.pushTextToScene);
     }

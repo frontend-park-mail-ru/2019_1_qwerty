@@ -1,7 +1,7 @@
 import View from './View.js';
 import ButtonView from './ButtonView.js';
 import HeaderView from './HeaderView.js';
-import template from '../components/Menu/Menu.tmpl.xml';
+import template from '../templates/Menu/Menu.tmpl.xml';
 import isMobile from '../utils/Mobile.js';
 
 export default class MenuView extends View {
@@ -34,10 +34,8 @@ export default class MenuView extends View {
     }
     resize () {
         const headerClass = (isMobile()) ? '.menu-header' : '.menu-header_mobile';
-        console.log(headerClass);
         const hideHeader = document.querySelector(`${headerClass} .menu-header__item_width_m`);
         hideHeader.innerHTML = '';
-        console.log(isMobile());
         event.preventDefault();
         this.header.onDestroy();
         this.renderHeader();
@@ -45,7 +43,6 @@ export default class MenuView extends View {
 
     renderHeader () {
         const headerClass = (isMobile()) ? '.menu-header_mobile' : '.menu-header';
-        console.log(headerClass);
         const headerParent = document.querySelector(`${headerClass} .menu-header__item_width_m`);
         this.header = new HeaderView({
             callbacks: this.callbacksForView,

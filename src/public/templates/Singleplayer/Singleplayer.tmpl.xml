@@ -1,0 +1,51 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="scoreboard">
+    <div class="singleplayer__container">
+        <div class="mobile-orientation">
+            <div class="mobile-orientation__item">Please change your mobile orientation</div>
+            <div class="mobile-orientation__item"><img src="../../images/turn.jpg" class="mobile-orientation__img"/></div>
+        </div>
+        <section class="singleplayer">
+            <div class="singleplayer__canvas-container">
+                <div class="game__buttons">
+                    <div class="game__text">Ooops! You have lost 😭😭</div>
+                    <div class="game__button" data-section-name="game_menu"></div>
+                    <div class="game__button" data-section-name="retry"></div>
+                </div>
+                <fest:element name="div">
+                    <fest:attributes>
+                        <fest:attribute name="class">singleplayer__canvas</fest:attribute>
+                        <fest:attribute name="data-section-name">canvas</fest:attribute>
+                    </fest:attributes>
+                </fest:element>
+            </div>
+
+            <div class="mobile__container">
+                <img class="mobile__button-up" src="../../images/arrow.svg"/>
+                <img class="mobile__button-down" src="../../images/arrow.svg"/>
+                <img class="mobile__button-left" src="../../images/arrow.svg"/>
+                <img class="mobile__button-right" src="../../images/arrow.svg"/>
+            </div>
+            <div class="singleplayer-menu">
+                <article class="singleplayer-menu__item singleplayer-menu__item_width_20">
+                    <div class="info__label">
+                        <div class="info__item header__mobile">Score</div>
+                        <div class="info__item mobile__score"><span class="score">0</span></div>
+                    </div>
+                </article>
+                <article class="singleplayer-menu__item singleplayer-menu__item_color_green rules" >
+                    <div>
+                        <span style="color: red;">W</span> - вверх<br/><br/>
+                        <span style="color: red;">S</span> - вниз<br/><br/>
+                        <span style="color: red;">A</span> - влвео<br/><br/>
+                        <span style="color: red;">D</span> - вправо
+                    </div>
+                </article>
+                <article class="singleplayer-menu__item singleplayer-menu__item_width_40">
+                    <div class="singleplayer-menu__button" data-section-name="help"></div>
+                    <div class="singleplayer-menu__button" data-section-name="scoreboard"></div>
+                    <div class="singleplayer-menu__button" data-section-name="menu"></div>
+                </article>
+            </div>
+        </section>
+    </div>
+</fest:template>

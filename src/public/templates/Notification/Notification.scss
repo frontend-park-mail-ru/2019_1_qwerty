@@ -1,0 +1,36 @@
+$path: "./templates/Notification";
+.notification {
+    background-color: aliceblue;
+    padding: 8pt;
+    font-size: 1.1em;
+    display: flex;
+    justify-content: space-between;
+    animation: fadeInRight 0.7s linear;
+    border: 2px solid white;
+    border-radius: 8pt;
+    @media screen and (max-width: 768px) {
+        font-size: 0.8em;
+    }
+    &:hover {
+        box-shadow: 2px 6px 32px 5px rgba(148,98,168,1);
+    }
+    &__check-icon {
+        content: url("#{$path}/Check_green_icon.svg");
+        /*margin-right:32pt;*/
+    }
+    &__exit-icon {
+        align-self: flex-start;
+        content: url("#{$path}/exit.svg");
+        margin-top: -6pt;
+        margin-right: -6pt;
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(5%);
+    }
+    to { opacity: 1 }
+}
+

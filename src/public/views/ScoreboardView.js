@@ -1,6 +1,6 @@
 import View from './View.js';
 import ButtonView from './ButtonView.js';
-import template from '../components/Score/Score.tmpl.xml';
+import template from '../templates/Score/Score.tmpl.xml';
 import { GET_SCORE } from '../config.js';
 
 export default class ScoreboardView extends View {

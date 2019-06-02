@@ -1,5 +1,5 @@
 import View from './View.js';
-import template from '../components/Input/Input.tmpl.xml';
+import template from '../templates/Input/Input.tmpl.xml';
 
 export default class Input extends View {
     constructor ({

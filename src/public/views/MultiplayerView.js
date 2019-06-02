@@ -5,7 +5,8 @@ import GAME_MODES from '../modules/game/Modes.js';
 import ButtonView from './ButtonView.js';
 import upperFirstLetter from '../utils/UpperFirstLetter.js';
 import { Events } from '../modules/game/Events.js';
-import template from '../components/Multiplayer/Multiplayer.tmpl.xml';
+import template from '../templates/Multiplayer/Multiplayer.tmpl.xml';
+import isMobile from '../utils/Mobile2.js';
 
 const noop = () => null;
 
@@ -22,16 +23,47 @@ export default class MultiplayerView extends View {
         });
         this.elements = {};
         this.canvas = {};
-        this.namesOfButtons = ['scoreboard', 'menu'];
-
+        this.htmlElements = [];
+        this.namesOfButtons = ['menu'];
+        this.area = '';
+        this.touchEvent = this.touchEvent.bind(this);
+        this.fullScreen = this.fullScreen.bind(this);
+        this.setEnemyNickname = this.setEnemyNickname.bind(this);
+        this.setScore = this.setScore.bind(this);
     }
 
-    get getScore () {
-        return this.elements.score.innerHTML;
+    setEnemyNickname(enemyNickname) {
+        this.htmlElements.enemy.innerHTML = enemyNickname;
+    }
+
+    touchEvent (event) {
+        event.preventDefault();
+        if (screen.orientation.type === 'landscape-primary' && !document.fullscreenElement) {
+            this.launchIntoFullscreen(this.area);
+        }
+    }
+
+    launchIntoFullscreen (element) {
+        event.preventDefault();
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        }
     }
 
     setScore (newScore) {
-        this.elements.score.innerHTML = newScore;
+        this.htmlElements.score.innerHTML = newScore;
+    }
+
+    fullScreen (event) {
+        if (!isMobile()) {
+            this.launchIntoFullscreen( this.elem);
+        }
     }
 
     onDestroy () {
@@ -41,16 +73,34 @@ export default class MultiplayerView extends View {
             }
         });
 
+        this.area.removeEventListener('touchstart', this.touchEvent);
+
+        this.elementClick.removeEventListener('click', this.fullScreen);
+
+        this.mobileButtonUp.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'w'})});
+        this.mobileButtonUp.removeEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'w'})});
+        
+        this.mobileButtonDown.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 's'})});
+        this.mobileButtonDown.removeEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 's'})});
+
+        this.mobileButtonLeft.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'a'})});
+        this.mobileButtonLeft.removeEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'a'})});
+
+        this.mobileButtonRight.removeEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'd'})});
+        this.mobileButtonRight.removeEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'd'})});
+
+        this.elements.canvas.elem.removeEventListener('click', this.fullScreen);
+
         this.EventBus.off(Events.UPDATED_SCORE, this.setScore);
+        this.EventBus.off(Events.SET_ENEMY_NICKNAME, this.setEnemyNickname);
 
         super.onDestroy();
         this.game.destroy();
     }
 
     create () {
-        this.setScore = this.setScore.bind(this);
-
         this.EventBus.on(Events.UPDATED_SCORE, this.setScore);
+        this.EventBus.on(Events.SET_ENEMY_NICKNAME, this.setEnemyNickname);
         this.canvas = document.querySelector(name = 'canvas');
         this.ctx = this.canvas.getContext('2d');
         this.doGame();
@@ -67,6 +117,24 @@ export default class MultiplayerView extends View {
     render () {
         this.parent.innerHTML = template(this);
         this.elem = document.querySelector('.multiplayer');
+        this.area = document.querySelector('.multiplayer__container');
+        this.elementClick = document.querySelector('.multiplayer__canvas-container');
+
+        this.mobileButtonUp = document.querySelector('.mobile__button-up');
+        this.mobileButtonUp.addEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'w'})});
+        this.mobileButtonUp.addEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'w'})});
+        
+        this.mobileButtonDown = document.querySelector('.mobile__button-down');
+        this.mobileButtonDown.addEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 's'})});
+        this.mobileButtonDown.addEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 's'})});
+
+        this.mobileButtonLeft = document.querySelector('.mobile__button-left');
+        this.mobileButtonLeft.addEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'a'})});
+        this.mobileButtonLeft.addEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'a'})});
+
+        this.mobileButtonRight = document.querySelector('.mobile__button-right');
+        this.mobileButtonRight.addEventListener('touchstart', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'down', touchKey: 'd'})});
+        this.mobileButtonRight.addEventListener('touchend', () => {this.EventBus.emit(Events.TOUCH_STARTED, {type: 'up', touchKey: 'd'})});
 
         let canvasParent = document.querySelector('[data-section-name="canvas"]');
         const canvas = new CanvasView({
@@ -93,10 +161,24 @@ export default class MultiplayerView extends View {
             this.elements[name] = button;
         });
 
-        this.elements.username = document.querySelector('.username');
-        this.elements.score = document.querySelector('.score');
+        const gameMenuButton = new ButtonView({
+            name: 'game_menu',
+            title: upperFirstLetter('menu'),
+            parent: document.querySelector(`[data-section-name="game_menu"]`),
+            callbacks: this.callbacksForView,
+            nameOfView: 'game_menu',
+            parentView: this
+        });
+
+        gameMenuButton.render();
+        this.elements['game_menu'] = gameMenuButton;
+
+        this.htmlElements.enemy = document.querySelector('.enemy');
+        this.htmlElements.score = document.querySelector('.score');
 
         this.setEvents();
+        this.area.addEventListener('touchstart', this.touchEvent);
+        this.elem.addEventListener('click', this.fullScreen);
         this.create();
     }
 }

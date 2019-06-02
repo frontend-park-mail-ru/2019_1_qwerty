@@ -1,5 +1,5 @@
 import View from './View.js';
-import template from '../components/FileInput/FileInput.tmpl.xml';
+import template from '../templates/FileInput/FileInput.tmpl.xml';
 
 export default class FileInputView extends View {
     constructor ({

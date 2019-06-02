@@ -1,0 +1,34 @@
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+    &__label{
+        text-align: center;
+        display: inline-block;
+        width:100%;
+        box-sizing: border-box;
+        font-size:160%;
+        padding: 4%;
+        font-family: Pixel, serif;
+        background-color: rgba(0, 0, 0, 0);
+        color: #D3D3D3;
+        border: 2px solid white;
+        opacity: 0.5;
+        transition: 0.3s;
+        cursor: pointer;
+        @media screen and (max-width: 768px) {
+            font-size:120%;
+        }
+        @media screen and (max-width: 381px) {
+            font-size: 90%;
+        }
+    }
+    &:focus + &__label:hover,
+    &__label:hover{
+        opacity: 1;
+    }
+
+}

@@ -3,6 +3,11 @@ import EventBus from '../modules/EventBus.js';
 import { GET_SCORE } from '../config.js';
 
 export default class ScoreboardService {
+    constructor () {
+        this.currentPosition = 0;
+        this.getScore = this.getScore.bind(this);
+    }
+    
     /**
      * Обращается к BACKEND и строит html таблицу результатов на основе ответа
      *
@@ -26,7 +31,6 @@ export default class ScoreboardService {
             })
             .catch(e => {
                 console.log(`Err! ${e}`);
-                console.log(`Error: ${e.message}`);
             });
     }
 }

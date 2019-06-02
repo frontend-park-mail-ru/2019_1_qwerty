@@ -1,5 +1,7 @@
 import Controller from './Controller.js';
 import MultiplayerView from '../views/MultiplayerView.js';
+import EventBus from '../modules/EventBus.js';
+import { Events } from '../modules/game/Events.js';
 
 export default class MultiplayerController extends Controller {
     constructor (data) {
@@ -10,11 +12,13 @@ export default class MultiplayerController extends Controller {
     getData () {
         this.data.callbacks = {
             multiplayer: {
-                scoreboard: {
-                    click: this.routeFunction('/score')
-                },
                 menu: {
-                    click: this.routeFunction('/')
+                    click: (event) => { EventBus.emit(Events.CLOSE_SOCKET); (this.routeFunction('/'))(event);},
+                    touchend: (event) => { EventBus.emit(Events.CLOSE_SOCKET); (this.routeFunction('/'))(event);}
+                },
+                game_menu: {
+                    click: (event) => { EventBus.emit(Events.CLOSE_SOCKET); (this.routeFunction('/'))(event);},
+                    touchend: (event) => { EventBus.emit(Events.CLOSE_SOCKET); (this.routeFunction('/'))(event);}
                 }
             }
         };

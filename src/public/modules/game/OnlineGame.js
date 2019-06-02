@@ -1,7 +1,6 @@
 import Core from './Core.js';
 import { Events } from './Events.js';
 import EventBus from '../EventBus.js';
-import Meteor from './Meteor.js';
 import WebSocketService from '../../services/WebSocketService.js';
 import AjaxModule from '../ajax.js';
 import { CURRENT_USER } from '../../config.js';
@@ -57,7 +56,7 @@ export default class OnlineGame extends Core {
                 EventBus.emit(Events.START_GAME, this.state);
             })
             .catch(e => {
-                console.log(`Error:  ${e.message}, ${e.response.status}, ${e.response.statusText}`);
+                console.log(`Error:  ${e}`);
             });
     }
 
@@ -94,6 +93,8 @@ export default class OnlineGame extends Core {
 
         this.state["player2"].y = data.content["player2"].Y;
         this.state["player2"].x = data.content["player2"].X;
+
+        EventBus.emit(Events.UPDATED_SCORE, data.content["player2"].Score);
     }
 
     createPlayers (data) {

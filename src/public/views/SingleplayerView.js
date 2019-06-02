@@ -27,7 +27,6 @@ export default class SingleplayerView extends View {
         this.namesOfButtons = ['scoreboard', 'menu'];
         this.setScore = this.setScore.bind(this);
         this.area = '';
-        this.EventBus.on(Events.UPDATED_SCORE, this.setScore);
         this.touchEvent = this.touchEvent.bind(this);
         this.fullScreen = this.fullScreen.bind(this);
     }
@@ -103,6 +102,7 @@ export default class SingleplayerView extends View {
     }
 
     create () {
+        this.EventBus.on(Events.UPDATED_SCORE, this.setScore);
         this.canvas = document.querySelector('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.doGame();

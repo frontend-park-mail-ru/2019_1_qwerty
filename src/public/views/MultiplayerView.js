@@ -29,6 +29,7 @@ export default class MultiplayerView extends View {
         this.touchEvent = this.touchEvent.bind(this);
         this.fullScreen = this.fullScreen.bind(this);
         this.setEnemyNickname = this.setEnemyNickname.bind(this);
+        this.setScore = this.setScore.bind(this);
     }
 
     setEnemyNickname(enemyNickname) {
@@ -55,12 +56,8 @@ export default class MultiplayerView extends View {
         }
     }
 
-    get getScore () {
-        return this.elements.score.innerHTML;
-    }
-
     setScore (newScore) {
-        this.elements.score.innerHTML = newScore;
+        this.htmlElements.score.innerHTML = newScore;
     }
 
     fullScreen (event) {
@@ -177,7 +174,6 @@ export default class MultiplayerView extends View {
         this.elements['game_menu'] = gameMenuButton;
 
         this.htmlElements.enemy = document.querySelector('.enemy');
-        console.log('enemy: ', this.htmlElements.enemy);
         this.htmlElements.score = document.querySelector('.score');
 
         this.setEvents();

@@ -19,15 +19,6 @@ const application = document.getElementById('application');
 if ('serviceWorker' in navigator) {
     runtime.register();
 }
-// if ('serviceWorker' in navigator) {
-//     navigator.serviceWorker.register('sw.js')
-//         .then(function (reg) {
-//             console.log('Registration succeeded. Scope is ' + reg.scope);
-//         })
-//         .catch(function (error) {
-//             console.log('Registration failed with ' + error);
-//         });
-// }
 
 function createMenu () {
     application.innerHTML = '';
@@ -127,5 +118,4 @@ router.register('/multiplayer', Multiplayer());
 router.error(create404Page());
 
 let url = new URL(window.location.href);
-// console.log('href:', window.location.href, url.pathname);
 router.go(url.pathname, url.searchParams.toString());

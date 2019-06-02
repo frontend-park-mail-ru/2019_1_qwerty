@@ -34,10 +34,8 @@ export default class MenuView extends View {
     }
     resize () {
         const headerClass = (isMobile()) ? '.menu-header' : '.menu-header_mobile';
-        // console.log(headerClass);
         const hideHeader = document.querySelector(`${headerClass} .menu-header__item_width_m`);
         hideHeader.innerHTML = '';
-        // console.log(isMobile());
         event.preventDefault();
         this.header.onDestroy();
         this.renderHeader();

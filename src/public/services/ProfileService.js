@@ -45,15 +45,9 @@ export default class ProfileService {
                     });
                 }
                 return response;
-                // EventBus.emit('profile-model:show-notification');
-                // EventBus.emit('profile-model:clear-fields');
-                // return AjaxModule.doFetchGet({
-                //     path: CURRENT_USER
-                // });
             })
             .then(response => {
                 if (body.upload) {
-                    // console.log(response);
                     if (!response.ok) {
                         let error = new Error('Incorrect image data');
                         error.response = response;
@@ -73,7 +67,6 @@ export default class ProfileService {
                 return response.json();
             })
             .then(response => {
-                // console.log(response);
                 EventBus.emit('profile-model:add-info', response);
             })
             .catch(e => {

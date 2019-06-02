@@ -75,7 +75,6 @@ export default class Scene {
     }
 
     destroyObjects () {
-        // console.log("before: ", this.frontView.length, this.backView.length);
         this.backView.forEach(figure => {
             if (figure.type === "object") {
                 this.remove(figure.id)
@@ -86,20 +85,5 @@ export default class Scene {
                 this.remove(figure.id)
             }
         });
-        // console.log("after: ", this.frontView.length, this.backView.length);
     }
-
-    // destroyPlayers () {
-    //     this.backView.forEach(figure => {
-    //         if (item.type === "player") {
-    //             this.remove(figure.id)
-    //         }
-    //     });
-    //     this.frontView.forEach(figure => {
-    //         if (item.type === "player") {
-    //             this.remove(figure.id)
-    //         }
-    //     });
-    //     this.clear();
-    // }
 };

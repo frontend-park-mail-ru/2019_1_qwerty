@@ -161,18 +161,20 @@ export default class GameScene {
 
     pause (startGameloopFunction) {
         this.pauseloopRequestId = null;
+        cancelAnimationFrame(this.requestFrameId);
+        this.requestFrameId = null;
         this.pauseloop(startGameloopFunction);
     }
 
     pauseloop(startGameloopFunction) {
-        cancelAnimationFrame(this.requestFrameId);
-        this.requestFrameId = null;
-        if (window.matchMedia("(max-width: 768px)").matches) {
+        if (screen.orientation.type === 'portrait-primary') {
             this.pauseloopRequestId = requestAnimationFrame(() => {this.pauseloop(startGameloopFunction);});
+            console.log('1');
         } else {
+            cancelAnimationFrame(this.pauseloopRequestId);
             this.start();
             startGameloopFunction();
-            cancelAnimationFrame(this.pauseloopRequestId);
+            console.log('2');
         }
     }
 
